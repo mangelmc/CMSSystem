@@ -1,0 +1,138 @@
+<template name="admin">
+  {{#if isInRole 'admin,root'}}
+   
+  
+	<div class="row mx-0">
+		<div class="col-12 px-0">
+
+			<nav class="navbar navbar-expand-md  bg-primary navbar-dark">
+				<a class="navbar-brand" href="">Administrador {{sitio.titulo}}</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarCollapse">
+					<ul class="navbar-nav mr-auto">
+						
+						
+					</ul>
+
+          <ul class="navbar-nav text-md-center  w-100 justify-content-end">
+            <form class="form-inline mt-2 ">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          <li class="nav-item dropdown justify-content-end">
+            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: uppercase;" ><i class="fa fa-user"></i> usuario {{currentUser.username}}</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">perfil</a>
+             
+              <a class="dropdown-item" href="" id="logout">Cerrar Sesion </a>
+            </div>
+          </li>
+        </ul>
+				</div>
+			</nav>
+		  	
+		  
+</div>
+<div class="col-3 px-0 bg-dark sticky">
+<div class="" id="accordion" role="tablist">
+  <div class=" ">
+    <div class="card-header "  role="tab" id="headingOne" >
+      <h5 class="mb-0">
+        <a class=" text-white admmenu" href="" aria-expanded="true" id="banner">
+          <i class="fa fa-window-maximize"></i>
+          BANNER
+        </a>
+      </h5>
+    </div>
+  </div>
+  <div class="">
+    <div class="card-header " role="tab" id="headingTwo">
+      <h5 class="mb-0">
+        <a class="collapsed text-white admmenu" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="navbar">
+          <i class="fa fa-list-ul"></i>
+          MAIN MENU
+        </a>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body text-white">
+      <a href="" class="text-white admmenu" id="nuevomenu">Nuevo</a>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <div class="card-header" role="tab" id="headingThree">
+      <h5 class="mb-0">
+        <a class="collapsed text-white admmenu" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="content">
+          <i class="fa fa-newspaper-o"></i>
+
+        CONTENIDO
+        </a>
+      </h5>
+    </div>
+    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+      <div class="card-body text-white admmenu">
+        <a href="" class="text-white admmenu" id="nuevocont">Nuevo</a>
+      </div>
+    </div>
+  </div>
+  <div class=" ">
+    <div class="card-header" role="tab" id="headingThree">
+      <h5 class="mb-0">
+        <a class="collapsed text-white admmenu" data-toggle="collapse" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id="sidebar">
+          <i class="fa fa-sort-amount-desc"></i>
+
+        SIDEBAR
+        </a>
+      </h5>
+    </div>
+    <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+      <div class="card-body text-white " >
+        <a href="" id="nuevomenuenlace" class="text-white admmenu"><i class="fa fa-new"></i>NUEVO</a>
+        
+      </div>
+    </div>
+  </div>
+  <div class=" ">
+    <div class="card-header" role="tab" id="headingThree">
+      <h5 class="mb-0">
+        <a class="collapsed text-white admmenu" data-toggle="collapse" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive" id="footer">
+        <i class="fa fa-window-minimize"></i>
+        
+        FOOTER
+        </a>
+      </h5>
+    </div>
+    <div id="collapseFive" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+      <div class="card-body text-white admmenu">
+        list 3
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="col-9 py-1">
+			
+    {{> Template.dynamic template=templateadmin}}
+
+		  	
+</div>
+		
+	</div>
+{{else}}
+<div class="row m-4">
+  <div class="col">
+    <div class="alert alert-warning m-2 h4" role="alert">
+      <strong>¡..Cuidado..!</strong> Vista disponible solo para usuarios adiministradores
+      {{>mainLogin}}
+  </div>  
+  </div>
+  
+</div>
+  
+{{/if}}
+</template>

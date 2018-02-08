@@ -1,0 +1,62 @@
+<template name="root">
+{{#if isInRole "root"}}
+	<div class="row mx-0">
+
+	<div class=" col-12 px-0" style="">
+    <div style="">
+		
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark px-0 mx-0" style="border: solid 1px red">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse d-flex justify-content-between" id="navbarCollapse">
+				<ul class="navbar-nav text-md-center  ">
+					<li class="nav-item active">
+						<a class="nav-link" href="/root"><i class="fa fa-home"></i> SITIOS WEB <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/root/usuarios"><i class="fa fa-user"></i> USUARIOS</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="/root/reportes"><i class="fa fa-arrow-right"></i>REPORTES</a>
+					</li>
+					
+				</ul>
+				<ul class="navbar-nav text-md-center   mr-3">
+					<li class="nav-item dropdown pr-4">
+						<a class="nav-link dropdown-toggle " style="text-transform: uppercase;" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">usuario {{currentUser.username}}</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown01 ">
+							<a class="dropdown-item" href="#">Perfil</a>
+							<a class="dropdown-item" href="#">Editar</a>
+							<a class="dropdown-item" href="" id="logout">Cerrar Sesion </a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+
+
+    {{> Template.dynamic template=contentroot}}
+
+
+
+		
+			
+
+
+	</div>
+</div>
+{{else}}
+<div class="m-4">
+	<div class="alert alert-warning">
+		VISTA DISPONIBLE SOLO PARA EL USUARIO "ROOT" 
+		{{>mainLogin}}
+	</div>	
+</div>
+{{/if}}
+
+
+	
+</template>
+

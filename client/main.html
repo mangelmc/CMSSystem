@@ -1,35 +1,39 @@
+<template name="maintemplate">
 <head>
-  <title>cmsSystem</title>
+  <title>
+  	
+  		{{title}}
+  	  </title>
 </head>
 
-<body>
-  <h1>Welcome to Meteor!</h1>
 
-  {{> hello}}
-  {{> info}}
-</body>
+</template>
+<template name="raiz">
+	<div class="d-flex flex-column m-3">
+		<div class="d-flex justify-content-center ">
+			<h3> BIENVENIDO AL SISTEMA DE GESTION DE CONTENIDOS</h3>
+		</div>
+		{{#if currentUser}}
+			{{#if isInRole "root"}}
+				<a href="/root"></a>
+			{{else}}
+			<div class="d-flex justify-content-center">
+				<div class="alert alert-warning" role="alert">
+				    <strong>Oops...!</strong>  NO hay nada por aqui para un usuario normal
+				    &nbsp;&nbsp;<button type="button" id="cerrarsesion" class="btn btn-warning">Cerrar Sesion </button>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+				</div>
+
+			</div>
+				
+			{{/if}}
+		{{else}}
+		<div class="alert alert-warning d-flex justify-content-center align-items-center" role="alert">
+		    <strong>PARA CONTINUAR DEBE INICIAR SESION </strong>   
+		    &nbsp;&nbsp;{{>mainLogin}}
+		</div>
+		{{/if}}
+	</div>
 </template>
 
-<template name="info">
-  <h2>Learn Meteor!</h2>
-  <ul>
-    <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
-    <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
-    <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
-  </ul>
-      <div class="dropdown open">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Action</a>
-        </div>
-      </div>
-</template>
+

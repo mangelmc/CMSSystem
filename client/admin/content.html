@@ -1,0 +1,190 @@
+<template name="contentadmin">
+<div class="alert alert-warning m-4" role="alert">
+    <strong>En construccion</strong>
+</div>
+		<!--<div >
+
+			<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="d-flex justify-content-center  p-1 ">
+				<h3 class=""> CONTENIDO</h3>
+
+			</div>	
+			<form >
+			<div class="row">
+				<div class="form-group col">
+					
+					<label>Tipo de fondo</label>
+					
+					<select class="form-control" id="tipofondo">
+						<option value="color">Color</option>
+						<option value="imagen">Imagen</option>
+											
+					</select>	
+				</div>
+
+				<div class="form-group col " id="colorfondo">
+					<label>color de fondo</label>
+					<select class="form-control" id="fuente">
+						<option value="black">black</option>
+						<option value="white">white</option>
+						<option value="blue">blue</option>
+						<option value="orange">orange</option>
+
+					</select>
+				</div>
+				<div class="form-group col " id="imgfondo" style="display: none;">
+					<label>Imagen</label>
+					<input type="file" name="imagen" class="form-control-file">
+				</div>
+			</div>
+			</form>
+			
+		
+			
+			
+		</div>
+		<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="d-flex justify-content-center  p-1 ">
+				<h3 class="">LISTA DE CONTENIDO</h3>
+
+		</div>
+		<table class="table  table-striped table-hovered table-bordered table-responsive-sm">
+		<thead>
+			<tr>
+				<th><a href=""></a>titulo</th>
+				<th>tipo</th>
+				<th>menu</th>
+				<th>COMENTABLE</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>MISION</td>
+				<td>TEXTO,IMAGEN,TEXTO E IMAGEN,TEXTO Y ARCHIVOS</td>
+				<td>INICIO</td>
+				<td>SI</td>
+				
+				<td><button class="btn btn btn-outline-dark btn-sm editarc "><i class="fa fa-edit"></i></button> <button class="btn btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+			</tr>
+			<tr>
+				<td>algo</td>
+				<td>algo</td>
+				<td>algo</td>
+				
+				
+				<td><button class="btn btn btn-outline-dark btn-sm editarc"><i class="fa fa-edit"></i></button> 
+					<button class="btn btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+			</tr>
+			<tr>
+				<td>algo</td>
+				<td>algo</td>
+				<td>algo</td>
+				
+				
+				<td><button class="btn btn btn-outline-dark btn-sm editarc"><i class="fa fa-edit"></i></button> <button class="btn btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+			</tr>
+			<tr>
+				<td>algo</td>
+				<td>algo</td>
+				
+				<td>algo</td>
+				<td><button class="btn btn btn-outline-dark btn-sm editarc"><i class="fa fa-edit"></i></button> <button class="btn btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+			
+			</tr>
+			<tr>
+				<td>algo</td>
+				<td>algo</td>
+				<td>algo</td>
+				
+				<td><button class="btn btn btn-outline-dark btn-sm editarc"><i class="fa fa-edit"></i></button> <button class="btn btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+
+			</tr>
+		</tbody>
+	</table>
+-->
+	
+</template>
+<template name="nuevocont">
+	<h3>Nuevo Contenido</h3>
+	<form>
+		<fieldset class="form-group">
+			<label for="exampleInputEmail1">Email address</label>
+			<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+			<small class="text-muted">We'll never share your email with anyone else.</small>
+		</fieldset>
+		<fieldset class="form-group">
+			<label for="exampleInputPassword1">Password</label>
+			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter email">
+		</fieldset>
+		<fieldset class="form-group">
+			<label for="exampleSelect1">Example select</label>
+			<select class="form-control" id="eexampleSelect11">
+				<option>1</option>
+			</select>
+		</fieldset>
+		
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</template>
+
+<template name="editarcont">
+
+	<div id="summernote"></div>
+	
+
+	<h4 class="card-title">edicion de contenido</h4>
+	
+	<form>
+		<fieldset class="form-group">
+			<label for="exampleInputEmail1">Titulo de Contenido</label>
+			<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+			<small class="text-muted">We'll never share your email with anyone else.</small>
+		</fieldset>
+		<fieldset class="form-group">
+			<label for="exampleTextarea">Example textarea</label>
+			<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+		</fieldset>
+		<fieldset class="form-group">
+			<label for="exampleInputPassword1">Password</label>
+			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter email">
+		</fieldset>
+		<fieldset class="form-group">
+			<label for="exampleSelect1">Menu de accesso</label>
+			<select class="form-control" id="exampleSelect1">
+				<option>menu 1</option>
+				<option>menu 2 - menu1</option>
+				<option>ass</option>
+				<option>ass</option>
+				<option>ass</option>
+			</select>
+		</fieldset>
+		<fieldset class="form-group">
+			<label for="exampleSelect1">Tipo</label>
+			<select class="form-control" id="exampleSelect1">
+				<option>Texto</option>
+				<option>COn Imagen</option>
+				<option>con documento</option>
+				<option>con video</option>
+				<option>COn Archivo otro</option>
+
+			</select>
+		</fieldset>
+		<fieldset class="form-group">
+			<label for="exampleInputFile">File input</label>
+			<input type="file" class="form-control-file" id="exampleInputFile">
+			<small class="text-muted">This is some placeholder bEnter emaill</small>
+		</fieldset>
+
+		<div class="radio">
+			<label>
+				<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+				Comentable
+			</label>
+			<label>
+				<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+				NO COmentable
+			</label>
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+		
+</template>
