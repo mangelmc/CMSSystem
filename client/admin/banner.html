@@ -1,0 +1,62 @@
+<template name="banneradmin">
+	
+	{{#each listBanner}}
+	<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="d-flex justify-content-center  p-1 mb-3">
+		<h3 class="">EDITAR BANNER</h3>
+	</div>
+	<form id="formbanner" method="post">
+		<div class="form-group row">
+			<label for="titulositio" class="col-3 offset-1 col-form-label h5">Titulo del sitio</label>
+			<div class="col-6">
+				<input type="text" name="titulo" class="form-control" value="{{titulo}}" id="titulositio" placeholder="titulo del sitio" required>
+				<small class="text-muted">Aqui va el titulo que se vera en el banner.</small>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="subtitulositio" class="col-3 offset-1 col-form-label h5">Subtitulo del sitio</label>
+			<div class="col-6">
+				<input type="text" name="subtitulo" class="form-control" value="{{subtitulo}}" id="subtitulositio" placeholder="Subtitulo del sitio" required>
+				<small class="text-muted">Aqui va el subtitulo que se vera en el banner.</small>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="posicion" class="col-3 offset-1 col-form-label h5">Posición de Banner</label>
+			<div class="col-6">
+				
+				<select name="posicion"  class="form-control" id="posicion" required>
+					{{#if arriba}}
+					<option value="up">Arriba del menu</option>
+					<option value="down">Debajo del menu</option>
+					{{else}}
+					<option value="down">Debajo del menu</option>
+					<option value="up">Arriba del menu</option>
+					{{/if}}
+				</select>
+			</div>
+		</div>
+		
+		<!--<div>
+			<label for="titulositio">Logo 1</label>
+			<label class="file">
+				<input type="file" name="file1" id="file">
+				<span class="file-custom"></span>
+			</label>
+		</div>
+		<div>
+			<label for="titulositio">Logo 2</label>
+			<label class="file">
+				<input type="file" name="file2" id="file">
+				<span class="file-custom"></span>
+			</label>
+		</div>
+			<span>{{idSitio}}</span>-->
+			<div class="d-flex justify-content-center">
+				<button type="submit" class="btn btn-primary">Guardar Cambios</button>
+			</div>
+	</form>
+	{{else}}
+	<p>Error al cargar datos </p>
+	{{/each}}
+
+
+</template>

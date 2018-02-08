@@ -1,1 +1,165 @@
 /* CSS declarations go here */
+/*!
+ * Start Bootstrap - Business Casual (http://startbootstrap.com/template-overviews/business-casual)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-business-casual/blob/master/LICENSE)
+ */
+
+body {
+  font-family: 'Lora', 'Lucida Sans', serif; ;
+  background-color: transparent;
+  
+}
+.fondo{
+  background: url('../img/2D81108F8.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+
+}
+h4, h5, h6,  {
+   font-family: 'Times New Roman'; 
+}
+h2,h3, strong {
+   font-family: 'Papyrus'; 
+}
+a{
+  font-family: 'Times New Roman'; 
+}
+.text-heading{
+  font-family: 'Vivaldi';
+}
+h1 {
+  font-size: 4rem;
+}
+.logo-img{
+  margin-bottom: 5%;
+  display: block;
+  background-image: url('../img/cabecera.jpg')  ; 
+  z-index: 1000;
+  padding-left: 5%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+   
+}
+
+.text-color{
+  background-color:  rgba(135, 195, 109, 0.80);
+  text-shadow: 2px 2px 5px black;
+  color: white;
+}
+.t-verde{
+ color:  #1d5a15;
+  text-shadow: 2px 2px 5px forestgreen;
+  font-family: 'Times New Roman';
+}
+.l-nav a{
+  color: #ad2d2d;
+  text-shadow : 2px 2px 5px green;
+}
+.l-nav :hover{
+  color: white ;
+  background-color: #c03d3e;
+}
+ .imagen {
+  max-height:220px;
+  }
+
+
+.sombra-box{
+  max-height:150px; display: block;box-shadow: 6px 6px 10px  darkgreen; border-radius: 0.4rem;
+}
+.tagline-upper {
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tagline-lower {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.text-expanded {
+  letter-spacing: 2px;
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.text-lg {
+  font-size: 1.25rem;
+}
+.text-md {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.bg-faded {
+  background-color:  rgba(94, 156, 38, 0.80);
+  text-shadow: 2px 2px 5px black;
+  color: white;
+  border-radius: 0.5rem;
+}
+
+.bg-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+hr.divider {
+  border-color: #292b2c;
+  max-width: 250px;
+}
+
+.map-container iframe {
+  pointer-events: none;
+}
+
+.map-container iframe.clicked {
+  pointer-events: auto;
+}
+
+
+
+        /* css para vista modak de las imagenes*/
+
+   .modal-full {
+    max-width: 90%;
+  }
+  .zoom{
+    -moz-transition: width 0.8s, height 0.8s, -moz-transform 0.8s;
+    -webkit-transition: width 0.8s, height 0.8s, -webkit-transform 0.8s;
+    -o-transition: width 0.8s, height 0.8s, -o-transform 0.8s;
+    transition: width 0.8s, height 0.8s, transform 0.8s;
+    
+    
+    
+  }
+  .zoom:hover {
+    transform: scale(2);
+    -moz-transform: scale(2);
+    -webkit-transform: scale(2);
+    -o-transform: scale(2);
+
+  }
+
+
+  .arial-narrow {
+    font-family: 'arial narrow' !important;
+  }
+
+
+.admmenu:hover{
+  
+  color:orange !important;
+  font-size:1.5rem !important;
+  text-decoration: none;
+}
+
+.borde-der {
+  border-right: solid white 0.1rem !important;
+}

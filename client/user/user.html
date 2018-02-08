@@ -1,0 +1,177 @@
+<template name="user">
+  <div id="contenedor" >
+    
+      {{#if Sitio}}
+       
+      {{#if bannerArriba}} 
+        {{> Template.dynamic template=banner}}
+        {{> Template.dynamic template=navbar}}
+      {{else}}
+        {{> Template.dynamic template=navbar}}
+        {{> Template.dynamic template=banner}}
+
+      {{/if}}
+         
+      <div class="row mx-0 ">
+        <div class="col-12" >
+            {{> Template.dynamic template=content}}
+        </div>
+      </div>
+
+    <div class=" d-block pb-0 mb-0 align-self-end"  id="contfooter">
+      {{> Template.dynamic template=footer}}
+     </div>
+  {{else}}
+  <div class="m-3">
+    <div class="alert alert-warning" role="alert">
+        <strong> EL SITIO SOLICITADO NO EXISTE O NO ESTA DISPONIBLE TEMPORALMENTE...! :´( </strong> 
+    </div>
+  </div>    
+  {{/if}}
+  </div>
+</template>
+
+
+<template name="banner">
+  {{#each banner }}
+    
+  
+	<div class="logo-img p-2 mb-0 px-0" style="background-color: silver;">
+    <!--<img src="img/logou.png" class="img-fluid collapse imagen  float-left d-lg-block pb-4" alt="Logo">
+    <img src="img/logoc.png" class="img-fluid collapse imagen float-right d-lg-block pb-4"  alt="Logo">-->
+    
+   
+    <div style="color:white;text-shadow: 4px 0px 10px black ;" class="titulo tagline-upper text-center text-heading text-shadow text-blue   d-lg-block d-none d-sm-block" >{{titulo}}</div>
+
+    
+    <div style="color:white;text-shadow: 2px 2px 10px black;" class="subtitulo tagline-lower text-center text-expanded text-shadow text-uppercase text-blue my-4 d-none d-lg-block ">{{subtitulo}}</div>
+    
+  </div>
+  {{/each}}
+</template>
+<template name="navbar">
+  {{#if navbar }}
+	<!-- Navigation -->
+    <nav class="navbar navbar-expand-md d-lg-block d-md-block" id="mainNav" style="background-color: rgba(204, 56, 56, 0.9) !important ;z-index: 100;">
+      <div class="container-fluid ">
+        
+        <div style="color:#2036cc;text-shadow: 2px 0px 10px silver ;align-self:center;" class="navbar-brand  text-center text-heading  text-shadow text-white d-lg-none d-md-none d-sm-block">{{tituloSitio}}</div>
+        <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon" style="color:white"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav " >
+            <!--M E N U-->
+            <li class="nav-item active d-block" style="border-left:solid 0.1rem white ;border-right:solid 0.1rem white ;">
+              <a class="bajar nav-link text-uppercase text-expanded" href="" target="main" style="color:white">
+                inicio
+                
+              </a>
+            </li>
+            {{#each listMenu}}
+              {{> menu}}
+            <!--{{else}}
+            <li class="nav-item  d-block">
+              <a class="bajar nav-link text-uppercase text-expanded" href="" target="main" style="color:white">
+                NO hay menu
+                <span class="sr-only"></span>
+              </a>
+            </li>-->
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {{else}}
+    <p>Cargando.......</p>
+    {{/if}}
+</template>
+
+<template name="menu">
+  {{#if submenu}}
+    <li class="borde-der dropdown nav-item d-block " >
+      <a href="{{link}}" class="dropdown-toggle nav-link text-uppercase text-expanded text-white" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{nombre}}
+      </a>
+      <div class="dropdown-menu l-nav" aria-labelledby="dropdownMenuButton">
+        {{#each listSubmenu}}
+        <!-- tal vez otro template para mostrar-->
+          <a class="dropdown-item subir cargar" href="" >{{nombre}}</a>
+        {{else}}
+            NO DISPONIBLE
+          
+        {{/each}}
+
+      </div>
+    </li>
+  {{else}}
+    <li class="borde-der nav-item d-block">
+      <a class="bajar nav-link text-uppercase text-expanded" href="" style="color:white">
+        {{nombre}}
+       
+      </a> 
+    </li>
+  {{/if}}
+
+</template>
+
+<template name="content">
+  <div class="row mx-0">
+    <div class="col-12 col-md-8 p-2">
+      <!--{{>contenido}} deberia ser dinamico ?-->
+      <div class="alert alert-primary" role="alert">
+          <strong>Aun no hay contenido para mostrar</strong> 
+      </div>
+    </div>
+    <div class="col-12 col-md-4 p-1">
+      {{> sidebar}}
+    </div>
+
+  </div>
+
+</template>
+<template name="sidebar">
+  <div class="d-flex justify-content-center">
+    <form class="form-inline mt-2 ">
+    <input class="form-control mr-sm-2" type="text" placeholder="Que buscas?" aria-label="Search">
+    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Buscar</button>
+    </form>   
+  </div>
+  <div class="my-2">
+    {{#each listMenus}}
+      
+      <div class="bg-faded py-2 mt-3" style="background-color: rgba(204, 56, 56, 0.9)">
+        <div class="text-center">
+          <h4 class="t-verde">{{nombre}}</h4>
+        </div>
+        <hr>
+        <ul>
+            {{#each listEnlaces}}          
+              <li style="color :white">
+                <a class="nav-link text-white" target="_blank" href="{{url}}">{{nombre}}</a>
+              </li>
+            {{/each}}
+        </ul>
+      </div>
+    {{else}}
+    <div class="alert alert-primary" role="alert">
+        <strong>Aun no se agrego nada</strong>
+    </div>
+    {{/each}}
+  </div>
+</template>
+<template name="footer">
+	 <footer class="bg-faded text-center py-4 " style="background-color: #cc3838;border-radius: 0;border: solid 1px silver;">
+      <div> </div>
+      <div class="container">
+        <p class="m-0 text-white"> {{titulo}}</p>
+
+        {{#each listFooter}}
+        <p class="m-0 text-white">&copy; {{texto}}</p>
+        <!--{{idSitio}} {{fuente}} {{texto}}-->
+        {{/each}}
+        
+        
+      </div>
+    </footer>
+</template>

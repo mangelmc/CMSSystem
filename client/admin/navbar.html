@@ -1,0 +1,333 @@
+<template name="navbaradmin">
+  <title>navbar admin</title>
+	
+	
+		
+		<div >
+			<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="d-flex justify-content-center  p-1 ">
+				<h3 class="">MENU PRINCIPAL</h3>
+
+			</div>	
+			<form >
+			<div class="row mx-0">
+				<div class="form-group col">
+					
+					<label>Color de fondo</label>
+					
+					<select class="form-control" id="color">
+						<option value="black">Negro</option>
+						<option value="white">Blanco</option>
+						<option value="silver">Plata</option>
+											
+					</select>
+					
+				</div>
+				<div class="form-group col">
+					<label>Tipo de fuente</label>
+					<select class="form-control" id="fuente">
+						<option value="Arial">Arial</option>
+						<option value="Algerian">algerian</option>
+						<option value="Times New Roman">Times New Roman</option>
+						<option value="Arial Narrow">Arial Narrow</option>
+					</select>
+				</div>
+			</div>
+			</form>
+			{{#if estiloNavbar}}
+			<div id="bannerestilo" class="m-2" >
+
+			<nav class="navbar  navbar-light">	
+				<p class="text-white p-2 ">Este es el tipo de fuente de texto y color de fondo Que se vera en el navbar</p>
+			</nav> 
+			
+			</div>
+			{{/if}}
+		</div>
+		<div class="row mx-0">
+			<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="col-10 d-flex   p-1 align-items-center justify-content-between">
+				<div class="p-2">
+					<h3 class="">LISTA DE MENUS </h3>
+				</div>
+				<div class="dropdown mr-2">
+				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    {{estado.texto}}
+				  </button>
+				  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				    <a class="dropdown-item listmenu" id="activo" style="background-color: blue;color: white;" href="">Activos</a>
+				    <a class="dropdown-item listmenu" id="inactivo" href="">Inactivos</a>
+				    
+				  </div>
+				</div>	
+							
+			</div>
+			<div class="col-2 d-flex justify-content-center align-items-strech ">
+				<button type="button" id="btnnuevomenu" class=" btn btn-primary ">NUEVO MENU</button>
+			</div>
+		</div>
+			
+		<table class="table  table-striped table-hovered table-bordered table-responsive-sm">
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				
+				<th>Link</th>
+
+				<th>Submenus</th>
+				<th>Acciones</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{{#each listMenu}}
+			<tr>
+				
+				<td>{{nombre}}</td>
+				<td>{{link}}</td>
+				{{#if submenu}}
+					<td>
+						<a href="" class="btn btn-outline-dark btn-sm versubmenu"><i class="fa fa-list"> </i> <i class="fa fa-toggle-down"></i></a>
+						<a href="" class="btn btn-outline-dark btn-sm newsubmenu"  ><i class="fa fa-plus-square"> </i></a> 
+					</td>
+
+				{{else}}
+					<td></td>				
+				{{/if}}
+				
+				
+				<td>
+					 
+					{{#if activo}}
+					<a href="" class="btn btn-outline-dark btn-sm editarmenu"><i class="fa fa-edit"></i></a>
+					<a class="btn btn-outline-danger btn-sm elimenu"><i class="fa fa-trash"></i></a>
+					{{else}}
+					<a class="btn btn-outline-danger btn-sm restmenu"><i class="fa fa-rotate-left"></i></a>
+					{{/if}}
+				</td>
+			</tr>
+			{{#if submenu }}
+			<tr>
+				<td colspan="3">
+					<div  class="" id="{{_id}}" style="display: none;">
+					<table class="table table-bordered table-striped table-dark">
+					<tbody class="bg-dark">	
+						{{#each	listSubmenu}}	
+						<tr>
+
+							<td >{{nombre}}</td>
+							<td>{{link}}</td>
+
+							<td>
+								 
+								{{#if subActivo}}
+								<a href="" class="btn btn-outline-success btn-sm editsubmenu"><i class="fa fa-edit"></i></a>
+								<a class="btn btn-outline-danger btn-sm elisubmenu"><i class="fa fa-trash"></i></a>
+								{{else}}
+								<a class="btn btn-outline-danger btn-sm restsubmenu"><i class="fa fa-rotate-left"></i></a>
+								{{/if}}
+							</td>
+										
+						</tr>
+						{{else}}
+						<tr>
+							<td colspan="4">
+								<div class="alert alert-dark" role="alert">
+									No tiene submenus Agregados 
+									<button class="btn btn-primary btn-sm newsubmenu" id="">Agregar Nuevo</button>
+								</div>
+							</td>	
+						</tr>
+						{{/each}}						
+					</tbody>
+					</table>
+					</div>
+				</td>	
+			</tr>
+
+			{{/if}}
+
+			{{else}}
+				<tr>
+					<td colspan="4">
+					<div class="alert alert-primary" role="alert">
+						 No hay datos para mostrar
+					</div>
+					</td>
+				</tr>
+			{{/each}}
+			
+		</tbody>
+	</table>
+
+	
+	<!-- Modal para agregar submenu-->
+	<div class="modal fade" id="submenuModal" tabindex="-1" role="dialog" aria-labelledby="submenuModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="submenuModalLabel">AGREGAR SUBMENU</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <form id="addsubmenu" method="post">      
+	      <div class="modal-body">
+	        <div class="form-group row ">
+			
+				<label for="menu" class="col-2 offset-2 col-form-label">Menu Raiz</label>
+				<div class="col-6 " id="subcont">			
+					<input type="text" name="menu" class="form-control" id="menu" placeholder="Nombre del menu" readonly >
+					<input type="hidden" name="idmenu" id="idmenu" value="">
+				</div>
+			</div>
+	        <div class="form-group row ">
+			
+				<label for="nombre" class="col-2 offset-2 col-form-label">Nombre</label>
+				<div class="col-6 ">			
+					<input type="text" name="nombre" maxlength="16" class="form-control" id="nombre" placeholder="Nombre del Submenu" required>
+				</div>
+			</div>
+			<div class="form-group row ">
+			
+				<label for="link" class="col-2 offset-2 col-form-label">Link</label>
+				<div class="col-6 ">			
+					<input type="text" name="link" readonly class="form-control" id="link" placeholder="link" required>
+				</div>
+			</div>
+
+	      </div>
+	      <div class="modal-footer">
+	        <button type="submit" class="btn btn-primary">Guardar</button>	      	
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	      </div>
+	      </form>
+	    </div>
+	  </div>
+	</div>
+<!-- Modal para editar submenu-->
+	<div class="modal fade" id="submenuModalEdit" tabindex="-1" role="dialog" aria-labelledby="submenuModalEditLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="submenuModalEditLabel">EDICION DE SUBMENU</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <form id="editsubmenu" method="post">      
+	      <div class="modal-body " id="subconte">
+	        <div class="form-group row ">
+			
+				<label for="menu" class="col-2 offset-2 col-form-label">Menu Raiz</label>
+				<div class="col-6 " >			
+					<select class="form-control " name="menu" id="menu">						
+						{{#each listMenu}}
+						<option value="{{_id}}">{{nombre}}</option>
+						{{/each}}
+					</select>
+					
+				</div>
+			</div>
+	        <div class="form-group row ">
+			
+				<label for="nombre" class="col-2 offset-2 col-form-label">Nombre</label>
+				<div class="col-6 ">			
+					<input type="text" name="nombre" class="form-control" id="nombreedit" maxlength="16" placeholder="Nombre del Submenu" required value="">
+					<input type="hidden" name="idsubmenu" id="idsubmenu" value="">
+				</div>
+			</div>
+			<div class="form-group row ">
+			
+				<label for="link" class="col-2 offset-2 col-form-label">Link</label>
+				<div class="col-6 ">			
+					<input type="text" name="link" readonly class="form-control" id="linkedit" placeholder="link" required value="">
+				</div>
+			</div>
+
+	      </div>
+	      <div class="modal-footer">
+	        <button type="submit" class="btn btn-primary">Guardar</button>	      	
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	      </div>
+	      </form>
+	    </div>
+	  </div>
+	</div>
+</template>
+
+
+<template name="nuevomenu">
+	<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-center  p-1 ">
+		<h3>NUEVO MENU</h3>
+
+	</div>
+	<form method="post" id="formmenu">
+		<div class="form-group row mt-4">
+			
+			<label for="nombre" class="col-2 offset-2 col-form-label">Nombre</label>
+			<div class="col-6 ">			
+				<input type="text" name="nombre" maxlength="16" id="nombre" class="form-control"  placeholder="Titulo del menu" required>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="link" class="col-2 offset-2 col-form-label">Link</label>
+			<div class="col-6">
+				<input type="text" name="link" readonly class="form-control" id="link" placeholder="/link" required >
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="tipo" class="col-2 offset-2 col-form-label">Tipo</label>
+			<div class="col-6">
+			<select class="form-control" name="tipo" id="tipo" required>
+				<option value="normal">Normal</option>
+				<option value="con submenu">Con Submenu</option>
+			</select>
+			</div>
+		</div>
+		
+		<div class="d-flex justify-content-center">
+			<button type="submit" class="btn btn-primary mx-0 d-block">Crear nuevo</button>
+		</div>
+	</form>
+</template>
+
+<template name="editarmenu">
+
+	<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-center  p-1 ">
+		<h3>EDICION DE MENU</h3>
+
+	</div>
+
+	<form method="post" id="formeditmenu">
+		<div class="form-group row mt-4">
+			
+			<label for="nombre" class="col-2 offset-2 col-form-label">Nombre</label>
+			<div class="col-6 ">			
+				<input type="text" name="nombre" maxlength="16" class="form-control" id="nombre" value="{{menu.nombre}}" placeholder="Titulo del menu" required>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="link" class="col-2 offset-2 col-form-label">Link</label>
+			<div class="col-6">
+				<input type="text" name="link" readonly class="form-control" id="link" value="{{menu.link}}" placeholder="/link" required>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="tipo" class="col-2 offset-2 col-form-label">Tipo</label>
+			<div class="col-6">
+			<select class="form-control" name="tipo" id="tipo" required>
+				{{#if menuNormal}}
+					<option value="normal">Normal</option>
+					<option value="con submenu">Con Submenu</option>					
+				{{else}}
+					<option value="con submenu">Con Submenu</option>
+					<option value="normal">Normal</option>					
+				{{/if}}
+			</select>
+			</div>
+		</div>
+		
+		<div class="d-flex justify-content-center">
+			<button type="submit" class="btn btn-primary mx-0 d-block">Guardar Cambios</button>
+		</div>
+	</form>
+</template>

@@ -1,0 +1,129 @@
+<template name="usuarios">
+	<div class="container-fluid p-2">
+		<div class="row mx-0	">
+			<div class="col-9">
+				<h2>Todos los Usuarios</h2>
+				
+			</div>
+			<div class="col-1">
+				<a href="/root/usuarios/nuevo"><button class="btn btn-outline-primary"><i class="fa fa-plus"></i> Nuevo</button></a>
+			</div>
+			<div class="col-2">
+				<div class="dropdown open">
+					<button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Estado
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<a class="dropdown-item" href="#">Activos</a>
+						<a class="dropdown-item" href="#">Inactivos</a>
+						
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<table class="table table-bordered table-inverse table-hover">
+			<thead>
+				<tr>
+					<th>Usuario</th>
+					<th>Rol</th>
+					<th>Nombre</th>
+					
+					<th>Registro</th>
+					<th>Ultimo acceso</th>
+					<th>Acciones</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{{#each listUsers}}
+					<tr>
+					<td>{{username}}</td>
+					
+					{{#each i in roles}}
+						<td>{{i}}</td>
+					{{else}}
+						<td>Sin Rol</td>	
+					{{/each}}
+
+					<td>{{profile.name}} {{profile.surname}}</td>
+					
+					<td>{{registro}}</td>
+					<td>2017-05-05</td>
+					
+					<td><button class="btn btn btn-outline-dark btn-sm  "><i class="fa fa-edit"></i></button> <button class="btn btn btn-outline-danger btn-sm"><i class="fa fa-close"></i></button></td>
+				</tr>
+				{{else}}
+					<tr>
+						<td colspan="7">
+							<div class="alert alert-warning" role="alert">
+							    NO HAY USUARIOS REGISTRADOS....
+							</div>
+						</td>
+					</tr>
+				{{/each}}
+				
+			</tbody>
+		</table>		
+	</div>
+
+
+</template>
+
+<template name="nuevousuario">
+<div class="row">
+	<div class="col-6 offset-3">
+		<h2>Nuevo usuario</h2>
+	<form class="bg-secondary p-3 ">
+		<fieldset class="form-group">
+			<label>Usuario:</label>
+			<input type="text" name="usuario" class="form-control">
+		</fieldset>
+		<fieldset class="form-group">
+			<label>E-mail:</label>
+			<input type="email" name="email" class="form-control">
+		</fieldset>
+		<fieldset class="form-group">
+			<label>Contraseña:</label>
+			<input type="password" name="password" class="form-control">
+		</fieldset>
+		<fieldset class="form-group">
+			<label>Repite Contraseña:</label>
+			<input type="password" name="password" class="form-control">
+		</fieldset>
+		
+		<fieldset class="form-group">
+			<label>Rol:</label>
+			<select class="form-control">
+
+			<option value="Administrador">Administrador</option>
+			<option value="Usuario">Usuario</option>
+		</select>
+		</fieldset>
+		<fieldset class="form-group">
+			<label>Nombre:</label>
+			<input type="text" name="nombre" class="form-control">
+		</fieldset>
+		<fieldset class="form-group">
+			<label>apellido:</label>
+			<input type="text" name="apellido" class="form-control">
+		</fieldset>
+		<fieldset class="form-group">
+			<label>CI:</label>
+			<input type="text" name="ci" class="form-control">
+		</fieldset>
+		<fieldset class="form-group">
+			<label>Genero:</label>
+			<select class="form-control">
+				<option value="Masculino">Masculino</option>
+				<option value="Femenino">Femenino</option>
+			</select>
+		</fieldset>
+		<button type="submit" class="btn btn-success mx-auto d-block">Guardar</button>
+
+	</form>	
+	</div>
+</div>
+	
+	
+</template>

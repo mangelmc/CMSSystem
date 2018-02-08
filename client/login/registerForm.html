@@ -1,0 +1,52 @@
+<template name="registerForm">
+	<form method="post">
+		<div class="form-group row">
+		    <label for="username" class="col-sm-3 col-form-label">Usuario :</label>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
+		    </div>
+		</div>
+		<div class="form-group row">
+		    <label for="password" class="col-sm-3 col-form-label">Password :</label>
+		    <div class="col-sm-9">
+		      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+		    </div>
+		</div>
+		<div class="form-group row">
+		    <label for="repassword" class="col-sm-3 col-form-label">Re-Password :</label>
+		    <div class="col-sm-9">
+		      <input type="password" class="form-control" id="repassword" name="repassword" placeholder= "Repita  el Password" required>
+		    </div>
+		</div>
+		<div class="form-group row">
+		    <label for="email" class="col-sm-3 col-form-label">Email :</label>
+		    <div class="col-sm-9">
+		      <input type="email" class="form-control" id="email" name="email" placeholder="Correo  Electrónico" required>
+		    </div>
+		</div>
+		<div class="form-group row">
+		    <label for="name" class="col-sm-3 col-form-label">Nombres :</label>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
+		    </div>
+		</div>
+		<div class="form-group row">
+		    <label for="surname" class="col-sm-3 col-form-label">Apellidos :</label>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="surname" name="surname" placeholder="Apellidos" required>
+		    </div>
+		</div>
+		<div class="form-group row">
+		    <label for="carrera" class="col-sm-3 col-form-label">Carrera :</label>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="carrera" name="carrera" placeholder="Carrera" required>
+		    </div>
+		</div>
+		<div class="d-flex align-items-center ">
+			
+			<button type="submit" class="btn btn-primary mx-auto d-block">Registrarme</button>
+			<h4><i class="fa fa-worker"></i></h4>
+			<button type="button" class="btn btn-success mx-auto d-block" id="loginform">Iniciar Sesion</button>
+		</div>
+	</form>
+</template>
