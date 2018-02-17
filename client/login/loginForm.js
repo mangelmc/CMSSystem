@@ -60,6 +60,7 @@ Template.loginForm.events({
 			}
 		});
 		$('#exampleModal').modal('hide');
+		setForm.set({temp:'loginForm',name:'Formulario de inicio de sesion'});
 		
 		e.target.user.value='';e.target.password.value='';
 		

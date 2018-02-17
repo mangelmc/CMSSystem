@@ -25,14 +25,24 @@ Template.registerForm.events({
 				"img":'none'
 				}
 		};
-	
+		
+	    if (user.username =='root' && user.email!='root@gmail.com') {
+	        alert( 'correo no disponible');
+			return;
+	    }
+	    if (user.username != 'root' && user.email == 'root@gmail.com') {
+	         alert('usuario no disponible');
+	         return;
+	    }
+
+
 		Accounts.createUser(user, function(e){
 			if(e == undefined){
-				Meteor.loginWithPassword(user.username,user.password);
+				//Meteor.loginWithPassword(user.username,user.password);
 				//Roles.setUserRoles(Meteor.user()._id, ['estudiante'], 'user');
 				//$(".panelForm").fadeOut('slow');
 				setForm.set("loginForm");
-				Meteor.call('checkAdmin', 1,function(error,result){
+				Meteor.call('checkLoginRoot', 1,function(error,result){
 					if (result) {
 						FlowRouter.go('/root');
 					}
