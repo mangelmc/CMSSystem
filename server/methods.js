@@ -4,7 +4,23 @@ Meteor.startup(() => {
   // code to run on server at startup
   
   Meteor.methods({
-    "checkAdmin" : function(user,email){
+    /*/checkRootUser :function(user, email){
+      var response = {};
+      if (user=='root' && email=='root@gmail.com') {
+        response = {res:true};
+
+      }
+      if (user=='root' && email!='root@gmail.com') {
+        response = {res : false ,text : 'correo no disponible'};
+
+      }
+      if (user != 'root' && email == 'root@gmail.com') {
+        response = {res : false ,text : 'usuario no disponible'};
+
+      }
+      return response;
+    },/*/
+    "checkLoginRoot" : function(user,email){
       var rootUs = Meteor.users.findOne({_id:this.userId,username:'root','emails.address':'root@gmail.com'});
       if (rootUs!=undefined) {
         Roles.addUsersToRoles(this.userId, ['root']);
@@ -15,10 +31,10 @@ Meteor.startup(() => {
     "checkRol" : function(){
       var currentUser = Meteor.users.findOne({_id:this.userId});
       var sitio = SITIO.findOne({admin:this.userId});
-        if (currentUser!=undefined&&currentUser.roles[0]=='root') {
+        if (currentUser != undefined && currentUser.roles != undefined && currentUser.roles[0]=='root') {
           return {tipo:'root'};
         }
-        if (currentUser!=undefined&&currentUser.roles[0]=='admin'&&sitio!=undefined) {
+        if (currentUser != undefined && currentUser.roles != undefined  && currentUser.roles[0]=='admin'&&sitio!=undefined) {
           return {tipo:'admin',idSitio:sitio._id,titulo:sitio.titulo};
         }
       return {tipo:'normal'};

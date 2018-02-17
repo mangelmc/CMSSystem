@@ -31,23 +31,37 @@ function link(string,iddestino){
 Template.sitios.events({
 	'input #carrera': function (e) {
 		var link = e.target.value.trim().split(" ").join("-");
+		
+		var result = /^([a-zA-Z]{1,30})$/.test(e.target.value);
+		console.log(result); // true 
+		//console.log(e.target.value);
+		if (result==false) {
+			//console.log('algo'.slice(0,-1));
+			$('#carrera').val(e.target.value.slice(0,-1));
+		}
+
 		$('#titulo').val(link.toLowerCase());
 		$('#link').val('htttp://uatf.edu.bo/'+link.toLowerCase());
-		
 		
 	},
 	'input #titulo': function (e) {
 		var link = e.target.value.trim().split(" ").join("-");
-		$('#titulo').val(link.toLowerCase());
-		$('#link').val('htttp://uatf.edu.bo/'+link.toLowerCase());
+		
 		
 		
 	},
-	'input #titulos': function (e) {
-		var result = /[a-z]/m.test(e.target.value);
-		console.log(result); // true 
-		console.log(e.target.value);
+	'input #titulo': function (e) {
+		var result = /^([a-z-]{1,30})$/.test(e.target.value);
+		//console.log(result); // true 
+		//console.log(e.target.value);
+		if (result==false) {
+			//console.log('algo'.slice(0,-1));
+			$('#titulo').val(e.target.value.slice(0,-1));
+		}
+		$('#titulo').val(e.target.value.toLowerCase());
+		$('#link').val('htttp://uatf.edu.bo/'+e.target.value.toLowerCase());
 	},
+
 	'submit #formsitio' : function (e) {
 		e.preventDefault();
 		//console.log(e);
