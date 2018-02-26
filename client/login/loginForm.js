@@ -2,11 +2,20 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import './loginForm.html';	
+import validar from '../validations.js'
 
 
 Template.loginForm.events({
 	'click #regform': function () {
 		setForm.set({temp:'registerForm',name:'Formulario de Registro'});
+	},
+	'input #nombre': function (e) {
+		
+		/*var ok = validar('personal',e.target.value,'#nombre');
+		if (ok == false) {
+			$('#carrera').val(e.target.value.slice(0,-1));
+			return;
+		}*/
 	},
 
 	"submit #login" : function(e){

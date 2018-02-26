@@ -1,8 +1,15 @@
 <template name="user">
-  <div id="contenedor" >
+   <head>
+    <link href="https://fonts.googleapis.com/css?family=Bellefair" rel="stylesheet">
     
-      {{#if Sitio}}
-       
+  </head>
+  <body class="" id="sitiostyle">
+    
+  <div id="contenedor" >
+
+    
+{{#if Sitio}}
+  {{#if readySitio}}       
       {{#if bannerArriba}} 
         {{> Template.dynamic template=banner}}
         {{> Template.dynamic template=navbar}}
@@ -22,13 +29,17 @@
       {{> Template.dynamic template=footer}}
      </div>
   {{else}}
+    <p>cargando ...</p>
+  {{/if}}
+{{else}}
   <div class="m-3">
     <div class="alert alert-warning" role="alert">
         <strong> EL SITIO SOLICITADO NO EXISTE O NO ESTA DISPONIBLE TEMPORALMENTE...! :´( </strong> 
     </div>
   </div>    
-  {{/if}}
+ {{/if}}
   </div>
+  </body>
 </template>
 
 
@@ -41,7 +52,7 @@
     <img src="img/logoc.png" class="img-fluid collapse imagen float-right d-lg-block pb-4"  alt="Logo">-->
     
    
-    <div style="color:white;text-shadow: 4px 0px 10px black ;" class="titulo tagline-upper text-center text-heading text-shadow text-blue   d-lg-block d-none d-sm-block" >{{titulo}}</div>
+    <div style="color:white;text-shadow: 4px 0px 10px black ;" class="tagline-upper text-center  text-shadow text-blue   d-lg-block d-none d-sm-block" >{{titulo}}</div>
 
     
     <div style="color:white;text-shadow: 2px 2px 10px black;" class="subtitulo tagline-lower text-center text-expanded text-shadow text-uppercase text-blue my-4 d-none d-lg-block ">{{subtitulo}}</div>
@@ -59,11 +70,12 @@
         <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon" style="color:white"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+        <div class="collapse navbar-collapse " id="navbarResponsive">
           <ul class="navbar-nav " >
             <!--M E N U-->
             <li class="nav-item active d-block" style="border-left:solid 0.1rem white ;border-right:solid 0.1rem white ;">
-              <a class="bajar nav-link text-uppercase text-expanded" href="" target="main" style="color:white">
+              <a class="bajar nav-link text-uppercase text-expanded " href="" style="color:white">
                 inicio
                 
               </a>
@@ -161,7 +173,7 @@
   </div>
 </template>
 <template name="footer">
-	 <footer class="bg-faded text-center py-4 " style="background-color: #cc3838;border-radius: 0;border: solid 1px silver;">
+	 <footer id="contfooter" class="bg-faded text-center py-4 " >
       <div> </div>
       <div class="container">
         <p class="m-0 text-white"> {{titulo}}</p>

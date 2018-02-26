@@ -1,43 +1,58 @@
 import { ReactiveVar } from 'meteor/reactive-var';
 import './sitios.html';
-
+/*Tracker.autorun(function () {
+	console.log('algo');
+});
+Meteor.startup(function(){
+	$.getScript('../validations.js');
+	console.log('okey');
+});
+Template.sitios.onCreated(function(){
+	this.autorun(()=>{
+		console.log('autorun')
+	});
+})
+*/
 var estado = new ReactiveVar('Activo');
 Template.sitios.helpers({
     readySitios : function(){
         return FlowRouter.subsReady("getSitios");
     },
+
     listSitios : function(){
         return SITIO.find({estado:estado.get()});
     },
     listUsers : function(){
-        return Meteor.users.find({_id:{$ne:Meteor.userId()}});
+        return Meteor.users.find({_id:{$ne:Meteor.userId()},roles : ["admin"]});
     },
     estado : function(){
     	if (estado.get()=='Activo') {
     		return 'ACTIVOS';
     	}
     	return	'INACTIVOS';
+    },
+    existListUsers : function(){
+    	var firstUser = Meteor.users.findOne({_id:{$ne:Meteor.userId()}});	
+    	if (firstUser!=undefined && firstUser.roles[0] != undefined && firstUser.roles[0] =='admin' ) {
+    		return true;
+    	}
+    	return false;
     }
     
 
 });
 
 ///
-function link(string,iddestino){
-	var link = string.trim().split(" ").join("-");
-		
-		$(''+iddestino).val('htttp://uatf.edu.bo/'+link.toLowerCase());
-};
 Template.sitios.events({
 	'input #carrera': function (e) {
 		var link = e.target.value.trim().split(" ").join("-");
-		
-		var result = /^([a-zA-Z]{1,30})$/.test(e.target.value);
-		console.log(result); // true 
-		//console.log(e.target.value);
+		validarAlgo();
+		//var result = /^\d{6,10}([-]\d{1}[ÑA-Z]{1})?$/.test(e.target.value);
+		var result = /^([a-zA-Z\s]{1,30})$/.test(e.target.value);
 		if (result==false) {
-			//console.log('algo'.slice(0,-1));
+			
 			$('#carrera').val(e.target.value.slice(0,-1));
+			return;
 		}
 
 		$('#titulo').val(link.toLowerCase());
@@ -45,18 +60,14 @@ Template.sitios.events({
 		
 	},
 	'input #titulo': function (e) {
-		var link = e.target.value.trim().split(" ").join("-");
-		
-		
-		
-	},
-	'input #titulo': function (e) {
+		validarTitulo();
 		var result = /^([a-z-]{1,30})$/.test(e.target.value);
 		//console.log(result); // true 
 		//console.log(e.target.value);
 		if (result==false) {
 			//console.log('algo'.slice(0,-1));
 			$('#titulo').val(e.target.value.slice(0,-1));
+			return;
 		}
 		$('#titulo').val(e.target.value.toLowerCase());
 		$('#link').val('htttp://uatf.edu.bo/'+e.target.value.toLowerCase());
@@ -92,7 +103,7 @@ Template.sitios.events({
 		estado.set(e.target.id);
 		//console.log(e.target.value);
 	},
-	'submit #regUserForm': function (e) {
+	'submit #regAdminForm': function (e) {
 		e.preventDefault();
 		if (e.target.password.value!=e.target.repassword.value) {
 			alert('Las contraseñas no coinciden');
@@ -104,7 +115,7 @@ Template.sitios.events({
 			password : e.target.password.value,			
 			name : e.target.name.value,
 			surname : e.target.surname.value,
-			carrera : e.target.carrera.value,
+			carrera : e.target.carrerae.value,
 				
 		};
 		 Meteor.call('crearAdmin', user, function (error, result) {
@@ -122,7 +133,7 @@ Template.sitios.events({
 					}					
 				});
 				//console.log(result);
-				$('#regUserForm')[0].reset();
+				$('#regAdminForm')[0].reset();
 			}			
 		});
 		$('#regnew').modal('hide');

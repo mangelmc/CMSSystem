@@ -1,31 +1,43 @@
 import {Meteor} from "meteor/meteor";
 
 import './user.html';
+
 sitioClient = new ReactiveVar();
 posBanner = new ReactiveVar();
-Template.user.onRendered(function(){
-	//console.log(SITIO.findOne());
-	var alto = $(window).height();
-	console.log(alto);
-	//var footerpos = $('#contfooter').offset();
-	var footerh = $('#contfooter').height()
 
-	$('#contenedor').height(alto-5);
-	$('#contfooter').offset({top:alto-footerh-5});	
-})	
+Template.user.onCreated(function(){
+	this.autorun(()=>{
+			sitioClient.set(SITIO.findOne());
+			//console.log(sitioClient.get());
+			
+			
+		});
+		
+			
+});
+Template.user.onRendered(function(){
+		
+/// buscar otra maneras de cargar datos trCK autorn stratup
+});
+
 Template.user.helpers({
+	readySitio : function(){
+        return FlowRouter.subsReady("getSitio");
+    },
 	Sitio: function () {
 		
-		if (SITIO.find().fetch().length>0) {
-			sitioClient.set(SITIO.findOne());
-			//console.log(SITIO.findOne());
+		if (SITIO.find({estado : 'Activo'}).fetch().length>0) {
+			
 			return	true;
 		}
 		return	false;
 	},
 	bannerArriba : function(){
 		//console.log(sitioClient.get());
-		var posicion = BANNER.findOne({idSitio : sitioClient.get()._id});
+		var posicion = '';
+		if (sitioClient.get()!=undefined) {
+			 posicion = BANNER.findOne({idSitio : sitioClient.get()._id});
+		}
 		if (posicion != undefined && posicion.posicion == 'up' ) {
 			//console.log('up');
 			return true
@@ -41,17 +53,23 @@ Template.banner.helpers({
 });
 Template.navbar.helpers({
 	navbar: function () {
+		
 		var id = sitioClient.get();
-		if (NAVBAR.findOne({idSitio:id._id})!=undefined) {
+		//console.log(id);
+		if (id != undefined && NAVBAR.findOne({idSitio:id._id})!=undefined) {
 			var estilo = NAVBAR.findOne({idSitio:id._id});
-			$('#mainNav').css({
-				'background-color': estilo.color,
-				'font-family': estilo.fuente
-			});		
+
+			$('#mainNav').css({'background-color': estilo.color});
+			$('#contfooter').css({'background-color': estilo.color});
+
+			//console.log(estilo.fuente);
+			//$('#sitiostyle').removeClass();		
+			$('#sitiostyle').css('font-family',estilo.fuente);		
 		}
 		return true;
 	},
 	listMenu : function	(){
+
 		//console.log(sitioClient.get());
 		return MENU.find({estado : 'activo',idSitio:sitioClient.get()._id});
 	}
@@ -77,6 +95,18 @@ Template.sidebar.helpers({
 		return ENLACE.find({idMenu:this._id});
 	},
 });
+Template.footer.onRendered(function(){
+	this.autorun(()=>{
+			var alto = $(window).height();
+    	//console.log(alto);
+    //var footerpos = $('#contfooter').offset();
+    	var footerh = $('#contfooter').height();
+    	//console.log(footerh);
+    	$('#contenedor').height(alto-5);
+    	$('#contfooter').offset({top:alto-footerh-5}); 
+    	
+		});
+});	
 Template.footer.helpers({
 	listFooter: function () {
 		return FOOTER.find();

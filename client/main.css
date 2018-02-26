@@ -6,9 +6,23 @@
  */
 
 body {
-  font-family: 'Lora', 'Lucida Sans', serif; ;
+  font-family: 'Arial', serif ;
+  /*font-family: 'Lora', 'Lucida Sans', serif; ;*/
   background-color: transparent;
   
+}
+/* estilos de fuentes*/
+.bellefair{
+  font-family: 'Bellefair' , serif !important;
+
+}
+.bellefair  a{
+  font-family: 'Bellefair'  !important;
+
+}
+.bellefair  div{
+  font-family: 'Bellefair'  !important;
+
 }
 .fondo{
   background: url('../img/2D81108F8.jpg') no-repeat center center fixed;
@@ -18,18 +32,8 @@ body {
   -o-background-size: cover;
 
 }
-h4, h5, h6,  {
-   font-family: 'Times New Roman'; 
-}
-h2,h3, strong {
-   font-family: 'Papyrus'; 
-}
-a{
-  font-family: 'Times New Roman'; 
-}
-.text-heading{
-  font-family: 'Vivaldi';
-}
+
+
 h1 {
   font-size: 4rem;
 }
@@ -100,7 +104,7 @@ h1 {
 }
 
 .bg-faded {
-  background-color:  rgba(94, 156, 38, 0.80);
+  /*background-color:  rgba(94, 156, 38, 0.80);*/
   text-shadow: 2px 2px 5px black;
   color: white;
   border-radius: 0.5rem;

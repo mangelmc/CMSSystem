@@ -1,6 +1,9 @@
 import './navbar.html';
 import { ReactiveVar } from 'meteor/reactive-var';
 var estadoMenu = new ReactiveVar('activo');
+Template.navbaradmin.onRendered(function() {
+
+})
 Template.navbaradmin.helpers({
 	color : function(){
 
@@ -15,8 +18,12 @@ Template.navbaradmin.helpers({
 			var estilo = NAVBAR.findOne({idSitio:id});
 			$('#bannerestilo').css({
 				'background-color': estilo.color,
-				//'font-family': estilo.fuente
+				'font-family': estilo.fuente
 			});
+			$('#color option[value="'+estilo.color+'"]').prop('selected', true);
+			$('#fuente option[value="'+estilo.fuente+'"]').prop('selected', true);
+
+
 			//alert('load');
 		}
 		return true;			

@@ -12,7 +12,7 @@
 		<div class="row mx-0 "  style="">
 			<div class="col-8 offset-2 d-flex flex-column">
 				
-				<h4 class="mx-auto d-block">Formulario de creacion de Sitio web</h4>
+				<h4 class="mx-auto d-block bellefair">Formulario de creacion de Sitio web</h4>
 				<form id="formsitio">
 				<div class="form-group row">
 					<label for="carrera" class="col-4 offset-1 col-form-label ">Carrera</label>
@@ -57,12 +57,17 @@
 					<label for="selectadmin" class="col-4 offset-1 col-form-label">Administrador</label>							
 					
 						<div class="form-group col-4">
-						   	<select class="form-control" id="selectadmin" name="admin" required>
+						{{#if existListUsers}}
+				    		<select class="form-control" id="selectadmin" name="admin" required>
 						      {{#each listUsers}}
 						      	{{>listusers}}
 						      	
 						      {{/each}}						      
 						    </select>
+				    	{{else}}
+				    	<p>debe crear Un Usuario </p>
+				    	{{/if}}
+						   	
 						</div>
 						<div class="form-group col-3">
 						   	<!-- Button trigger modal -->
@@ -99,6 +104,7 @@
 			
 		</div>
 		<div class="row mx-0">
+			
 			{{#each listSitios}}
 				{{>sitio}}
 			{{/each}}
@@ -119,7 +125,7 @@
 	      </div>
 	      
 	      <div class="modal-body">
-			<form method="post" id="regUserForm">
+			<form method="post" id="regAdminForm">
 				<div class="form-group row">
 				    <label for="username" class="col-sm-3 col-form-label">Usuario :</label>
 				    <div class="col-sm-9">
@@ -157,9 +163,9 @@
 				    </div>
 				</div>
 				<div class="form-group row">
-				    <label for="carrera" class="col-sm-3 col-form-label">Carrera :</label>
+				    <label for="carrerae" class="col-sm-3 col-form-label">Carrera :</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="carrera" name="carrera" placeholder="Carrera" required>
+				      <input type="text" class="form-control" id="carrerae" name="carrerae" placeholder="Carrera" required>
 				    </div>
 				</div>
 				<div class="d-flex align-items-center ">
@@ -197,6 +203,7 @@
 				<div class="form-group row">
 				    <label for="useradmin" class="col-sm-3 col-form-label">Admin :</label>
 				    <div class="col-sm-9">
+
 				    	<select class="form-control" id="useradmin" name="useradmin" required>
 				    		{{#each listUsers}}
 						      	{{>listusers}}
