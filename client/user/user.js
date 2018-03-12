@@ -145,4 +145,5 @@ Template.footer.helpers({
 		}
 		
 	}
+
 });

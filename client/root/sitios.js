@@ -1,11 +1,30 @@
 import { ReactiveVar } from 'meteor/reactive-var';
 import './sitios.html';
 import validar from '../validations.js';
+/*Tracker.autorun(function () {
+	console.log('algo');
+});
+Meteor.startup(function(){
+	$.getScript('../validations.js');
+	console.log('okey');
+});
+Template.sitios.onCreated(function(){
+	this.autorun(()=>{
+		console.log('autorun')
+	});
+})
+*/
+var estado = new ReactiveVar('Activo');//filtro de lista de sitios
+var formSitio = {};
+formSitio.carrera = new ReactiveVar(false);
+formSitio.titulo = new ReactiveVar(true);
+formSitio.admin = new ReactiveVar(false); //controla q los campos sean los corectos
 
-var estado = new ReactiveVar('Activo');
 Template.sitios.helpers({
     readySitios : function(){
+
         return FlowRouter.subsReady("getSitios");
+
     },
 
     listSitios : function(){
@@ -22,9 +41,12 @@ Template.sitios.helpers({
     },
     existListUsers : function(){
     	var firstUser = Meteor.users.findOne({_id:{$ne:Meteor.userId()}});	
-    	if (firstUser!=undefined && firstUser.roles[0] != undefined && firstUser.roles[0] =='admin' ) {
+    	if (firstUser!=undefined && firstUser.roles != undefined && firstUser.roles[0] =='admin' ) {
+    		formSitio.admin.set(true);
     		return true;
     	}
+    	console.log(formSitio.admin.get());
+    	formSitio.admin.set(false);
     	return false;
     }
     
@@ -32,91 +54,20 @@ Template.sitios.helpers({
 });
 
 ///
-var formSitio = new ReactiveVar(false);
+
 Template.sitios.events({
-	'click #regform': function () {
-      setForm.set({temp:'registerForm',name:'Formulario de Registro'});
-    },
-	'input #username': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('usuario',e.target.value,'#alertusername');
-		if (result == false) {
-			regForm.set(false);
-		}
-		else{
-			regForm.set(true);
-		}
-	},
-	'input #password': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('password',e.target.value,'#alertpassword');
-		if (result == false) {
-			regForm.set(false);
-		}
-		else{
-			regForm.set(true);
-		}
-	},
-	'input #re-password': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('re-password',e.target.value,'#alertre-password');
-		if (result == false) {
-			regForm.set(false);
-		}
-		else{
-			regForm.set(true);
-		}
-	},
-	'input #name': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('nombre',e.target.value,'#alertname');
-		if (result == false) {
-			regForm.set(false);
-		}
-		else{
-			regForm.set(true);
-		}
-	},
-	'input #surname': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('apellidos',e.target.value,'#alersurname');
-		if (result == false) {
-			regForm.set(false);
-		}
-		else{
-			regForm.set(true);
-		}
-	},
 	'input #carrera': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('carrera',e.target.value,'#alertcarrera');
-		if (result == false) {
-			regForm.set(false);
-		}
-		else{
-			regForm.set(true);
-		}
-			
-
-
-
-
-
-
-
-
-			var link = e.target.value.trim().split(" ").join("-");
-		//validarAlgo();
-		//var result = /^\d{6,10}([-]\d{1}[ÑA-Z]{1})?$/.test(e.target.value);
+		
+		var link = e.target.value.trim().split(" ").join("-");
 		var result = validar('nombre',e.target.value,'#alertcarrera');
-		///^([a-zA-Z\s]{1,30})$/.test(e.target.value);
-		console.log(result);
+		
+		//console.log(result);
 		if (result==false) {
-			formSitio.set(false);
-			//$('#carrera').val(e.target.value.slice(0,-1));
+			formSitio.carrera.set(false);
+			//sAlert.success('Your message', {effect: 'slide'});	
 			return;
 		}else {
-			formSitio.set(true);
+			formSitio.carrera.set(true);
 		}
 
 		$('#titulo').val(link.toLowerCase());
@@ -125,13 +76,16 @@ Template.sitios.events({
 	},
 	'input #titulo': function (e) {
 		//validarTitulo();
-		var result = /^([a-z-]{1,30})$/.test(e.target.value);
-		//console.log(result); // true 
-		//console.log(e.target.value);
+		//console.log('tiiiii');
+		var result = validar('titulo',e.target.value,'#alerttitulo');
+		
+			//$('#titulo').val(e.target.value.slice(0,-1));
 		if (result==false) {
-			//console.log('algo'.slice(0,-1));
-			$('#titulo').val(e.target.value.slice(0,-1));
+			formSitio.titulo.set(false);
+			
 			return;
+		}else {
+			formSitio.titulo.set(true);
 		}
 		$('#titulo').val(e.target.value.toLowerCase());
 		$('#link').val('htttp://uatf.edu.bo/'+e.target.value.toLowerCase());
@@ -140,8 +94,9 @@ Template.sitios.events({
 	'submit #formsitio' : function (e) {
 		e.preventDefault();
 		//console.log(e);
-		if (formSitio.get() == false) {
+		if (formSitio.carrera.get() == false || formSitio.titulo.get() == false ||formSitio.admin.get() == false  ) {
 			alert('arregla los errores');
+			console.log(formSitio);
 			return;
 		}
 		var titulo = e.target.titulo.value.trim().split(" ").join("-");
@@ -208,7 +163,7 @@ Template.sitios.events({
 	},
 	'change #useradmin': function (e) {
 		var useradmin = Accounts.users.findOne({_id:e.target.value});
-		//console.log(e);
+		//console.log(e);		
 		$('#nameadmin').val(useradmin.profile.name);
 		$('#surnameadmin').val(useradmin.profile.surname);		
 	},
@@ -229,7 +184,6 @@ Template.sitios.events({
 			}
 		});
 		$('#changeadmin').modal('hide');
-
 	}
 });
 Template.sitio.helpers({

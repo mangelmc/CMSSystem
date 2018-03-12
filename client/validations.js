@@ -1,3 +1,4 @@
+
 export default function validar (tipo,texto,tag) {
 	var test = false;
 	if (tipo == 'carrera') {
@@ -238,3 +239,4 @@ export default function validar (tipo,texto,tag) {
   /*validations para sidebar*/
    
 };
+

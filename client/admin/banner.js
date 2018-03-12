@@ -1,3 +1,4 @@
+
 import './banner.html';
 import { ReactiveVar } from 'meteor/reactive-var';
 import validar from '../validations.js'
@@ -18,7 +19,7 @@ Template.banneradmin.helpers({
 		return false
 	}
 });
- var regFormbanner = new ReactiveVar(false);
+var regFormbanner = new ReactiveVar(false);
 Template.banneradmin.events({
 	'click #regform': function () {
 		setFormbanner.set({temp:'Formbanner',name:'Formulario de Registro'});
@@ -53,11 +54,20 @@ Template.banneradmin.events({
 			posicion: e.target.posicion.value,
 			//aqui falta de los archivos 
 		}
-        Meteor.call('editBanner', idBanner,obj, function (error, result) {
+     Meteor.call('editBanner', idBanner,obj, function (error, result) {
 			if (result) {
-				console.log('modificado'+ result);
+
+				if (result == 1) {
+					//console.log(result);
+					sAlert.success('Se ha modificado ', {effect: 'slide',offset: '130',html:true});
+				}
+			}
+			if (error) {
+					sAlert.error(''+error, {effect: 'slide',offset: '130'/*position: 'bottom-right'*/});
+
 			}
 		});
 	},
+
 
 });
