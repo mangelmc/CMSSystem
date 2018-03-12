@@ -17,15 +17,19 @@
 				<div class="form-group row">
 					<label for="carrera" class="col-4 offset-1 col-form-label ">Carrera</label>
 					<div class="col-7">
-						<input type="text" maxlength="30" class="form-control" id="carrera" name="carrera" placeholder="Carrera" required>
+						<input type="text" maxlength="30" class="form-control mb-1" id="carrera" name="carrera" placeholder="Carrera" required>
+						<div id="alertcarrera" class="alert alert-danger" role="alert" style="display: none;">		    
+						</div>
 					</div>
+					
 				</div>
 
 				<div class="form-group row">
 					<label for="titulo" class="col-4 offset-1 col-form-label ">Dominio</label>
 					<div class="col-7">
 						<input type="text" class="form-control" maxlength="30" id="titulo" name="titulo" placeholder="Dominio" required>
-
+						<div id="alerttitulo" class="alert alert-danger" role="alert" style="display: none;">		    
+						</div>
 					</div>
 					
 					<!-- titulo alias dominio-->
@@ -65,7 +69,7 @@
 						      {{/each}}						      
 						    </select>
 				    	{{else}}
-				    	<p>debe crear Un Usuario </p>
+					    	<div class="alert alert-danger">Debe crear un usuario</div>
 				    	{{/if}}
 						   	
 						</div>

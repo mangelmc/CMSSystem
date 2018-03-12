@@ -21,6 +21,7 @@ Template.banneradmin.helpers({
 });
 Template.banneradmin.events({
 	'submit #formbanner': function (e) {
+		
 		e.preventDefault();
 		var idBanner = this._id;
 		var obj = {
@@ -31,7 +32,15 @@ Template.banneradmin.events({
 		}
 		Meteor.call('editBanner', idBanner,obj, function (error, result) {
 			if (result) {
-				console.log('modificado'+ result);
+
+				if (result == 1) {
+					//console.log(result);
+					sAlert.success('Se ha modificado ', {effect: 'slide',offset: '130',html:true});
+				}
+			}
+			if (error) {
+					sAlert.error(''+error, {effect: 'slide',offset: '130'/*position: 'bottom-right'*/});
+
 			}
 		});
 	},

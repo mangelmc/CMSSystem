@@ -14,7 +14,9 @@ Template.footeradmin.events({
 		var texto = e.target.texto.value;
 		var idFooter = e.target.idfooter.value;
 		Meteor.call('editFooter', texto,idFooter, function (error, result) {
-
+			if (result) {				
+					sAlert.success('Se ha modificado ', {effect: 'slide',offset: '130',html:true});
+			}
 
 		});
 		

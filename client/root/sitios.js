@@ -1,5 +1,6 @@
 import { ReactiveVar } from 'meteor/reactive-var';
 import './sitios.html';
+import validar from '../validations.js';
 /*Tracker.autorun(function () {
 	console.log('algo');
 });
@@ -13,10 +14,17 @@ Template.sitios.onCreated(function(){
 	});
 })
 */
-var estado = new ReactiveVar('Activo');
+var estado = new ReactiveVar('Activo');//filtro de lista de sitios
+var formSitio = {};
+formSitio.carrera = new ReactiveVar(false);
+formSitio.titulo = new ReactiveVar(true);
+formSitio.admin = new ReactiveVar(false); //controla q los campos sean los corectos
+
 Template.sitios.helpers({
     readySitios : function(){
+
         return FlowRouter.subsReady("getSitios");
+
     },
 
     listSitios : function(){
@@ -33,9 +41,12 @@ Template.sitios.helpers({
     },
     existListUsers : function(){
     	var firstUser = Meteor.users.findOne({_id:{$ne:Meteor.userId()}});	
-    	if (firstUser!=undefined && firstUser.roles[0] != undefined && firstUser.roles[0] =='admin' ) {
+    	if (firstUser!=undefined && firstUser.roles != undefined && firstUser.roles[0] =='admin' ) {
+    		formSitio.admin.set(true);
     		return true;
     	}
+    	console.log(formSitio.admin.get());
+    	formSitio.admin.set(false);
     	return false;
     }
     
@@ -43,16 +54,20 @@ Template.sitios.helpers({
 });
 
 ///
+
 Template.sitios.events({
 	'input #carrera': function (e) {
+		
 		var link = e.target.value.trim().split(" ").join("-");
-		validarAlgo();
-		//var result = /^\d{6,10}([-]\d{1}[ÑA-Z]{1})?$/.test(e.target.value);
-		var result = /^([a-zA-Z\s]{1,30})$/.test(e.target.value);
+		var result = validar('nombre',e.target.value,'#alertcarrera');
+		
+		//console.log(result);
 		if (result==false) {
-			
-			$('#carrera').val(e.target.value.slice(0,-1));
+			formSitio.carrera.set(false);
+			//sAlert.success('Your message', {effect: 'slide'});	
 			return;
+		}else {
+			formSitio.carrera.set(true);
 		}
 
 		$('#titulo').val(link.toLowerCase());
@@ -60,14 +75,17 @@ Template.sitios.events({
 		
 	},
 	'input #titulo': function (e) {
-		validarTitulo();
-		var result = /^([a-z-]{1,30})$/.test(e.target.value);
-		//console.log(result); // true 
-		//console.log(e.target.value);
+		//validarTitulo();
+		//console.log('tiiiii');
+		var result = validar('titulo',e.target.value,'#alerttitulo');
+		
+			//$('#titulo').val(e.target.value.slice(0,-1));
 		if (result==false) {
-			//console.log('algo'.slice(0,-1));
-			$('#titulo').val(e.target.value.slice(0,-1));
+			formSitio.titulo.set(false);
+			
 			return;
+		}else {
+			formSitio.titulo.set(true);
 		}
 		$('#titulo').val(e.target.value.toLowerCase());
 		$('#link').val('htttp://uatf.edu.bo/'+e.target.value.toLowerCase());
@@ -76,6 +94,11 @@ Template.sitios.events({
 	'submit #formsitio' : function (e) {
 		e.preventDefault();
 		//console.log(e);
+		if (formSitio.carrera.get() == false || formSitio.titulo.get() == false ||formSitio.admin.get() == false  ) {
+			alert('arregla los errores');
+			console.log(formSitio);
+			return;
+		}
 		var titulo = e.target.titulo.value.trim().split(" ").join("-");
 		
 		//var cadena = "hello world!";
@@ -140,7 +163,7 @@ Template.sitios.events({
 	},
 	'change #useradmin': function (e) {
 		var useradmin = Accounts.users.findOne({_id:e.target.value});
-		//console.log(e);
+		//console.log(e);		
 		$('#nameadmin').val(useradmin.profile.name);
 		$('#surnameadmin').val(useradmin.profile.surname);		
 	},
@@ -161,7 +184,6 @@ Template.sitios.events({
 			}
 		});
 		$('#changeadmin').modal('hide');
-
 	}
 });
 Template.sitio.helpers({

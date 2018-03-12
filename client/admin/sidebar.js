@@ -93,7 +93,9 @@ Template.editarmenuenlace.events({
 		};
 		Meteor.call('insEnlace', obj, function (error, result) {
 			if (result) {
-				console.log(result);
+				//console.log(result);
+				sAlert.success('Se ha creado un nuevo enlace', {effect: 'slide',offset: '130',html:true});
+		
 			}
 		});
 		$('#formenlace')[0].reset();
@@ -120,8 +122,10 @@ Template.editarmenuenlace.events({
 		var idMenu = e.target.idmenu.value;
 		//
 		Meteor.call('editmenuenlace', nombre,idMenu, function (error, result) {
-		
-			//alert('Se modifico');corregir return del server;
+			if (result) {
+				sAlert.info('Se guardaron los cambios', {effect: 'slide',offset: '130',html:true});	
+			}
+			
 		});
 		$('#nombre').attr('disabled','true');
 		$('.save').fadeOut('slow',function(){
@@ -149,7 +153,15 @@ Template.editarmenuenlace.events({
 
 	},
 	'click .elienlace': function () {
-		Meteor.call('eliEnlace', this._id, function (error, result) {});		
+		var res = confirm('Esta seguro de eliminar el enlace');
+		if (res == true) {
+			Meteor.call('eliEnlace', this._id, function (error, result) {
+				if (result) {
+					console.log(result);
+					sAlert.success('Se ha eliminado', {effect: 'slide',offset: '130',html:true});
+				}
+			});		
+		}
 	},
 	
 

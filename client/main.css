@@ -11,19 +11,9 @@ body {
   background-color: transparent;
   
 }
-/* estilos de fuentes*/
-.bellefair{
-  font-family: 'Bellefair' , serif !important;
 
-}
-.bellefair  a{
-  font-family: 'Bellefair'  !important;
 
-}
-.bellefair  div{
-  font-family: 'Bellefair'  !important;
 
-}
 .fondo{
   background: url('../img/2D81108F8.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;

@@ -34,7 +34,7 @@ Meteor.startup(() => {
         if (currentUser != undefined && currentUser.roles != undefined && currentUser.roles[0]=='root') {
           return {tipo:'root'};
         }
-        if (currentUser != undefined && currentUser.roles != undefined  && currentUser.roles[0]=='admin'&&sitio!=undefined) {
+        if (currentUser != undefined && currentUser.roles != undefined  && currentUser.roles[0]=='admin') {
           return {tipo:'admin',idSitio:sitio._id,titulo:sitio.titulo};
         }
       return {tipo:'normal'};
@@ -94,7 +94,7 @@ Meteor.startup(() => {
       return account;
     },
     darEstado : function(id,estado){
-      SITIO.update({_id:id}, {$set:{estado:estado}});
+      return SITIO.update({_id:id}, {$set:{estado:estado}});
     },
     changeAdmin : function (sitio,set){
       return SITIO.update(sitio, {$set:set});
@@ -106,23 +106,11 @@ Meteor.startup(() => {
     ////////BANNER METHODS BEGIN//////////
 
     editBanner : function (id,obj){
-      BANNER.update({_id:id}, {$set:obj},function(error,result){
-        var res = '';
-        if (result) {
-          res = 'se modifico';
-        }
-        return res;
-      });
+      return BANNER.update({_id:id}, {$set:obj});
     },  
     
     bannerChange : function (id,obj){
-      NAVBAR.update({idSitio:id}, {$set:obj},function(error,result){
-        var res = '';
-        if (result) {
-          res = 'se modifico';
-        }
-        return res;
-      });
+      return NAVBAR.update({idSitio:id}, {$set:obj});
     },
     
     ////////BANNER METHODS END//////////
@@ -139,13 +127,13 @@ Meteor.startup(() => {
       } );
     },
     editMenu : function(id,obj){
-      MENU.update({_id:id}, {$set:obj});
+      return MENU.update({_id:id}, {$set:obj});
     },
     darEstadoMenu : function(id,estado){
-      MENU.update({_id:id}, {$set:{estado:estado}});
+      return MENU.update({_id:id}, {$set:{estado:estado}});
     },
     darEstadoSubmenu : function(id,estado){
-      SUBMENU.update({_id:id}, {$set:{estado:estado}});
+      return SUBMENU.update({_id:id}, {$set:{estado:estado}});
     },
     insSubmenu : function (obj){
       
@@ -164,18 +152,7 @@ Meteor.startup(() => {
     },
     editSubmenu : function (id,obj){
       
-      var response= 'error';
-      //console.log(contador);
-      return SUBMENU.update({_id:id},{$set:obj}, function(e,r){
-        if (e) {
-          response = e;
-          console.log(e);
-        }if (r) {
-          response = r;
-          console.log(r);
-        }
-        return response;
-      });      
+      return SUBMENU.update({_id:id},{$set:obj});      
     },
     ////////NAVBAR METHODS END//////////
 
@@ -190,26 +167,14 @@ Meteor.startup(() => {
           console.log(e);
         }if (r) {
           response = r;
-          console.log('menuenlace inserted with _id '+r);
+          //console.log('menuenlace inserted with _id '+r);
         }
         return response;
       });
       
     },
     darEstadoSidebar : function (id,estado){
-      
-      var response= 'error';
-      //console.log(contador);
-      return MENUENLACE.update({_id:id},{$set:{estado:estado}}, function(e,r){
-        if (e) {
-          response = e;
-          console.log(e);
-        }if (r) {
-          response = r;
-          console.log(r);
-        }
-        return response;
-      });      
+      return MENUENLACE.update({_id:id},{$set:{estado:estado}});      
     },
       
     
@@ -227,64 +192,24 @@ Meteor.startup(() => {
       });
     },
     editmenuenlace : function(nombre,idmenu){
-      var response=false;
-      return MENUENLACE.update({_id:idmenu}, {$set:{nombre:nombre}}, function(e,r){
-        
-        if (e) {
-          response = e;
-          console.log(e);
-        }if (r) {
-          response = r;
-          console.log(r);
-        }
-        return response;
-      });
+      
+      return MENUENLACE.update({_id:idmenu}, {$set:{nombre:nombre}});
     },
     editEnlace : function(obj,idenlace){
-      var response=false;
-      return ENLACE.update({_id:idenlace}, {$set:obj}, function(e,r){
-        
-        if (e) {
-          response = e;
-          console.log(e);
-        }if (r) {
-          response = r;
-          console.log(r);
-        }
-        return response;
-      });
+      
+      return ENLACE.update({_id:idenlace}, {$set:obj});
     },
     eliEnlace  : function(idenlace){
-      var response=false;
-      return ENLACE.remove({_id:idenlace}, function(e,r){
-        
-        if (e) {
-          response = e;
-          console.log(e);
-        }if (r) {
-          response = r;
-          console.log(r);
-        }
-        return response;
-      });
+      var response = false;
+      return ENLACE.remove({_id:idenlace});
     },
 
-    ////////SIDEBAR METHODS END//////////
+    //////// SIDEBAR METHODS END //////////
 
     ////////FOOTER METHODS BEGIN//////////
     editFooter : function(texto,idfooter){
-      var response=false;
-      return FOOTER.update({_id:idfooter},{$set:{texto:texto}}, function(e,r){
-        
-        if (e) {
-          response = e;
-          console.log(e);
-        }if (r) {
-          response = r;
-          console.log(r);
-        }
-        return response;
-      });
+    
+      return FOOTER.update({_id:idfooter},{$set:{texto:texto}});
     },
 
   });

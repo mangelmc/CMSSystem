@@ -1,6 +1,6 @@
 <!--Ruta /admin -->
 <template name="adminMain">
-  
+  {{ > sAlert}}
   <div style="background-color: #464892e0;border-radius: .5rem;color: white" class="d-flex justify-content-center  p-1 mb-3">
     <h3 class="">Bienvenido Usuario Administrador </h3>
   </div>  
@@ -138,7 +138,7 @@
 {{else}}
 <div class="row m-4">
   <div class="col">
-    <div class="alert alert-warning m-2 h4" role="alert">
+    <div class="alert alert-warning m-2 h6" role="alert">
       <strong>¡..Cuidado..!</strong> Vista disponible solo para usuarios adiministradores
       {{>mainLogin}}
   </div>  
