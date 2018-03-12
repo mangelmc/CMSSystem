@@ -22,7 +22,10 @@ body {
 }
 .bellefair  div{
   font-family: 'Bellefair'  !important;
+}
 
+.silver{
+  background-color:  silver !important;
 }
 .fondo{
   background: url('../img/2D81108F8.jpg') no-repeat center center fixed;

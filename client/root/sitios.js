@@ -1,18 +1,7 @@
 import { ReactiveVar } from 'meteor/reactive-var';
 import './sitios.html';
-/*Tracker.autorun(function () {
-	console.log('algo');
-});
-Meteor.startup(function(){
-	$.getScript('../validations.js');
-	console.log('okey');
-});
-Template.sitios.onCreated(function(){
-	this.autorun(()=>{
-		console.log('autorun')
-	});
-})
-*/
+import validar from '../validations.js';
+
 var estado = new ReactiveVar('Activo');
 Template.sitios.helpers({
     readySitios : function(){
@@ -43,16 +32,91 @@ Template.sitios.helpers({
 });
 
 ///
+var formSitio = new ReactiveVar(false);
 Template.sitios.events({
+	'click #regform': function () {
+      setForm.set({temp:'registerForm',name:'Formulario de Registro'});
+    },
+	'input #username': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('usuario',e.target.value,'#alertusername');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #password': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('password',e.target.value,'#alertpassword');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #re-password': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('re-password',e.target.value,'#alertre-password');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #name': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('nombre',e.target.value,'#alertname');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #surname': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('apellidos',e.target.value,'#alersurname');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
 	'input #carrera': function (e) {
-		var link = e.target.value.trim().split(" ").join("-");
-		validarAlgo();
-		//var result = /^\d{6,10}([-]\d{1}[ÑA-Z]{1})?$/.test(e.target.value);
-		var result = /^([a-zA-Z\s]{1,30})$/.test(e.target.value);
-		if (result==false) {
+		//console.log(e.target.value);	
+		var result = validar('carrera',e.target.value,'#alertcarrera');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
 			
-			$('#carrera').val(e.target.value.slice(0,-1));
+
+
+
+
+
+
+
+
+			var link = e.target.value.trim().split(" ").join("-");
+		//validarAlgo();
+		//var result = /^\d{6,10}([-]\d{1}[ÑA-Z]{1})?$/.test(e.target.value);
+		var result = validar('nombre',e.target.value,'#alertcarrera');
+		///^([a-zA-Z\s]{1,30})$/.test(e.target.value);
+		console.log(result);
+		if (result==false) {
+			formSitio.set(false);
+			//$('#carrera').val(e.target.value.slice(0,-1));
 			return;
+		}else {
+			formSitio.set(true);
 		}
 
 		$('#titulo').val(link.toLowerCase());
@@ -60,7 +124,7 @@ Template.sitios.events({
 		
 	},
 	'input #titulo': function (e) {
-		validarTitulo();
+		//validarTitulo();
 		var result = /^([a-z-]{1,30})$/.test(e.target.value);
 		//console.log(result); // true 
 		//console.log(e.target.value);
@@ -76,6 +140,10 @@ Template.sitios.events({
 	'submit #formsitio' : function (e) {
 		e.preventDefault();
 		//console.log(e);
+		if (formSitio.get() == false) {
+			alert('arregla los errores');
+			return;
+		}
 		var titulo = e.target.titulo.value.trim().split(" ").join("-");
 		
 		//var cadena = "hello world!";

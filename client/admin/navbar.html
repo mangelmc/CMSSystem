@@ -27,8 +27,8 @@
 				<div class="form-group col">
 					<label>Tipo de fuente</label>
 					<select class="form-control" id="fuente">
-						<option value="Arial">Arial</option>
-						<option value="Times New Roman">Times New Roman</option>
+						<option value="arial">Arial</option>
+						<option value="times-new-roman">Times New Roman</option>
 						<option value="bellefair">Bellefair</option>
 
 					</select>
@@ -186,6 +186,7 @@
 				<label for="nombre" class="col-2 offset-2 col-form-label">Nombre</label>
 				<div class="col-6 ">			
 					<input type="text" name="nombre" maxlength="16" class="form-control" id="nombre" placeholder="Nombre del Submenu" required>
+					<div class="alert alert-danger" id="alertnombre"> </div>
 				</div>
 			</div>
 			<div class="form-group row ">
@@ -193,6 +194,7 @@
 				<label for="link" class="col-2 offset-2 col-form-label">Link</label>
 				<div class="col-6 ">			
 					<input type="text" name="link" readonly class="form-control" id="link" placeholder="link" required>
+					<div class="alert alert-danger" id="alertlink"> </div>
 				</div>
 			</div>
 

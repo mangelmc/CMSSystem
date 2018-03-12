@@ -1,15 +1,81 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import './registerForm.html';	
+import './registerForm.html';
+import validar from '../validations.js';	
 
+var loginForm = new ReactiveVar(false);
+var regForm = new ReactiveVar(false	);
 Template.registerForm.events({
-	'click #loginform': function () {
-		setForm.set({temp:'loginForm',name:'Formulario de Inicio de Sesion'});
+	'click #loginForm': function () {
+		setForm.set({temp:'registerForm',name:'Formulario de registro'});
 	},
+	'input #username': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('usuario',e.target.value,'#alertusername');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #password': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('password',e.target.value,'#alertpassword');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #re-password': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('re-password',e.target.value,'#alertre-password');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #name': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('nombre',e.target.value,'#alertname');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #surname': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('apellidos',e.target.value,'#alersurname');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #carrera': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('carrera',e.target.value,'#alertcarrera');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+
 	"submit form" : function(e){
 		e.preventDefault();
-		if (e.target.password.value!=e.target.repassword.value) {
+		var user = e.target.user.value;
+		if (loginForm.get() == false) {
+			alert('texto invalido');
 			return;
 		}
 	 	var user = {

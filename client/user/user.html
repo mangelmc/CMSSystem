@@ -3,7 +3,7 @@
     <link href="https://fonts.googleapis.com/css?family=Bellefair" rel="stylesheet">
     
   </head>
-  <body class="" id="sitiostyle">
+  <body class="{{navbarTheme.fuente}}" >
     
   <div id="contenedor" >
 
@@ -20,12 +20,12 @@
       {{/if}}
          
       <div class="row mx-0 ">
-        <div class="col-12" >
+        <div class="col-12 " >
             {{> Template.dynamic template=content}}
         </div>
       </div>
 
-    <div class=" d-block pb-0 mb-0 align-self-end"  id="contfooter">
+    <div class = " d-block pb-0 mb-0 align-self-end"  id="contfooter">
       {{> Template.dynamic template=footer}}
      </div>
   {{else}}
@@ -33,7 +33,7 @@
   {{/if}}
 {{else}}
   <div class="m-3">
-    <div class="alert alert-warning" role="alert">
+    <div class="alert alert-warning " role="alert">
         <strong> EL SITIO SOLICITADO NO EXISTE O NO ESTA DISPONIBLE TEMPORALMENTE...! :´( </strong> 
     </div>
   </div>    
@@ -63,7 +63,7 @@
 <template name="navbar">
   {{#if navbar }}
 	<!-- Navigation -->
-    <nav class="navbar navbar-expand-md d-lg-block d-md-block" id="mainNav" style="background-color: rgba(204, 56, 56, 0.9) !important ;z-index: 100;">
+    <nav class="navbar navbar-expand-md d-lg-block d-md-block {{navbarTheme.color}}" id="mainNav" style="">
       <div class="container-fluid ">
         
         <div style="color:#2036cc;text-shadow: 2px 0px 10px silver ;align-self:center;" class="navbar-brand  text-center text-heading  text-shadow text-white d-lg-none d-md-none d-sm-block">{{tituloSitio}}</div>
@@ -173,8 +173,8 @@
   </div>
 </template>
 <template name="footer">
-	 <footer id="contfooter" class="bg-faded text-center py-4 " >
-      <div> </div>
+	 <footer id="contfooter" class="bg-faded text-center py-4 {{navbarTheme.color}}" >
+      
       <div class="container">
         <p class="m-0 text-white"> {{titulo}}</p>
 

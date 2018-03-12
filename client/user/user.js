@@ -9,8 +9,7 @@ Template.user.onCreated(function(){
 	this.autorun(()=>{
 			sitioClient.set(SITIO.findOne());
 			//console.log(sitioClient.get());
-			
-			
+
 		});
 		
 			
@@ -43,6 +42,15 @@ Template.user.helpers({
 			return true
 		}
 		return false;
+	},
+	navbarTheme : function(){
+		var id = sitioClient.get();
+		//console.log(id);
+		if (id != undefined && NAVBAR.findOne({idSitio:id._id})!=undefined) {
+			var estilo = NAVBAR.findOne({idSitio:id._id});
+			return {color:estilo.color,fuente:estilo.fuente};
+		}
+		
 	}
 });
 
@@ -59,12 +67,12 @@ Template.navbar.helpers({
 		if (id != undefined && NAVBAR.findOne({idSitio:id._id})!=undefined) {
 			var estilo = NAVBAR.findOne({idSitio:id._id});
 
-			$('#mainNav').css({'background-color': estilo.color});
-			$('#contfooter').css({'background-color': estilo.color});
+			//$('#mainNav').css({'background-color': estilo.color});
+			//$('#contfooter').css({'background-color': estilo.color});
 
 			//console.log(estilo.fuente);
 			//$('#sitiostyle').removeClass();		
-			$('#sitiostyle').css('font-family',estilo.fuente);		
+			//$('#sitiostyle').css('font-family',estilo.fuente);		
 		}
 		return true;
 	},
@@ -72,7 +80,17 @@ Template.navbar.helpers({
 
 		//console.log(sitioClient.get());
 		return MENU.find({estado : 'activo',idSitio:sitioClient.get()._id});
+	},
+	navbarTheme : function(){
+		var id = sitioClient.get();
+		//console.log(id);
+		if (id != undefined && NAVBAR.findOne({idSitio:id._id})!=undefined) {
+			var estilo = NAVBAR.findOne({idSitio:id._id});
+			return {color:estilo.color,fuente:estilo.fuente};
+		}
+		
 	}
+
 });
 Template.menu.helpers({
 	submenu : function () {
@@ -115,6 +133,15 @@ Template.footer.helpers({
 		var titulo = BANNER.findOne();
 		if (titulo!= undefined ) {
 			return titulo.titulo;
+		}
+		
+	},
+	navbarTheme : function(){
+		var id = sitioClient.get();
+		//console.log(id);
+		if (id != undefined && NAVBAR.findOne({idSitio:id._id})!=undefined) {
+			var estilo = NAVBAR.findOne({idSitio:id._id});
+			return {color:estilo.color,fuente:estilo.fuente};
 		}
 		
 	}

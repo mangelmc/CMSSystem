@@ -1,9 +1,38 @@
 import './navbar.html';
 import { ReactiveVar } from 'meteor/reactive-var';
+import validar from '../validations.js'
+
+var regFormnavbaradmin = new ReactiveVar(false);
+Template.navbaradmin.events({
+	'click #regform': function () {
+		setFormnavbaradmin.set({temp:'editarmenu',name:'creacion de nuevo menu'});
+	},
+	'input #nombre': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('nombre',e.target.value,'#alertnombre');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #link': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('link',e.target.value,'#alertlink');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	}
+});
+
+	
 var estadoMenu = new ReactiveVar('activo');
 Template.navbaradmin.onRendered(function() {
-
-})
+});
 Template.navbaradmin.helpers({
 	color : function(){
 
@@ -274,5 +303,8 @@ Template.editarmenu.events({
 		link(e.target.value,'#link');
 		
 	}
+ 
+ });
 
-});
+
+

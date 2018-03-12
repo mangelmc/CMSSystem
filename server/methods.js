@@ -34,7 +34,7 @@ Meteor.startup(() => {
         if (currentUser != undefined && currentUser.roles != undefined && currentUser.roles[0]=='root') {
           return {tipo:'root'};
         }
-        if (currentUser != undefined && currentUser.roles != undefined  && currentUser.roles[0]=='admin'&&sitio!=undefined) {
+        if (currentUser != undefined && currentUser.roles != undefined  && currentUser.roles[0]=='admin') {
           return {tipo:'admin',idSitio:sitio._id,titulo:sitio.titulo};
         }
       return {tipo:'normal'};
