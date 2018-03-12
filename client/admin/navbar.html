@@ -1,8 +1,6 @@
+
 <template name="navbaradmin">
-  
-	{{>sAlert}}
-	
-		
+  {{>sAlert}}
 		<div >
 			<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="d-flex justify-content-center  p-1 ">
 				<h3 class="">MENU PRINCIPAL</h3>
@@ -186,6 +184,7 @@
 				<label for="nombre" class="col-2 offset-2 col-form-label">Nombre</label>
 				<div class="col-6 ">			
 					<input type="text" name="nombre" maxlength="16" class="form-control" id="nombre" placeholder="Nombre del Submenu" required>
+					<div class="alert alert-danger" id="alertnombre"> </div>
 				</div>
 			</div>
 			<div class="form-group row ">
@@ -193,6 +192,7 @@
 				<label for="link" class="col-2 offset-2 col-form-label">Link</label>
 				<div class="col-6 ">			
 					<input type="text" name="link" readonly class="form-control" id="link" placeholder="link" required>
+					<div class="alert alert-danger" id="alertlink"> </div>
 				</div>
 			</div>
 
@@ -333,3 +333,4 @@
 		</div>
 	</form>
 </template>
+

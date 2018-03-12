@@ -28,8 +28,7 @@
 					<label for="titulo" class="col-4 offset-1 col-form-label ">Dominio</label>
 					<div class="col-7">
 						<input type="text" class="form-control" maxlength="30" id="titulo" name="titulo" placeholder="Dominio" required>
-						<div id="alerttitulo" class="alert alert-danger" role="alert" style="display: none;">		    
-						</div>
+
 					</div>
 					
 					<!-- titulo alias dominio-->
@@ -69,7 +68,7 @@
 						      {{/each}}						      
 						    </select>
 				    	{{else}}
-					    	<div class="alert alert-danger">Debe crear un usuario</div>
+				    	<p>debe crear Un Usuario </p>
 				    	{{/if}}
 						   	
 						</div>
@@ -134,42 +133,49 @@
 				    <label for="username" class="col-sm-3 col-form-label">Usuario :</label>
 				    <div class="col-sm-9">
 				      <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
+				      <div class="alert alert-danger" id="alertusername"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="password" class="col-sm-3 col-form-label">Password :</label>
 				    <div class="col-sm-9">
 				      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+				      <div class="alert alert-danger" id="alertpassword"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="repassword" class="col-sm-3 col-form-label">Re-Password :</label>
 				    <div class="col-sm-9">
 				      <input type="password" class="form-control" id="repassword" name="repassword" placeholder= "Repita  el Password" required>
+				      <div class="alert alert-danger" id="alertrepassword"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="email" class="col-sm-3 col-form-label">Email :</label>
 				    <div class="col-sm-9">
 				      <input type="email" class="form-control" id="email" name="email" placeholder="Correo  Electrónico" required>
+				      <div class="alert alert-danger" id="alertemail"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="name" class="col-sm-3 col-form-label">Nombres :</label>
 				    <div class="col-sm-9">
 				      <input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
+				      <div class="alert alert-danger" id="alertname"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="surname" class="col-sm-3 col-form-label">Apellidos :</label>
 				    <div class="col-sm-9">
 				      <input type="text" class="form-control" id="surname" name="surname" placeholder="Apellidos" required>
+				      <div class="alert alert-danger" id="alertsurname"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="carrerae" class="col-sm-3 col-form-label">Carrera :</label>
 				    <div class="col-sm-9">
 				      <input type="text" class="form-control" id="carrerae" name="carrerae" placeholder="Carrera" required>
+				      <div class="alert alert-danger" id="alertcarrerae"> </div>
 				    </div>
 				</div>
 				<div class="d-flex align-items-center ">
@@ -290,4 +296,5 @@ s				    	</select>
 <template name="listusers">
 	<option value="{{_id}}">{{username}}</option>
 </template>
+
 

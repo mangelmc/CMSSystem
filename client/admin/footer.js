@@ -1,4 +1,3 @@
-
 import { ReactiveVar } from 'meteor/reactive-var';
 import './footer.html';
 

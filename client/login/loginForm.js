@@ -4,7 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './loginForm.html';	
 import validar from '../validations.js'
 
-
+var regForm = new ReactiveVar(false);
 Template.loginForm.events({
 	'click #regform': function () {
 		setForm.set({temp:'registerForm',name:'Formulario de Registro'});
@@ -17,11 +17,34 @@ Template.loginForm.events({
 			return;
 		}*/
 	},
+	'input #user': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('usuario',e.target.value,'#alertuser');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #password': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('password',e.target.value,'#alertpassword');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
 
 	"submit #login" : function(e){
 		e.preventDefault();
 		var user = e.target.user.value;
-
+		if (regForm.get() == false) {
+			alert('Debe arreglar lo errores del formulario');
+			return;
+		}
 		Meteor.loginWithPassword(user,e.target.password.value,function(err,result){
 			if (err) {
 				//console.log('error : '+err);

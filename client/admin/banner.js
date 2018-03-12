@@ -1,6 +1,7 @@
+
 import './banner.html';
 import { ReactiveVar } from 'meteor/reactive-var';
-
+import validar from '../validations.js'
 
 Template.banneradmin.helpers({
 	
@@ -17,11 +18,34 @@ Template.banneradmin.helpers({
 		}
 		return false
 	}
-
 });
+var regFormbanner = new ReactiveVar(false);
 Template.banneradmin.events({
-	'submit #formbanner': function (e) {
-		
+	'click #regform': function () {
+		setFormbanner.set({temp:'Formbanner',name:'Formulario de Registro'});
+	},
+     'input #titulo': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('titulositio',e.target.value,'#alerttitulo');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+	'input #subtitulo': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('subtitulositio',e.target.value,'#alertsubtitulo');
+		if (result == false) {
+			regForm.set(false);
+		}
+		else{
+			regForm.set(true);
+		}
+	},
+
+  'submit #formbanner': function (e) {
 		e.preventDefault();
 		var idBanner = this._id;
 		var obj = {
@@ -30,7 +54,7 @@ Template.banneradmin.events({
 			posicion: e.target.posicion.value,
 			//aqui falta de los archivos 
 		}
-		Meteor.call('editBanner', idBanner,obj, function (error, result) {
+     Meteor.call('editBanner', idBanner,obj, function (error, result) {
 			if (result) {
 
 				if (result == 1) {
@@ -44,5 +68,6 @@ Template.banneradmin.events({
 			}
 		});
 	},
+
 
 });
