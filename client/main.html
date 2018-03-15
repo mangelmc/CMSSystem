@@ -13,29 +13,72 @@
 
 </template>
 <template name="raiz">
-	<div class="d-flex flex-column m-3">
-		<div class="d-flex justify-content-center ">
-			<h3> BIENVENIDO AL SISTEMA DE GESTION DE CONTENIDOS</h3>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Rammetto+One" rel="stylesheet">
+	</head>
+	<style type="text/css">
+		{{#if currentUser}}
+			body{
+			background: url('/vector-azul.png');background-repeat: no-repeat;background-size:cover;min-height: 1vh;
+			}
+		{{else}}
+			body{
+			background: url('/light-wave.png');background-repeat: no-repeat;background-size:cover;min-height: 1vh;
+			}
+		{{/if}}
+
+	</style>
+	<body>
+		
+	<div style="background-color: #b73630;padding: 1rem;">
+		<div class="d-flex justify-content-center text-white mt-3" style="font-family: 'Rammetto One', cursive;text-shadow: 5px 5px 4px black;">
+			<h3>SEA USTED BIENVENIDO ... !</h3>			
 		</div>
+	</div >
+	<div style="background-color: white;padding: 0.1rem;">
+		
+	</div>
+	<div class="d-flex flex-column p-1" >
+		<div class=" d-flex justify-content-center mt-3" style="font-family: 'Rammetto One', cursive;text-shadow: 2px 6px 4px black;color: white;">
+			<h2>SISTEMA DE GESTION DE CONTENIDOS</h2>			
+		</div>
+		
 		{{#if currentUser}}
 			{{#if isInRole "root"}}
 				<a href="/root"></a>				
 			{{/if}}
-			<div class="d-flex justify-content-center">
-				<div class="alert alert-warning" role="alert">
-				    <strong>Oops...!</strong>  NO hay nada por aqui para un usuario normal
-				    &nbsp;&nbsp;<button type="button" id="cerrarsesion" class="btn btn-warning">Cerrar Sesion </button>
+			
+			<div class="d-flex justify-content-center" style="">
+				<div class="bg-white d-flex flex-column align-items-center" style="border-radius: 30%;max-width: 40%;box-shadow: 4px 4px 5px black;">
 
+					<strong>Oops...!</strong>  NO hay nada por aqui para un usuario normal		    
+				    <img class="img-fluid" src="/robot-62.jpg" style="border-radius: 40%;">			      
+				    <div class="align-items-center p-2 mb-1">
+				    	<button type="button" id="cerrarsesion" class="btn btn-warning">Cerrar Sesion </button>
+				    </div>
 				</div>
-
 			</div>
 		{{else}}
-		<div class="alert alert-warning d-flex justify-content-center align-items-center" role="alert">
-		    <strong>PARA CONTINUAR DEBE INICIAR SESION </strong>   
-		    &nbsp;&nbsp;{{>mainLogin}}
+		<div class="d-flex justify-content-center" style="">
+			<div class="bg-white d-flex flex-column align-items-center" style="border-radius: 30%;max-height: 40%;box-shadow: 4px 4px 5px black;">
+		    
+			    <img class="img-fluid" src="/robot.jpg" style="border-radius: 40%;">
+			      
+			    <div class="align-items-center p-2 mb-1">{{>mainLogin}}</div>
+			</div>
 		</div>
+
 		{{/if}}
+		
+		
 	</div>
+	<div style="background-color: white;padding: 0.1rem;margin-top: 2rem; ">
+		
+		</div>
+		<div style="background-color: #b73630;padding: 2.3rem;">
+		
+		</div >
+	</body>
 </template>
 
 

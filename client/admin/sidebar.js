@@ -1,6 +1,16 @@
 import './sidebar.html';
 import { ReactiveVar } from 'meteor/reactive-var';
+import validar from '../validations.js';
+
 var estadoSidebar = new ReactiveVar('Activo');
+
+var nombreSideForm = new ReactiveVar(false);
+var nombreEnForm = new ReactiveVar(false);
+var urlEnForm = new ReactiveVar(false);
+var nombreEnFormE = new ReactiveVar(true);
+var urlEnFormE = new ReactiveVar(true);
+
+
 
 Template.sidebaradmin.helpers({
 	listMenuEnlace: function () {
@@ -52,8 +62,22 @@ Template.sidebaradmin.events({
 
 });
 Template.nuevomenuenlace.events({
+	'input #nombre': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('carrera',e.target.value,'#alertnombre');
+		if (result == false) {
+			nombreSideForm.set(false);
+		}
+		else{
+			nombreSideForm.set(true);
+		}
+	},
 	'submit #formmenuenlace': function (e) {
 		e.preventDefault();
+		if (nombreSideForm.get() == false) {
+			alert('Debe solucionar los errores del formulario');
+			return;
+		}
 		var obj = {
 			idSitio : FlowRouter.getQueryParam('id'),
 			nombre : e.target.nombre.value,
@@ -83,8 +107,32 @@ Template.editarmenuenlace.helpers({
 	}
 });
 Template.editarmenuenlace.events({
+	'input #nombree': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('carrera',e.target.value,'#alertnombree');
+		if (result == false) {
+			nombreEnForm.set(false);
+		}
+		else{
+			nombreEnForm.set(true);
+		}
+	},
+	'input #urle': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('url',e.target.value,'#alerturle');
+		if (result == false) {
+			urlEnForm.set(false);
+		}
+		else{
+			urlEnForm.set(true);
+		}
+	},
 	'submit #formenlace': function (e) {
 		e.preventDefault();
+		if (nombreEnForm.get() == false ||urlEnForm.get() == false) {
+			alert('Debe solucionar los errores del formulario');
+			return;
+		}
 		var obj ={
 			idSitio : FlowRouter.getQueryParam('id'),
 			idMenu : e.target.idmenu.value,
@@ -116,8 +164,22 @@ Template.editarmenuenlace.events({
 		
 
 	},
+	'input #nombre': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('carrera',e.target.value,'#alertnombre');
+		if (result == false) {
+			nombreSideForm.set(false);
+		}
+		else{
+			nombreSideForm.set(true);
+		}
+	},
 	'submit #formeditmenu': function (e) {
 		e.preventDefault();
+		if (nombreSideForm.get() == false) {
+			alert('Debe solucionar los errores del formulario');
+			return;
+		}
 		var nombre = e.target.nombre.value;
 		var idMenu = e.target.idmenu.value;
 		//
@@ -172,8 +234,32 @@ Template.editarenlace.helpers({
 	}
 });
 Template.editarenlace.events({
+	'input #nombre': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('carrera',e.target.value,'#alertnombre');
+		if (result == false) {
+			nombreEnForm.set(false);
+		}
+		else{
+			nombreEnForm.set(true);
+		}
+	},
+	'input #url': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('url',e.target.value,'#alerturl');
+		if (result == false) {
+			urlEnForm.set(false);
+		}
+		else{
+			urlEnForm.set(true);
+		}
+	},
 	'submit #formeditenlace': function (e) {
 		e.preventDefault();
+		if (nombreEnFormE.get() == false ||urlEnFormE.get() == false) {
+			alert('Debe solucionar los errores del formulario');
+			return;
+		}
 		var obj ={
 			nombre : e.target.nombre.value,
 			url : e.target.url.value

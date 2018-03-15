@@ -2,31 +2,12 @@ import './navbar.html';
 import { ReactiveVar } from 'meteor/reactive-var';
 import validar from '../validations.js'
 
-var regFormnavbaradmin = new ReactiveVar(false);
+var nombreMenuForm = new ReactiveVar(false);
+var linkMenuForm = new ReactiveVar(true);
+var nombreEMenuForm = new ReactiveVar(true);
+var linkEMenuForm = new ReactiveVar(true);
 Template.navbaradmin.events({
-	'click #regform': function () {
-		setFormnavbaradmin.set({temp:'editarmenu',name:'creacion de nuevo menu'});
-	},
-	'input #nombre': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('nombre',e.target.value,'#alertnombre');
-		if (result == false) {
-			regForm.set(false);
-		}
-		else{
-			regForm.set(true);
-		}
-	},
-	'input #link': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('link',e.target.value,'#alertlink');
-		if (result == false) {
-			regForm.set(false);
-		}
-		else{
-			regForm.set(true);
-		}
-	}
+	
 });
 
 	
@@ -245,9 +226,34 @@ Template.navbaradmin.events({
 	}
 });
 Template.nuevomenu.events({
+	'input #nombre': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('carrera',e.target.value,'#alertnombre');
+		if (result == false) {
+			nombreMenuForm.set(false);
+			return;
+		}
+		else{
+			nombreMenuForm.set(true);
+		}
+		link(e.target.value,'#link');
+	},
+	'input #link': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('link',e.target.value,'#alertlink');
+		if (result == false) {
+			linkMenuForm.set(false);
+		}
+		else{
+			linkMenuForm.set(true);
+		}
+	},
 	'submit #formmenu': function (e) {
 		e.preventDefault();
-
+		if (linkMenuForm.get() == false || nombreMenuForm.get() == false) {
+			alert('Debe solucionar los errores del formulario');
+			return;
+		}
 		var obj = {
 			nombre : e.target.nombre.value,
 			link : e.target.link.value,
@@ -265,9 +271,7 @@ Template.nuevomenu.events({
 		var idSitio = FlowRouter.getQueryParam('id');
 		FlowRouter.go('/admin/:titulo/navbar',{titulo:carrera},{id:idSitio});
 	},
-	'input #nombre': function (e) {
-		link(e.target.value,'#link');
-	}
+	
 });
 
 Template.editarmenu.helpers({
@@ -285,6 +289,29 @@ Template.editarmenu.helpers({
 });
 
 Template.editarmenu.events({
+	
+	'input #nombre': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('carrera',e.target.value,'#alertnombre');
+		if (result == false) {
+			nombreEMenuForm.set(false);
+			return;
+		}
+		else{
+			nombreEMenuForm.set(true);
+		}
+		link(e.target.value,'#link');
+	},
+	'input #link': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('link',e.target.value,'#alertlink');
+		if (result == false) {
+			linkEMenuForm.set(false);
+		}
+		else{
+			linkEMenuForm.set(true);
+		}
+	},
 	'submit #formeditmenu': function (e) {
 		e.preventDefault();
 		var id = FlowRouter.getQueryParam('idMenu');
@@ -299,10 +326,7 @@ Template.editarmenu.events({
 		FlowRouter.go('/admin/:titulo/navbar',{titulo:carrera},{id:idSitio});
 		
 	},
-	'input #nombre': function (e) {
-		link(e.target.value,'#link');
-		
-	}
+	
  
  });
 

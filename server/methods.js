@@ -48,22 +48,25 @@ Meteor.startup(() => {
     "insertSitio" : function(obj){
         //if(Meteor.userId()){ 
           //var idUs=this.userId;
-            SITIO.insert(obj,function(error,result){
+          
+          SITIO.insert(obj,function(error,result){
+              var response = 'error en la insercion';
             	if (result) {
             		//console.log(result);
                 BANNER.insert({
                   idSitio:result,titulo:obj.carrera,subtitulo:'Subtitulo del Sitio',tipoFondo:'ninguno',fondo:'ninguno',fuente:'Arial',logo1:'logo1.jpg',logo2:'logo2.jpg',posicion:'up'
                 });
-                NAVBAR.insert({idSitio:result,color:'black',fuente:'Arial'});
+                NAVBAR.insert({idSitio:result,color:'orange',fuente:'Arial'});
                 CUERPO.insert({idSitio:result,tipoFondo:'color',fondo:'white'});
                 SIDEBARMENU.insert({idSitio:result,tipoFondo:'color',fondo:'skyblue',fuente:'Times New Roman'});
-                FOOTER.insert({idSitio:result, fuente:'Arial', texto:obj.carrera+'2017'});
+                FOOTER.insert({idSitio:result, fuente:'Arial', texto:obj.carrera+'2018'});
 
-
+                response = "Se creó el Sitio Web ";
                }
                if (error) {
                 console.log(error);
                }
+               return response;
             });
                           
         //}        
@@ -90,7 +93,7 @@ Meteor.startup(() => {
      
         Roles.addUsersToRoles(account, ['admin']);
       }
-      //console.log(account);
+      console.log(account);
       return account;
     },
     darEstado : function(id,estado){

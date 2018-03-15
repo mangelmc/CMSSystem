@@ -2,9 +2,13 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import './loginForm.html';	
-import validar from '../validations.js'
+import validar from '../validations.js';
 
-var regForm = new ReactiveVar(false);
+var loginForm = {};
+loginForm.user = new ReactiveVar(false);
+loginForm.password = new ReactiveVar(false);
+
+new ReactiveVar(false);
 Template.loginForm.events({
 	'click #regform': function () {
 		setForm.set({temp:'registerForm',name:'Formulario de Registro'});
@@ -21,27 +25,27 @@ Template.loginForm.events({
 		//console.log(e.target.value);	
 		var result = validar('usuario',e.target.value,'#alertuser');
 		if (result == false) {
-			regForm.set(false);
+			loginForm.user.set(false);
 		}
 		else{
-			regForm.set(true);
+			loginForm.user.set(true);
 		}
 	},
 	'input #password': function (e) {
 		//console.log(e.target.value);	
 		var result = validar('password',e.target.value,'#alertpassword');
 		if (result == false) {
-			regForm.set(false);
+			loginForm.password.set(false);
 		}
 		else{
-			regForm.set(true);
+			loginForm.password.set(true);
 		}
 	},
 
 	"submit #login" : function(e){
 		e.preventDefault();
 		var user = e.target.user.value;
-		if (regForm.get() == false) {
+		if (loginForm.user.get() == false||loginForm.password.get() == false) {
 			alert('Debe arreglar lo errores del formulario');
 			return;
 		}

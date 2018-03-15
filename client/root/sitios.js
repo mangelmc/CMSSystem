@@ -20,7 +20,32 @@ formSitio.carrera = new ReactiveVar(false);
 formSitio.titulo = new ReactiveVar(true);
 formSitio.admin = new ReactiveVar(false); //controla q los campos sean los corectos
 
+var userForm = new ReactiveVar(false);
+var passForm = new ReactiveVar(false);
+var emailForm = new ReactiveVar(false);
+var nameForm = new ReactiveVar(false);
+var surnameForm = new ReactiveVar(false);
+var careerForm = new ReactiveVar(false);
 Template.sitios.helpers({
+    listUsers : function(){
+        return Meteor.users.find({_id:{$ne:Meteor.userId()},roles : ["admin"]});
+    },
+   
+    existListUsers : function(){
+    	var firstUser = Meteor.users.findOne({roles:["admin"]});	
+    	//console.log(Meteor.users.findOne({roles:["admin"]}));
+    	if (firstUser!=undefined && firstUser.roles != undefined && firstUser.roles[0] =='admin' ) {
+    		formSitio.admin.set(true);
+    		return true;
+    	}
+    	//console.log(formSitio.admin.get());
+    	formSitio.admin.set(false);
+    	return false;
+    }
+    
+
+});
+Template.sitioslist.helpers({
     readySitios : function(){
 
         return FlowRouter.subsReady("getSitios");
@@ -40,12 +65,13 @@ Template.sitios.helpers({
     	return	'INACTIVOS';
     },
     existListUsers : function(){
-    	var firstUser = Meteor.users.findOne({_id:{$ne:Meteor.userId()}});	
+    	var firstUser = Meteor.users.findOne({roles:["admin"]});	
+    	//console.log(Meteor.users.findOne({roles:["admin"]}));
     	if (firstUser!=undefined && firstUser.roles != undefined && firstUser.roles[0] =='admin' ) {
     		formSitio.admin.set(true);
     		return true;
     	}
-    	console.log(formSitio.admin.get());
+    	//console.log(formSitio.admin.get());
     	formSitio.admin.set(false);
     	return false;
     }
@@ -59,7 +85,7 @@ Template.sitios.events({
 	'input #carrera': function (e) {
 		
 		var link = e.target.value.trim().split(" ").join("-");
-		var result = validar('nombre',e.target.value,'#alertcarrera');
+		var result = validar('carrera',e.target.value,'#alertcarrera');
 		
 		//console.log(result);
 		if (result==false) {
@@ -77,7 +103,7 @@ Template.sitios.events({
 	'input #titulo': function (e) {
 		//validarTitulo();
 		//console.log('tiiiii');
-		var result = validar('titulo',e.target.value,'#alerttitulo');
+		var result = validar('dominio',e.target.value,'#alerttitulo');
 		
 			//$('#titulo').val(e.target.value.slice(0,-1));
 		if (result==false) {
@@ -113,25 +139,103 @@ Template.sitios.events({
 		}
 		Meteor.call('insertSitio', obj, function (error, result) {
 			if (result) {
-				console.log('se envio');
+				sAlert.success(result, {effect: 'slide',offset: '130'});
 			}
 			if (error) {
-				console.log('error : '+error);
+				sAlert.error(error, {effect: 'slide',offset: '130'});
 			}
 		});
 		$('#formsitio')[0].reset();
+		FlowRouter.go('/root');
 		//alert('termino');
 	},
-	'click .listsitios': function (e) {
-		estado.set(e.target.id);
-		//console.log(e.target.value);
+	
+	'input #username': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('usuario',e.target.value,'#alertusername');
+		if (result == false) {
+			userForm.set(false);
+		}
+		else{
+			userForm.set(true);
+		}
+	},
+	'input #password': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('password',e.target.value,'#alertpassword');
+		if (result == false) {
+			passForm.set(false);
+		}
+		else{
+			passForm.set(true);
+		}
+	},
+	'input #repassword': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('password',e.target.value,'#alertrepassword');
+		if (result == false) {
+			passForm.set(false);
+		}
+		else{
+			passForm.set(true);
+		}
+	},
+	'input #email': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('email',e.target.value,'#alertemail');
+		if (result == false) {
+			emailForm.set(false);
+		}
+		else{
+			emailForm.set(true);
+		}
+	},
+	'input #name': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('nombre',e.target.value,'#alertname');
+		if (result == false) {
+			nameForm.set(false);
+		}
+		else{
+			nameForm.set(true);
+		}
+	},
+	'input #surname': function (e) {
+		
+		var result = validar('nombre',e.target.value,'#alertsurname');
+
+		if (result == false) {
+			surnameForm.set(false);
+		}
+		else{
+			surnameForm.set(true);
+		}
+	},
+	'input #carrerae': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('carrera',e.target.value,'#alertcarrerae');
+		if (result == false) {
+			careerForm.set(false);
+		}
+		else{
+			careerForm.set(true);
+		}
 	},
 	'submit #regAdminForm': function (e) {
 		e.preventDefault();
+		
+
+
+		
+		if (userForm.get() == false || emailForm.get() == false || nameForm.get() == false ||surnameForm.get() == false || careerForm.get() == false ||passForm.get() == false) {
+			alert('Debe Arreglar los errores del Formulario');
+			return;
+		}
 		if (e.target.password.value!=e.target.repassword.value) {
 			alert('Las contraseñas no coinciden');
 			return false;
 		}
+
 	 	var user = {
 			username : e.target.username.value,
 			email : e.target.email.value,
@@ -160,7 +264,14 @@ Template.sitios.events({
 			}			
 		});
 		$('#regnew').modal('hide');
+	}
+});
+Template.sitioslist.events({
+	'click .listsitios': function (e) {
+		estado.set(e.target.id);
+		//console.log(e.target.value);
 	},
+
 	'change #useradmin': function (e) {
 		var useradmin = Accounts.users.findOne({_id:e.target.value});
 		//console.log(e);		
@@ -219,6 +330,11 @@ Template.sitio.events({
 	'click .administrar': function () {
 		//console.log(this.titulo);
 		FlowRouter.go('/admin/:titulo',{titulo:this.titulo},{id:this._id});
+		
+	},
+	'click .visitar': function () {
+		//console.log(this.titulo);
+		FlowRouter.go('/:titulo',{titulo:this.titulo},1);
 		
 	},
 	'click .daralta': function () {

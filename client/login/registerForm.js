@@ -4,78 +4,95 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './registerForm.html';
 import validar from '../validations.js';	
 
-var loginForm = new ReactiveVar(false);
-var regForm = new ReactiveVar(false	);
+
+var userForm = new ReactiveVar(false);
+var passForm = new ReactiveVar(false);
+var emailForm = new ReactiveVar(false);
+var nameForm = new ReactiveVar(false);
+var surnameForm = new ReactiveVar(false);
+var careerForm = new ReactiveVar(false);
+
 Template.registerForm.events({
-	'click #loginForm': function () {
-		setForm.set({temp:'registerForm',name:'Formulario de registro'});
+	'click #loginform': function () {
+		setForm.set({temp:'loginForm',name:'Formulario de inicio de Sesion'});
 	},
 	'input #username': function (e) {
 		//console.log(e.target.value);	
 		var result = validar('usuario',e.target.value,'#alertusername');
 		if (result == false) {
-			regForm.set(false);
+			userForm.set(false);
 		}
 		else{
-			regForm.set(true);
+			userForm.set(true);
 		}
 	},
 	'input #password': function (e) {
 		//console.log(e.target.value);	
 		var result = validar('password',e.target.value,'#alertpassword');
 		if (result == false) {
-			regForm.set(false);
+			passForm.set(false);
 		}
 		else{
-			regForm.set(true);
+			passForm.set(true);
 		}
 	},
-	'input #re-password': function (e) {
+	'input #repassword': function (e) {
 		//console.log(e.target.value);	
-		var result = validar('re-password',e.target.value,'#alertre-password');
+		var result = validar('password',e.target.value,'#alertrepassword');
 		if (result == false) {
-			regForm.set(false);
+			passForm.set(false);
 		}
 		else{
-			regForm.set(true);
+			passForm.set(true);
+		}
+	},
+	'input #email': function (e) {
+		//console.log(e.target.value);	
+		var result = validar('email',e.target.value,'#alertemail');
+		if (result == false) {
+			emailForm.set(false);
+		}
+		else{
+			emailForm.set(true);
 		}
 	},
 	'input #name': function (e) {
 		//console.log(e.target.value);	
 		var result = validar('nombre',e.target.value,'#alertname');
 		if (result == false) {
-			regForm.set(false);
+			nameForm.set(false);
 		}
 		else{
-			regForm.set(true);
+			nameForm.set(true);
 		}
 	},
 	'input #surname': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('apellidos',e.target.value,'#alersurname');
+		
+		var result = validar('nombre',e.target.value,'#alertsurname');
+
 		if (result == false) {
-			regForm.set(false);
+			surnameForm.set(false);
 		}
 		else{
-			regForm.set(true);
+			surnameForm.set(true);
 		}
 	},
 	'input #carrera': function (e) {
 		//console.log(e.target.value);	
 		var result = validar('carrera',e.target.value,'#alertcarrera');
 		if (result == false) {
-			regForm.set(false);
+			careerForm.set(false);
 		}
 		else{
-			regForm.set(true);
+			careerForm.set(true);
 		}
 	},
 
 	"submit form" : function(e){
 		e.preventDefault();
-		var user = e.target.user.value;
-		if (loginForm.get() == false) {
-			alert('texto invalido');
+
+		if (userForm.get() == false || emailForm.get() == false || nameForm.get() == false ||surnameForm.get() == false || careerForm.get() == false ||passForm.get() == false) {
+			alert('Debe Arreglar los errores del Formulario');
 			return;
 		}
 	 	var user = {
@@ -91,7 +108,10 @@ Template.registerForm.events({
 				"img":'none'
 				}
 		};
-		
+		if (user.password != e.target.repassword.value) {
+	        alert( 'Las contraseñas no coinciden');
+			return;
+	    }
 	    if (user.username =='root' && user.email!='root@gmail.com') {
 	        alert( 'correo no disponible');
 			return;
@@ -104,10 +124,10 @@ Template.registerForm.events({
 
 		Accounts.createUser(user, function(e){
 			if(e == undefined){
-				//Meteor.loginWithPassword(user.username,user.password);
+				Meteor.loginWithPassword(user.username,user.password);
 				//Roles.setUserRoles(Meteor.user()._id, ['estudiante'], 'user');
 				//$(".panelForm").fadeOut('slow');
-				setForm.set("loginForm");
+				setForm.set({temp:'loginForm',name:'Formulario de inicio de sesion'});
 				Meteor.call('checkLoginRoot', 1,function(error,result){
 					if (result) {
 						FlowRouter.go('/root');

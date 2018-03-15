@@ -3,6 +3,9 @@ import './banner.html';
 import { ReactiveVar } from 'meteor/reactive-var';
 import validar from '../validations.js'
 
+
+var tituloForm = new ReactiveVar(true);
+var stituloForm = new ReactiveVar(true);
 Template.banneradmin.helpers({
 	
 	
@@ -19,34 +22,40 @@ Template.banneradmin.helpers({
 		return false
 	}
 });
-var regFormbanner = new ReactiveVar(false);
+
+
 Template.banneradmin.events({
 	'click #regform': function () {
 		setFormbanner.set({temp:'Formbanner',name:'Formulario de Registro'});
 	},
-     'input #titulo': function (e) {
+     'input #titulositio': function (e) {
 		//console.log(e.target.value);	
-		var result = validar('titulositio',e.target.value,'#alerttitulo');
+		var result = validar('carrera',e.target.value,'#alerttitulo');
 		if (result == false) {
-			regForm.set(false);
+			tituloForm.set(false);
 		}
 		else{
-			regForm.set(true);
+			tituloForm.set(true);
 		}
 	},
-	'input #subtitulo': function (e) {
+	'input #subtitulositio': function (e) {
 		//console.log(e.target.value);	
-		var result = validar('subtitulositio',e.target.value,'#alertsubtitulo');
+		var result = validar('carrera',e.target.value,'#alertsubtitulo');
 		if (result == false) {
-			regForm.set(false);
+			stituloForm.set(false);
 		}
 		else{
-			regForm.set(true);
+			stituloForm.set(true);
 		}
 	},
 
   'submit #formbanner': function (e) {
 		e.preventDefault();
+		if (tituloForm.get() == false||stituloForm.get() == false) {
+			alert('Debe arreglar lo errores del formulario');
+			return;
+		}
+
 		var idBanner = this._id;
 		var obj = {
 			titulo : e.target.titulo.value,

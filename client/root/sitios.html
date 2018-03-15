@@ -1,5 +1,5 @@
 <template name="sitios">
-
+{{>sAlert}}
 		<div class=" m-1 d-flex justify-content-center   " style="background-color: purple;">
 
 		<div class="text-white">
@@ -28,7 +28,8 @@
 					<label for="titulo" class="col-4 offset-1 col-form-label ">Dominio</label>
 					<div class="col-7">
 						<input type="text" class="form-control" maxlength="30" id="titulo" name="titulo" placeholder="Dominio" required>
-
+						<div id="alerttitulo" class="alert alert-danger" role="alert" style="display: none;">		    
+						</div>
 					</div>
 					
 					<!-- titulo alias dominio-->
@@ -68,7 +69,9 @@
 						      {{/each}}						      
 						    </select>
 				    	{{else}}
-				    	<p>debe crear Un Usuario </p>
+				    	<div class="alert alert-warning" role="alert">
+				    	    Debe crear un usuario
+				    	</div>
 				    	{{/if}}
 						   	
 						</div>
@@ -87,36 +90,8 @@
 			</div>
 		</div>
 
-		<div class=" m-2   p-2  " style="background-color: purple;">
-			
-			<div class=" d-flex justify-content-center ">
-				<h3 class="mx-auto  text-white">SITIOS WEB</h3>
-				
-				<div class="dropdown mr-2 float-right">
-				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    {{estado}}
-				  </button>
-				  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				    <a class="dropdown-item listsitios" id="Activo"  href="">Activos</a>
-				    <a class="dropdown-item listsitios" id="Inactivo" href="">Inactivos</a>
-				    
-				  </div>
-				</div>
-			</div>
-			
-			
-		</div>
-		<div class="row mx-0">
-			
-			{{#each listSitios}}
-				{{>sitio}}
-			{{/each}}
-		</div>
 
-
-	
-
-	<!-- Modal para nuevo administrador -->
+		<!-- Modal para nuevo administrador -->
 	<div class="modal fade" id="regnew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -190,6 +165,34 @@
 	    </div>
 	  </div>
 	</div>
+</template>
+<template name="sitioslist">
+
+<div class=" m-2 p-2" style="background-color: purple;">
+			
+			<div class=" d-flex justify-content-center ">
+				<h3 class="mx-auto  text-white">SITIOS WEB</h3>
+				
+				<div class="dropdown mr-2 float-right">
+				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    {{estado}}
+				  </button>
+				  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				    <a class="dropdown-item listsitios" id="Activo"  href="">Activos</a>
+				    <a class="dropdown-item listsitios" id="Inactivo" href="">Inactivos</a>
+				    
+				  </div>
+				</div>
+			</div>
+			
+			
+		</div>
+		<div class="row mx-0">
+			
+			{{#each listSitios}}
+				{{>sitio}}
+			{{/each}}
+		</div>
 		<!-- Modal para Cambiar Administrador  -->
 	<div class="modal fade" id="changeadmin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
@@ -219,7 +222,7 @@
 						      	{{>listusers}}
 						      	
 						    {{/each}}
-s				    	</select>
+				    	</select>
 				    </div>
 				</div>
 				
@@ -281,7 +284,7 @@ s				    	</select>
 				
 					{{#if Activo}}
 					<a href="" class="btn btn-primary administrar mx-auto d-block">administrar</a>
-					
+					<a href="" class="btn btn-success visitar mx-auto d-block">Visitar</a>
 					<a href="#" class="btn btn-danger darbaja mx-auto d-block">Dar baja</a>
 					{{else}}
 					<a href="#" class="btn btn-success daralta mx-auto d-block">Dar Alta</a>

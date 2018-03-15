@@ -8,10 +8,12 @@
 		<form method="post" id="formedit">
 			<div class="form-group row mt-4">
 				
-				<label for="texto" class="col-2 offset-2 col-form-label">Nombre</label>
+				<label for="footeradmin" class="col-2 offset-2 col-form-label">Nombre</label>
 				<div class="col-6 ">			
-					<input type="text" name="texto" class="form-control" id="texto" placeholder="Texto que se vera en el footer" value="{{footer.texto}}" required>
+					<input type="text" name="texto" class="form-control" id="footer" placeholder="Texto que se vera en el footer" value="{{footer.texto}}" required>
 					<input type="hidden" name="idfooter" class="form-control" value="{{footer._id}}" required>
+					<div class="alert alert-danger" id="alertfooter" style="display: none;"> </div>
+
 
 				</div>
 			</div>

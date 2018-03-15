@@ -29,10 +29,10 @@
 					</ul>
 
           <ul class="navbar-nav text-md-center  w-100 justify-content-end">
-            <form class="form-inline mt-2 ">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            {{#if isInRole "root"}}
+              <li class="nav-item"><a class="nav-link" href="/root">IR AL INICIO</a></li>  
+            {{/if}}
+            
           <li class="nav-item dropdown justify-content-end">
             <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: uppercase;" ><i class="fa fa-user"></i> usuario {{currentUser.username}}</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -148,4 +148,10 @@
   
 {{/if}}
 
+</template>
+<template name="welcomeAdmin">
+  <div class="d-flex justify-content-center">
+    <h4 class="">Bienvenido Administrador</h4>
+  </div>
+  
 </template>
