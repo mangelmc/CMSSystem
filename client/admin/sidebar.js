@@ -34,13 +34,13 @@ Template.sidebaradmin.helpers({
 Template.sidebaradmin.events({
 	'click #btnnuevomenu': function () {
 		var carrera = FlowRouter.getParam('titulo');
-		FlowRouter.go('/admin/:titulo/sidebar/nuevomenuenlace',{titulo:carrera},{id:FlowRouter.getQueryParam('id'),idmenuenlace:this._id});
+		FlowRouter.go('/admin/:titulo/sidebar/nuevomenuenlace',{titulo:carrera},{idmenuenlace:this._id});
 		
 	},
 	'click .editsidebar': function () {
 		
 		var carrera = FlowRouter.getParam('titulo');
-		FlowRouter.go('/admin/:titulo/sidebar/editarmenuenlace',{titulo:carrera},{id:FlowRouter.getQueryParam('id'),idmenuenlace:this._id});
+		FlowRouter.go('/admin/:titulo/sidebar/editarmenuenlace',{titulo:carrera},{idmenuenlace:this._id});
 		
 	},
 	'click .listactivos': function () {
@@ -79,16 +79,16 @@ Template.nuevomenuenlace.events({
 			return;
 		}
 		var obj = {
-			idSitio : FlowRouter.getQueryParam('id'),
+			idSitio : FlowRouter.getParam('titulo'),
 			nombre : e.target.nombre.value,
 		}
 		//console.log(nombre);
 		Meteor.call('insMenuEnlace', obj, function (error, result) {
 			if (result) {
-				var idSitio = FlowRouter.getQueryParam('id');
+				
 
 				var carrera = FlowRouter.getParam('titulo');
-				FlowRouter.go('/admin/:titulo/sidebar/editarmenuenlace',{titulo:carrera},{id:idSitio,idmenuenlace:result});
+				FlowRouter.go('/admin/:titulo/sidebar/editarmenuenlace',{titulo:carrera},{idmenuenlace:result});
 				//console.log(carrera+'----'+idSitio);
 
 			}
@@ -134,7 +134,7 @@ Template.editarmenuenlace.events({
 			return;
 		}
 		var obj ={
-			idSitio : FlowRouter.getQueryParam('id'),
+			idSitio : FlowRouter.getParam('titulo'),
 			idMenu : e.target.idmenu.value,
 			nombre : e.target.nombre.value,
 			url : e.target.url.value
@@ -208,10 +208,10 @@ Template.editarmenuenlace.events({
 	},
 	'click .editenlace': function () {
 		var titulo = FlowRouter.getParam('titulo');
-		var idSitio = FlowRouter.getQueryParam('id');
+		
 		var idMenu = FlowRouter.getQueryParam('idmenuenlace');
 		var idEnlace = this._id;
-		FlowRouter.go('/admin/:titulo/sidebar/editarenlace',{titulo:titulo},{id:idSitio,idmenuenlace:idMenu,idEnlace:idEnlace});
+		FlowRouter.go('/admin/:titulo/sidebar/editarenlace',{titulo:titulo},{idmenuenlace:idMenu,idEnlace:idEnlace});
 
 	},
 	'click .elienlace': function () {
@@ -267,14 +267,16 @@ Template.editarenlace.events({
 		var idEnlace = e.target.idenlace.value;
 
 		Meteor.call('editEnlace', obj,idEnlace, function (error, result) {
-
+			if (result) {
+				sAlert.success('Se guardaron los cambios', {effect: 'slide',offset: '130',html:true});	
+			}
 		});
 		
 		var titulo = FlowRouter.getParam('titulo');
-		var idSitio = FlowRouter.getQueryParam('id');
+		
 		var idMenu = FlowRouter.getQueryParam('idmenuenlace');
 		
-		FlowRouter.go('/admin/:titulo/sidebar/editarmenuenlace',{titulo:titulo},{id:idSitio,idmenuenlace:idMenu});
+		FlowRouter.go('/admin/:titulo/sidebar/editarmenuenlace',{titulo:titulo},{idmenuenlace:idMenu});
 
 	}
 });

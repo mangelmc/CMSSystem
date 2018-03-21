@@ -45,6 +45,13 @@ Meteor.startup(() => {
       //console.log(idUser+'---'+rol);
     },
     ///////// SITIO METHODS BEGIN
+    checkSitio : function (titulo){
+      var sitio = SITIO.findOne({titulo:titulo});
+      if (sitio == undefined+1) {
+        return true;
+      }
+      return  false;
+    },
     "insertSitio" : function(obj){
         //if(Meteor.userId()){ 
           //var idUs=this.userId;
@@ -70,6 +77,27 @@ Meteor.startup(() => {
             });
                           
         //}        
+    },
+    checkOwn : function (idSitio){
+      if (Roles.userIsInRole(this.userId,'admin')) {
+        var sitioAdmin = SITIO.findOne({admin:this.userId,_id:idSitio});
+        if (sitioAdmin != undefined) {
+          return {check : true};
+        }
+        return {check : false,rol:'admin'};
+      }  
+      if (Roles.userIsInRole(this.userId, 'root') ) {       
+          var sitio = SITIO.findOne({_id:idSitio});
+          
+          var sitioExist = false;       
+
+          if (sitio != undefined) {
+              sitioExist = true;
+          }
+          return {check : sitioExist,rol:'root'};
+      }
+      return {check : false,rol:''};
+      
     },
     crearAdmin : function (user){
       

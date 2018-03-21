@@ -10,7 +10,8 @@ Template.banneradmin.helpers({
 	
 	
 	listBanner : function(){
-		var id = FlowRouter.getQueryParam('id');
+		var id = FlowRouter.getParam('titulo');
+		
 		return	BANNER.find({idSitio:id});	
 					
 	},

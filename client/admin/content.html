@@ -111,32 +111,31 @@
 	
 	
 	    <div class="d-flex justify-content-center">
-	    	<img class="img-fluid" src="/en-construccion.png" alt="Card image cap">
-	    	
+	    	<img class="img-fluid" src="/en-construccion.png" alt="Card image cap">	    	
 	    </div>
 	    <div class="alert alert-primary" role="alert">
-	    <strong class="h3">En construccion </strong>
+	    	<strong class="h3">En construccion </strong>
 		</div>
 	    
 	
 <!--
 	<h3>Nuevo Contenido</h3>
 	<form>
-		<fieldset class="form-group">
+		<div class="form-group">
 			<label for="exampleInputEmail1">Email address</label>
 			<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
 			<small class="text-muted">We'll never share your email with anyone else.</small>
-		</fieldset>
-		<fieldset class="form-group">
+		</div>
+		<div class="form-group">
 			<label for="exampleInputPassword1">Password</label>
 			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter email">
-		</fieldset>
-		<fieldset class="form-group">
+		</div>
+		<div class="form-group">
 			<label for="exampleSelect1">Example select</label>
 			<select class="form-control" id="eexampleSelect11">
 				<option>1</option>
 			</select>
-		</fieldset>
+		</div>
 		
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
@@ -151,54 +150,52 @@
 	<h4 class="card-title">edicion de contenido</h4>
 	
 	<form>
-		<fieldset class="form-group">
-			<label for="exampleInputEmail1">Titulo de Contenido</label>
-			<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+		<div class="form-group">
+			<label for="titulo">Titulo de Contenido</label>
+			<input type="email" class="form-control" id="titulo" placeholder="Enter email">
 			<small class="text-muted">We'll never share your email with anyone else.</small>
-		</fieldset>
-		<fieldset class="form-group">
-			<label for="exampleTextarea">Example textarea</label>
-			<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
-		</fieldset>
-		<fieldset class="form-group">
-			<label for="exampleInputPassword1">Password</label>
-			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter email">
-		</fieldset>
-		<fieldset class="form-group">
-			<label for="exampleSelect1">Menu de accesso</label>
-			<select class="form-control" id="exampleSelect1">
-				<option>menu 1</option>
-				<option>menu 2 - menu1</option>
-				<option>ass</option>
-				<option>ass</option>
-				<option>ass</option>
+		</div>
+		<div class="form-group">
+			<label for="texto">Texto</label>
+			<textarea class="form-control" id="texto" rows="3"></textarea>
+		</div>
+		
+		<div class="form-group">
+			<label for="menu">Menu de accesso</label>
+			<select class="form-control" id="menu">
+				<option>menu n</option>
+				<option>menu n</option>
+				<option>menu n</option>
+				<option>menu n</option>
+				<option>menu n</option>
 			</select>
-		</fieldset>
-		<fieldset class="form-group">
-			<label for="exampleSelect1">Tipo</label>
-			<select class="form-control" id="exampleSelect1">
+		</div>
+		<div class="form-group">
+			<label for="tipo">Tipo</label>
+			<select class="form-control" id="tipo">
 				<option>Texto</option>
-				<option>COn Imagen</option>
-				<option>con documento</option>
-				<option>con video</option>
-				<option>COn Archivo otro</option>
+				<option>Con Imagen</option>
+				<option>Con documento</option>
+				<option>Con video</option>
+				<option>COn Otro tipo de Archivo</option>
 
 			</select>
-		</fieldset>
-		<fieldset class="form-group">
-			<label for="exampleInputFile">File input</label>
-			<input type="file" class="form-control-file" id="exampleInputFile">
-			<small class="text-muted">This is some placeholder bEnter emaill</small>
-		</fieldset>
-
+		</div>
+		
+		<div class="form-group">
+			<label for="archivo">Archivo</label>
+			<input type="file" class="form-control-file" id="archivo">
+			<small class="text-muted">debe subir un archivo</small>
+		</div>
+		<!-- seria genial poder cambiar dinamicamnete las vista para subida de arachivos o no -->
 		<div class="radio">
 			<label>
-				<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+				<input type="radio" name="comentable" id="comentable1" value="si" checked>
 				Comentable
 			</label>
 			<label>
-				<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-				NO COmentable
+				<input type="radio" name="comentable" id="comentable2" value="no">
+				NO Comentable
 			</label>
 		</div>
 		<button type="submit" class="btn btn-primary">Submit</button>

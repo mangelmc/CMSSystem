@@ -76,7 +76,7 @@ Template.loginForm.events({
 						}
 						if (result.tipo=='admin') {
 							
-							FlowRouter.go('/admin/:titulo',{titulo:result.titulo},{id:result.idSitio});
+							FlowRouter.go('/admin');
 							$('closemodal').click();
 							
 							return;
@@ -86,7 +86,6 @@ Template.loginForm.events({
 							$('closemodal').click();
 							return;
 						}
-						
 						//$('#closemodal1').click();
 						
 						console.log('no return');

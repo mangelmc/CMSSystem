@@ -1,20 +1,20 @@
 <template name="sitios">
 {{>sAlert}}
-		<div class=" m-1 d-flex justify-content-center   " style="background-color: purple;">
+		<div class=" m-1 d-flex justify-content-center py-2  mb-3 bg-primary" style="background-color: purple;">
 
 		<div class="text-white">
-				<h3 class="mx-auto d-block">BIENVENIDO</h3>
+				<h3 class="mx-auto d-block">CREAR SITIO</h3>
 		</div>
 	</div>
 		
 
 		 
-		<div class="row mx-0 "  style="">
-			<div class="col-8 offset-2 d-flex flex-column">
+		<div class="row mx-0 py-2 mb-5"  style="">
+			<div class="col-8 offset-2 d-flex flex-column mb-4">
 				
-				<h4 class="mx-auto d-block bellefair">Formulario de creacion de Sitio web</h4>
+				<h4 class="mx-auto d-block bellefair " style="font-weight: bold;">Formulario de creacion de Sitio web</h4>
 				<form id="formsitio">
-				<div class="form-group row">
+				<div class="form-group row mt-3">
 					<label for="carrera" class="col-4 offset-1 col-form-label ">Carrera</label>
 					<div class="col-7">
 						<input type="text" maxlength="30" class="form-control mb-1" id="carrera" name="carrera" placeholder="Carrera" required>
@@ -82,12 +82,16 @@
 					
 				</div>
 				
-				<div class="d-flex align-items-center ">
+				<div class="d-flex align-items-center mt-4">
 					<button type="submit" class="btn btn-primary mx-auto d-block">Crear Sitio</button>
 					<button type="reset" class="btn btn-danger mx-auto d-block">  Cancelar</button>	
 				</div>
 			</form>
 			</div>
+		</div>
+		<div class=" p-3 d-flex justify-content-center mt-4  mx-1 bg-primary" style="background-color: purple;">
+			<hr>
+		
 		</div>
 
 
@@ -168,26 +172,26 @@
 </template>
 <template name="sitioslist">
 
-<div class=" m-2 p-2" style="background-color: purple;">
-			
-			<div class=" d-flex justify-content-center ">
-				<h3 class="mx-auto  text-white">SITIOS WEB</h3>
+	<div class=" m-2 p-2 bg-secondary" style="box-shadow: .3rem .3rem .3rem  #343a40;">
 				
-				<div class="dropdown mr-2 float-right">
-				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    {{estado}}
-				  </button>
-				  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				    <a class="dropdown-item listsitios" id="Activo"  href="">Activos</a>
-				    <a class="dropdown-item listsitios" id="Inactivo" href="">Inactivos</a>
-				    
-				  </div>
-				</div>
+		<div class=" d-flex justify-content-center ">
+			<h3 class="mx-auto  text-white " style="text-shadow: 0.2rem .2rem .2rem black">SITIOS WEB</h3>
+			
+			<div class="dropdown mr-2 float-right">
+			  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    {{estado}}
+			  </button>
+			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			    <a class="dropdown-item listsitios" id="Activo"  href="">Activos</a>
+			    <a class="dropdown-item listsitios" id="Inactivo" href="">Inactivos</a>
+			    
+			  </div>
 			</div>
-			
-			
 		</div>
-		<div class="row mx-0">
+		
+		
+	</div>
+		<div class="row mx-0 mt-2">
 			
 			{{#each listSitios}}
 				{{>sitio}}
@@ -261,12 +265,13 @@
 
 <template name="sitio">
 	<div class="col col-md-4">
-		<div class="card">
+		<div class="card" style="box-shadow: .3rem .3rem .3rem  silver;">
 			
 			<div class="card-block p-2 d-flex flex-column text-indigo">
 				
 				<div class="h5 align-self-center">Carrera : {{carrera}}</div> 
-				<div class="m-1 pl-2 border border-primary  rounded d-flex justify-content-between align-items-center changeadmin" >
+				{{#if isInRole "root"}}
+					<div class="m-1 pl-2 border border-primary  rounded d-flex justify-content-between align-items-center changeadmin" >
 					<div>Administrador : {{useradmin}} </div> 
 
 					<button class="btn btn-primary float-right ">
@@ -274,6 +279,8 @@
 						<i class="fa fa-user"></i>
 					</button>
 				</div>
+				{{/if}}
+				
 
 				<div class="p-2 m-1 border border-primary  rounded" >Dominio : {{titulo}}</div>
 				<div class="p-2 m-1 border border-primary  rounded" > Fecha creacion : {{fecha}}</div>

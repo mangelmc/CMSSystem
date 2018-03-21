@@ -58,7 +58,7 @@ export default function validar (tipo,texto,tag) {
 		return false
 	}
 	if (tipo == 'url') {
-		test = /^(http|https):\/\/[A-Za-z0-9\.\-\#\=\_\&\/\?]{4,100}$/.test(texto);//(http|https)\:\/\/[a-z0-9\.-]+\.[a-z]{2,4}
+		test = /^(http|https):\/\/[A-Za-z0-9\.\-\#\=\_\&\/\+\?]{4,100}$/.test(texto);//(http|https)\:\/\/[a-z0-9\.-]+\.[a-z]{2,4}
 		if (test == true) {
 			
 			$(tag).slideUp('slow').text('ok');

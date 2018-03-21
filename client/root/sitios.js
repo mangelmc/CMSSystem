@@ -116,7 +116,7 @@ Template.sitios.events({
 		$('#titulo').val(e.target.value.toLowerCase());
 		$('#link').val('htttp://uatf.edu.bo/'+e.target.value.toLowerCase());
 	},
-
+	//Crear sitio form
 	'submit #formsitio' : function (e) {
 		e.preventDefault();
 		//console.log(e);
@@ -125,8 +125,16 @@ Template.sitios.events({
 			console.log(formSitio);
 			return;
 		}
+
 		var titulo = e.target.titulo.value.trim().split(" ").join("-");
-		
+		/*Meteor.call('checkSitio', titulo, function (error, result) {
+			if (result == false) {
+				
+				console.log('error');
+				return;
+			}
+
+		});*/
 		//var cadena = "hello world!";
 		
 		//console.log(titulo);
@@ -290,7 +298,7 @@ Template.sitioslist.events({
 		//console.log(set)
 		//console.log(sitio)
 		Meteor.call('changeAdmin', sitio, set, function (error, result) {
-			if (result) {
+			if (result) {h
 				console.log(result);
 			}
 		});
@@ -329,7 +337,7 @@ Template.sitio.events({
 	},
 	'click .administrar': function () {
 		//console.log(this.titulo);
-		FlowRouter.go('/admin/:titulo',{titulo:this.titulo},{id:this._id});
+		FlowRouter.go('/admin/:titulo',{titulo:this._id},1);
 		
 	},
 	'click .visitar': function () {

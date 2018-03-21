@@ -105,7 +105,7 @@
       <a href="{{link}}" class="dropdown-toggle nav-link text-uppercase text-expanded text-white" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{nombre}}
       </a>
-      <div class="dropdown-menu l-nav" aria-labelledby="dropdownMenuButton">
+      <div class="dropdown-menu l-nav" aria-labelledby="dropdownMenuButton" style="z-index: 150;">
         {{#each listSubmenu}}
         <!-- tal vez otro template para mostrar-->
           <a class="dropdown-item subir cargar" href="" >{{nombre}}</a>
@@ -131,7 +131,7 @@
   <div class="row mx-0">
     <div class="col-12 col-md-8 p-2">
       <!--{{>contenido}} deberia ser dinamico ?-->
-      <div class="alert alert-primary" role="alert">
+      <div class="" role="alert">
           <strong>Aun no hay contenido para mostrar</strong> 
       </div>
     </div>

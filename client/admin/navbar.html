@@ -183,7 +183,7 @@
 				<label for="nombre" class="col-2 offset-2 col-form-label">Nombre</label>
 				<div class="col-6 ">			
 					<input type="text" name="nombre" maxlength="16" class="form-control" id="nombre" placeholder="Nombre del Submenu" required>
-					<div class="alert alert-danger" id="alertnombre"> </div>
+					<div class="alert alert-danger" id="alertnombre" style="display: none;"> </div>
 				</div>
 			</div>
 			<div class="form-group row ">
@@ -191,7 +191,7 @@
 				<label for="link" class="col-2 offset-2 col-form-label">Link</label>
 				<div class="col-6 ">			
 					<input type="text" name="link" readonly class="form-control" id="link" placeholder="link" required>
-					<div class="alert alert-danger" id="alertlink"> </div>
+					<div class="alert alert-danger" id="alertlink" style="display: none;"> </div>
 				</div>
 			</div>
 
@@ -234,6 +234,9 @@
 				<div class="col-6 ">			
 					<input type="text" name="nombre" class="form-control" id="nombreedit" maxlength="16" placeholder="Nombre del Submenu" required value="">
 					<input type="hidden" name="idsubmenu" id="idsubmenu" value="">
+					<div class="alert alert-warning" role="alert" id="alertnombreedit" style="display: none;">
+					    
+					</div>
 				</div>
 			</div>
 			<div class="form-group row ">
@@ -307,7 +310,7 @@
 			
 			<label for="nombre" class="col-2 offset-2 col-form-label">Nombre</label>
 			<div class="col-6 ">			
-				<input type="text" name="nombre" maxlength="16" class="form-control" id="nombre" value="{{menu.nombre}}" placeholder="Titulo del menu" required>
+				<input type="text" name="nombre" maxlength="16" class="form-control" id="nombre" value="{{menu.nombre}}" placeholder="Titulo del menu" required>				
 				<div class="alert alert-danger" id="alertnombre" style="display: none;"> </div>
 			</div>
 		</div>

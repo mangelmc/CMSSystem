@@ -21,7 +21,7 @@ Template.user.onRendered(function(){
 
 Template.user.helpers({
 	readySitio : function(){
-        return FlowRouter.subsReady("getSitio");
+        return FlowRouter.subsReady("getSitioClient");
     },
 	Sitio: function () {
 		

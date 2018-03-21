@@ -6,6 +6,10 @@ var nombreMenuForm = new ReactiveVar(false);
 var linkMenuForm = new ReactiveVar(true);
 var nombreEMenuForm = new ReactiveVar(true);
 var linkEMenuForm = new ReactiveVar(true);
+
+var submenuForm = new ReactiveVar(false);
+var submenuEditForm = new ReactiveVar(true);
+
 Template.navbaradmin.events({
 	
 });
@@ -23,7 +27,7 @@ Template.navbaradmin.helpers({
 	},
 	
 	estiloNavbar : function(){
-		var id = FlowRouter.getQueryParam('id');
+		var id = FlowRouter.getParam('titulo');
 		if (NAVBAR.findOne({idSitio:id})!=undefined) {
 			var estilo = NAVBAR.findOne({idSitio:id});
 			$('#bannerestilo').css({
@@ -108,14 +112,14 @@ Template.navbaradmin.events({
 	'click .editarmenu': function () {
 		
 		var carrera = FlowRouter.getParam('titulo');
-		var id = FlowRouter.getQueryParam('id');
-		FlowRouter.go('/admin/:titulo/navbar/editarmenu',{titulo:carrera},{id:id,idMenu:this._id});
+		
+		FlowRouter.go('/admin/:titulo/navbar/editarmenu',{titulo:carrera},{idMenu:this._id});
 		
 	},
 	'click #btnnuevomenu': function () {
-		var carrera = FlowRouter.getParam('titulo');
-		var idSitio = FlowRouter.getQueryParam('id');
-		FlowRouter.go('/admin/:titulo/navbar/nuevo',{titulo:carrera},{id:idSitio}); 
+		var idSitio = FlowRouter.getParam('titulo');
+		
+		FlowRouter.go('/admin/:titulo/navbar/nuevo',{titulo:idSitio},1); 
 		
 	},
 	'click .elimenu': function () {
@@ -137,9 +141,26 @@ Template.navbaradmin.events({
 
 	'input #nombre': function (e) {		
 		link(e.target.value,'#link');
+		var result = validar('carrera',e.target.value,'#alertnombre');
+		if (result == false) {
+			submenuForm.set(false);
+			return;
+		}
+		else{
+			submenuForm.set(true);
+		}
 			
 	},
 	'input #nombreedit': function (e) {
+		var result = validar('carrera',e.target.value,'#alertnombreedit');
+		if (result == false) {
+			submenuEditForm.set(false);
+			return;
+		}
+		else{
+			submenuEditForm.set(true);
+		}
+		
 		link(e.target.value,'#linkedit');		
 	},
 
@@ -162,6 +183,10 @@ Template.navbaradmin.events({
 	},
 	'submit #editsubmenu': function (e) {
 		e.preventDefault();
+		if (submenuEditForm.get() == false ) {
+			alert('Debe solucionar los errores del formulario');
+			return;
+		}
 		var idSub = e.target.idsubmenu.value;
 		//console.log(idSub);
 		var obj = {
@@ -170,7 +195,11 @@ Template.navbaradmin.events({
 			link : e.target.link.value,
 		};
 		//console.log(obj);
-		Meteor.call('editSubmenu', idSub,obj, function (error, result) {});
+		Meteor.call('editSubmenu', idSub,obj, function (error, result) {
+			if (result) {
+				sAlert.info('Se guardaron los cambios', {effect: 'slide',offset: '130'});
+			}
+		});
 		$('#editsubmenu')[0].reset();		
 		$('#submenuModalEdit').modal('hide');
 	},
@@ -195,34 +224,44 @@ Template.navbaradmin.events({
 	},
 	'submit #addsubmenu': function (e) {
 		e.preventDefault();
+		if (submenuForm.get() == false ) {
+			alert('Debe solucionar los errores del formulario');
+			return;
+		}
 		var obj = {
-			idSitio : FlowRouter.getQueryParam('id'),
+			idSitio : FlowRouter.getParam("titulo"),
 			idMenu : e.target.idmenu.value,
 			nombre : e.target.nombre.value,
 			link : e.target.link.value,
 			estado : 'Activo'
 		}
-		console.log(obj);
+		//console.log(obj);
 		Meteor.call('insSubmenu', obj, function (error, result) {
-			console.log(result);
+			if (result) {
+				sAlert.info(result, {effect: 'slide',offset: '130'});
+			}
 		});
 		$('#addsubmenu')[0].reset();
 		$('#submenuModal').modal('hide');
 	},
 	///fin events submenu
 	'change #color': function () {
-		var id = FlowRouter.getQueryParam('id');
+		var id = FlowRouter.getParam("titulo");
 		var obj = {
 			color : $('#color').val()
 		}
-		Meteor.call('bannerChange', id,obj, function (error, result) {});
+		Meteor.call('bannerChange', id,obj, function (error, result) {
+			sAlert.info(result, {effect: 'slide',offset: '130'});
+		});
 	},
 	'change #fuente': function () {
-		var id = FlowRouter.getQueryParam('id');
+		var id = FlowRouter.getParam("titulo");
 		var obj = {
 			fuente : $('#fuente').val()
 		}
-		Meteor.call('bannerChange', id,obj, function (error, result) {});
+		Meteor.call('bannerChange', id,obj, function (error, result) {
+			sAlert.info(result, {effect: 'slide',offset: '130'});
+		});
 	}
 });
 Template.nuevomenu.events({
@@ -258,17 +297,17 @@ Template.nuevomenu.events({
 			nombre : e.target.nombre.value,
 			link : e.target.link.value,
 			tipo : e.target.tipo.value,
-			idSitio : FlowRouter.getQueryParam('id'),
+			idSitio : FlowRouter.getParam("titulo"),
 			estado : 'activo'
 		}
 		//console.log(obj);
 		Meteor.call('insertMenu', obj, function (error, result) {
 			if (result) {
-				console.log	(result);
+				sAlert.info(result, {effect: 'slide',offset: '130'});
 			}
 		});
 		var carrera = FlowRouter.getParam('titulo');
-		var idSitio = FlowRouter.getQueryParam('id');
+		var idSitio = FlowRouter.getParam("titulo");
 		FlowRouter.go('/admin/:titulo/navbar',{titulo:carrera},{id:idSitio});
 	},
 	
@@ -320,10 +359,12 @@ Template.editarmenu.events({
 			link : e.target.link.value,
 			tipo : e.target.tipo.value,			
 		}
-		Meteor.call('editMenu', id,obj, function (error, result) {});
-		var carrera = FlowRouter.getParam('titulo');
-		var idSitio = FlowRouter.getQueryParam('id');
-		FlowRouter.go('/admin/:titulo/navbar',{titulo:carrera},{id:idSitio});
+		Meteor.call('editMenu', id,obj, function (error, result) {
+			sAlert.info(result, {effect: 'slide',offset: '130'});
+		});
+		var idSitio = FlowRouter.getParam('titulo');
+		
+		FlowRouter.go('/admin/:titulo/navbar',{titulo:idSitio},1);
 		
 	},
 	

@@ -10,14 +10,18 @@ Meteor.startup(() => {
     return Meteor.users.find();
     });
   Meteor.publish("getSitio",function(sitio){
-    return SITIO.find({titulo:sitio});
+    return SITIO.find({_id:sitio});
     });
 
   Meteor.publish("getBanner",function(idSitio){
     return BANNER.find({idSitio:idSitio});
 
     });
+  Meteor.publish("getSitiosAdmin",function(admin){
+    return SITIO.find({admin:admin});
 
+    });
+  
   Meteor.publish("getMenu",function(idSitio){
     return MENU.find({idSitio:idSitio});
 
@@ -46,6 +50,9 @@ Meteor.startup(() => {
 
 
   /////// Publicaciones de user
+  Meteor.publish("getSitioClient",function(sitio){
+    return SITIO.find({titulo:sitio});
+    });
   Meteor.publish("getBannerClient",function(titulo){
     var idSitio = SITIO.findOne({titulo:titulo});
     if (idSitio!=undefined) {
