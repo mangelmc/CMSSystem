@@ -80,5 +80,108 @@
 		</div >
 	</body>
 </template>
+<template name="prueba">
 
+	<head>
+		<title>Menu - Bootstrap</title>
+		
+	
+
+		<style>
+			.dropdown-submenu {
+			    position: relative;
+			}
+
+			.dropdown-submenu > .dropdown-menu {
+			    top: 0;
+			    left: 100%;
+			    margin-top: -6px;
+			    margin-left: 0;
+			    border-radius: 0.25rem;
+			}
+
+			.dropdown-submenu:hover > .dropdown-menu {
+			    display: block;
+			}
+
+			.dropdown-submenu > a::after {
+				border-bottom: 0.3em solid transparent;
+				border-left-color: inherit;
+				border-left-style: solid;
+				border-left-width: 0.3em;
+				border-top: 0.3em solid transparent;
+				content: " ";
+				display: block;
+				float: right;
+				height: 0;
+				margin-right: -0.6em;
+				margin-top: -0.95em;
+				width: 0;
+			}
+
+			.dropdown-submenu.pull-left {
+			    float: none;
+			}
+
+			.dropdown-submenu.pull-left > .dropdown-menu {
+			    left: -75%;
+			}
+
+			.dropdown-menu .divider {
+				background-color: #e5e5e5;
+				height: 1px;
+				margin: 9px 0;
+				overflow: hidden;
+			}
+
+		</style>
+	</head>
+	
+<nav class="navbar navbar-light bg-faded" role="navigation">
+	<a class="navbar-brand" href="#">Navbar</a>
+    <ul class="nav navbar-nav">
+        <li class="active nav-item">
+			<a class="nav-link" href="#">Home</a>
+		</li>
+        <li class="nav-item dropdown">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Dropdown</a>
+            <ul class="nav navbar-nav dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li class="divider" role="separator"></li>
+                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                <li class="divider" role="separator"></li>
+                <li><a class="dropdown-item" href="#">One more separated link</a></li>
+                <li class="dropdown-submenu">
+                    <a class="dropdown-toggle dropdown-item" data-toggle="dropdown" href="#" >Dropdown</a>
+                    <ul class="nav navbar-nav dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-toggle dropdown-item" href="#" data-toggle="dropdown">Dropdown</a>
+                            <ul class="nav navbar-nav dropdown-menu">
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-toggle dropdown-item" href="#" data-toggle="dropdown">Dropdown</a>
+                                    <ul class="nav navbar-nav dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li class="divider" role="separator"></li>
+                                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                        <li class="divider" role="separator"></li>
+                                        <li><a class="dropdown-item" href="#">One more separated link</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div style="height: 100px ; border:solid 2px black;" class="l-navv"></div>
+	
+
+</template>
 

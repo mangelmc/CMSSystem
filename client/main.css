@@ -5,6 +5,10 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-business-casual/blob/master/LICENSE)
  */
 
+
+
+
+
 body {
   font-family: 'Arial', serif ;
   /*font-family: 'Lora', 'Lucida Sans', serif; ;*/
@@ -27,18 +31,7 @@ body {
 h1 {
   font-size: 4rem;
 }
-.logo-img{
-  margin-bottom: 5%;
-  display: block;
-  background-image: url('../img/cabecera.jpg')  ; 
-  z-index: 1000;
-  padding-left: 5%;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover;
-   
-}
+
 
 .text-color{
   background-color:  rgba(135, 195, 109, 0.80);
@@ -50,32 +43,67 @@ h1 {
   text-shadow: 2px 2px 5px forestgreen;
   font-family: 'Times New Roman';
 }
-.l-nav a{
-  color: #ad2d2d;
-  text-shadow : 2px 2px 5px green;
+.l-nav{
+  display: none;
+  position: absolute;
+  min-width: 100%;
+  z-index: 1000;
+  float: left;
+  border:solid .05rem darkblue;
+  border-radius: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+    
 }
-.l-nav :hover{
-  color: white ;
-  background-color: #c03d3e;
-}
- .imagen {
-  max-height:220px;
+@media (max-width: 767.98px) {
+  .l-nav{
+    position: relative;
   }
+  .bg-a, .bg-ai{
+  border:solid 0.05rem darkblue !important;
+  border-radius: 0.1rem;
+  padding-left: 1rem;
+  padding-right:  0.5rem; 
+
+  }
+  
+}
+/*.l-nav:hover{
+  display: block;
+  height: 200px  !important;
+  background-color: orange;
+}*/
+.l-nav a{
+  border-bottom:solid 0.05rem darkblue;
+  border-right:solid 0.05rem darkblue;
+  border-left:solid 0.05rem darkblue;
+  background-color: blue;
+  color: white;
+}
+.l-nav a:hover{
+
+  color: white;
+  background-color: orange;
+}
+
+.bg-a .bg-ai:hover {
+  background-color: orange;
+}
+.bg-a{
+  border-top: solid .05rem darkblue;
+  border-right: solid .05rem darkblue;
+  border-bottom: solid .05rem darkblue;
+}
+.bg-ai{
+  color:white;
+  border:solid .05rem darkblue;
+}
 
 
 .sombra-box{
   max-height:150px; display: block;box-shadow: 6px 6px 10px  darkgreen; border-radius: 0.4rem;
 }
-.tagline-upper {
-  font-size: 5rem;
-  font-weight: 700;
-  line-height: 1;
-}
 
-.tagline-lower {
-  font-size: 1.2rem;
-  line-height: 1;
-}
 
 .text-expanded {
   letter-spacing: 2px;
@@ -100,51 +128,10 @@ h1 {
   border-radius: 0.5rem;
 }
 
-.bg-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
+.dropdown-toggle::after {
+    display:none
 }
 
-hr.divider {
-  border-color: #292b2c;
-  max-width: 250px;
-}
-
-.map-container iframe {
-  pointer-events: none;
-}
-
-.map-container iframe.clicked {
-  pointer-events: auto;
-}
-
-
-
-        /* css para vista modak de las imagenes*/
-
-   .modal-full {
-    max-width: 90%;
-  }
-  .zoom{
-    -moz-transition: width 0.8s, height 0.8s, -moz-transform 0.8s;
-    -webkit-transition: width 0.8s, height 0.8s, -webkit-transform 0.8s;
-    -o-transition: width 0.8s, height 0.8s, -o-transform 0.8s;
-    transition: width 0.8s, height 0.8s, transform 0.8s;
-    
-    
-    
-  }
-  .zoom:hover {
-    transform: scale(2);
-    -moz-transform: scale(2);
-    -webkit-transform: scale(2);
-    -o-transform: scale(2);
-
-  }
-
-
-  .arial-narrow {
-    font-family: 'arial narrow' !important;
-  }
 
 
 .admmenu:hover{
@@ -155,7 +142,7 @@ hr.divider {
 }
 
 .borde-der {
-  border-right: solid white 0.1rem !important;
+  /*border: solid white 0.1rem !important;*/
 
 }
 

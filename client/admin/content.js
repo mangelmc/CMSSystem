@@ -6,8 +6,7 @@ Template.contentadmin.helpers({
 	listBanner : function(){
 		var id = FlowRouter.getQueryParam('id');
 		return	CUERPO.find({idSitio:id});	
-				
-		
+	
 	}
 
 });

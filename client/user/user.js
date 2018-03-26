@@ -115,13 +115,7 @@ Template.sidebar.helpers({
 });
 Template.footer.onRendered(function(){
 	this.autorun(()=>{
-			var alto = $(window).height();
-    	//console.log(alto);
-    //var footerpos = $('#contfooter').offset();
-    	var footerh = $('#contfooter').height();
-    	//console.log(footerh);
-    	$('#contenedor').height(alto-5);
-    	$('#contfooter').offset({top:alto-footerh-5}); 
+			
     	
 		});
 });	

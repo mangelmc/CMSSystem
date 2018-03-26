@@ -1,81 +1,92 @@
 <template name="user">
-   <head>
+  <head>
     <link href="https://fonts.googleapis.com/css?family=Bellefair" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width">
   </head>
-  <body class="{{navbarTheme.fuente}}" >
-    
-  <div id="contenedor" >
+  <body class="{{navbarTheme.fuente}}" style="background-color:#f5f6f8 !important">    
+    <div id="" class="row mx-0" > 
+      <div class="col-sm-12 col-md-10 offset-md-1 p-0"  >         
+        {{#if Sitio}}
+          {{#if readySitio}}       
+              {{#if bannerArriba}} 
+                {{> Template.dynamic template=banner}}
+                {{> Template.dynamic template=navbar}}
+              {{else}}
+                {{> Template.dynamic template=navbar}}
+                {{> Template.dynamic template=banner}}
 
-    
-{{#if Sitio}}
-  {{#if readySitio}}       
-      {{#if bannerArriba}} 
-        {{> Template.dynamic template=banner}}
-        {{> Template.dynamic template=navbar}}
-      {{else}}
-        {{> Template.dynamic template=navbar}}
-        {{> Template.dynamic template=banner}}
+              {{/if}}
+                 
+              
+                
+                  {{> Template.dynamic template=content}}
+                
+              
 
-      {{/if}}
-         
-      <div class="row mx-0 ">
-        <div class="col-12 " >
-            {{> Template.dynamic template=content}}
-        </div>
+            <div class = " d-block pb-0 mb-0 align-self-end"  id="contfooter">
+              {{> Template.dynamic template=footer}}
+             </div>
+          {{else}}
+            <p>cargando ...</p><i class="fa fa-spinner"></i>
+          {{/if}}
+        {{else}}
+          <div class="m-3">
+            <div class="alert alert-warning " role="alert">
+                <strong> EL SITIO SOLICITADO NO EXISTE O NO ESTA DISPONIBLE TEMPORALMENTE...! :´( </strong> 
+            </div>
+          </div>    
+        {{/if}}
       </div>
-
-    <div class = " d-block pb-0 mb-0 align-self-end"  id="contfooter">
-      {{> Template.dynamic template=footer}}
-     </div>
-  {{else}}
-    <p>cargando ...</p>
-  {{/if}}
-{{else}}
-  <div class="m-3">
-    <div class="alert alert-warning " role="alert">
-        <strong> EL SITIO SOLICITADO NO EXISTE O NO ESTA DISPONIBLE TEMPORALMENTE...! :´( </strong> 
+   
     </div>
-  </div>    
- {{/if}}
-  </div>
   </body>
 </template>
 
 
 <template name="banner">
-  {{#each banner }}
-    
-  
-	<div class="logo-img p-2 mb-0 px-0" style="background-color: silver;">
-    <!--<img src="img/logou.png" class="img-fluid collapse imagen  float-left d-lg-block pb-4" alt="Logo">
-    <img src="img/logoc.png" class="img-fluid collapse imagen float-right d-lg-block pb-4"  alt="Logo">-->
-    
-   
-    <div style="color:white;text-shadow: 4px 0px 10px black ;" class="tagline-upper text-center  text-shadow text-blue   d-lg-block d-none d-sm-block" >{{titulo}}</div>
-
-    
-    <div style="color:white;text-shadow: 2px 2px 10px black;" class="subtitulo tagline-lower text-center text-expanded text-shadow text-uppercase text-blue my-4 d-none d-lg-block ">{{subtitulo}}</div>
-    
+  <header>
+  {{#each banner }}  
+  <div class="row mx-0" style="background-color: #3b4042;">
+    <div class="col-md-6 col-sm-12 col-xs-12 p-2 mb-0  d-flex justify-content-start align-items-center" >
+      
+      <img src="/logou.png" class="img-fluid px-2" alt="Logo" style="max-height: 15vh">
+      <!--<img src="img/logoc.png" class="img-fluid collapse  float-right d-lg-block pb-4"  alt="Logo">-->
+     
+      <div >
+        <h2 style="color:white;text-shadow: 4px 0px 10px black ;" >{{titulo}}</h2>        
+        <h5 style="color:white;text-shadow: 2px 2px 10px black;" class=" text-uppercase d-none d-lg-block d-md-block">{{subtitulo}}</h5>
+      </div>
+      
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12 d-flex align-items-center justify-content-md-end justify-content-md-end justify-content-sm-center p-sm-0">
+      
+        <form class="d-flex  justify-content-sm-center m-1" >
+        <input class="form-control " type="text" placeholder="Que buscas?" aria-label="Search">
+        <button class="btn btn-outline-danger " type="submit"><i class="fa fa-search"></i></button>
+        </form>   
+    </div>      
   </div>
   {{/each}}
+  </header>
 </template>
 <template name="navbar">
   {{#if navbar }}
 	<!-- Navigation -->
-    <nav class="navbar navbar-expand-md d-lg-block d-md-block {{navbarTheme.color}}" id="mainNav" style="">
+    <nav class="navbar navbar-expand-md d-lg-block d-md-block {{navbarTheme.color}} py-0" id="mainNav" style="">
       <div class="container-fluid ">
         
         <div style="color:#2036cc;text-shadow: 2px 0px 10px silver ;align-self:center;" class="navbar-brand  text-center text-heading  text-shadow text-white d-lg-none d-md-none d-sm-block">{{tituloSitio}}</div>
+
         <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon" style="color:white"></span>
+
+          <i class="fa fa-navicon"></i>
         </button>
 
         <div class="collapse navbar-collapse " id="navbarResponsive">
           <ul class="navbar-nav " >
             <!--M E N U-->
-            <li class="nav-item active d-block" style="border-left:solid 0.1rem white ;border-right:solid 0.1rem white ;">
-              <a class="bajar nav-link text-uppercase text-expanded " href="" style="color:white">
+            <li class="nav-item active d-block " >
+              <a class="bg-ai bajar nav-link text-uppercase text-expanded py-3 " href="" style="">
                 inicio
                 
               </a>
@@ -95,20 +106,79 @@
       </div>
     </nav>
     {{else}}
-    <p>Cargando.......</p>
+      <p>Cargando.......</p>
     {{/if}}
+   
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" style="max-height: 40vw !important;">
+          <div class="carousel-item active" style="max-height: 27vw;">
+            <img class="img-fluid first-slide" src="/graduacion.jpg" alt="First slide">
+            <div class="container">
+              <div class="carousel-caption " style="text-shadow:.2rem .2rem .9rem blue; ">
+                <h1 style="font-size: 4.5vw !important;">Example headline.</h1>
+                <div class="d-none d-md-block text-left" style="font-size: 1.8vw !important;">
+                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" style="max-height: 27vw;">
+            <img class="img-fluid second-slide" src="/students.jpg" alt="Second slide" >
+            <div class="container">
+              <div class="carousel-caption " style="text-shadow:.2rem .2rem .9rem blue; ">
+                <h1 style="font-size: 4.5vw !important;">Another example headline.</h1>
+              
+                <div class="d-none d-md-block " style="font-size: 1.8vw !important;">
+                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                <p><a class="btn btn-lg btn-primary" href="#" role="button">Mas...</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" style="max-height: 27vw;">
+            <img class="img-fluid third-slide" src="/nature.jpg" alt="Third slide">
+            <div class="container">
+              <div class="carousel-caption " style="text-shadow:.2rem .2rem .9rem blue; ">
+              <h1 style="font-size: 4.5vw !important;">One more for good measure.</h1>
+              <div class="d-none d-md-block text-right" style="font-size: 1.8vw !important;">
+                
+                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    
 </template>
 
 <template name="menu">
+
   {{#if submenu}}
-    <li class="borde-der dropdown nav-item d-block " >
-      <a href="{{link}}" class="dropdown-toggle nav-link text-uppercase text-expanded text-white" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <li class="drop borde-der dropdown nav-item d-block "  id="{{_id}}" >
+      <a href="{{link}}" class="bg-a dropdown-toggle nav-link text-uppercase text-expanded text-white py-3 " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><!--id="dropdownMenuButton"-->
         {{nombre}}
+        <span class="float-right d-md-none d-sm-block "><i class="fa fa-2x fa-plus-square"></i></span>
       </a>
-      <div class="dropdown-menu l-nav" aria-labelledby="dropdownMenuButton" style="z-index: 150;">
+      <div class="l-nav" id="{{_id}}1" ><!--class="dropdown- menu l-nav" aria-labelledby="dropdownMenuButton" -->
         {{#each listSubmenu}}
         <!-- tal vez otro template para mostrar-->
-          <a class="dropdown-item subir cargar" href="" >{{nombre}}</a>
+          <a class="bg-a  dropdown-item subir cargar" href="" >{{nombre}}</a>
         {{else}}
             NO DISPONIBLE
           
@@ -118,37 +188,186 @@
     </li>
   {{else}}
     <li class="borde-der nav-item d-block">
-      <a class="bajar nav-link text-uppercase text-expanded" href="" style="color:white">
+      <a class="bg-a bajar nav-link text-uppercase text-expanded py-3" href="" >
         {{nombre}}
        
       </a> 
     </li>
   {{/if}}
+  <script type="text/javascript">
+     $(document).ready(function() {
+      //console.log('load');
+      /*window.onresize = function() {
+    
+        console.log($(document).());
+      }*/
+      var time= false;
+      $(".drop").click().hover(function() {
+          
+          var id = $(this).attr('id');
+          
+          
+            $(this).css('background-color','orange');
+            $('#'+id+1).show('fast');
+
+          //$('.drop').finish();
+          
+          $('.drop ').clearQueue();
+          /* Stuff to do when the mouse enters the element */
+        }, function() {
+          
+          /*var id = $(this).attr('id');
+          $('#'+id+1).hide('fast');
+          $(this).css('background-color','blue');*/
+
+          $('.drop div').each(function(index, el) {
+            if ($(this).css('display')=='block') {
+              $(this).hide('fast');
+              
+            }
+            $(this).parent().css('background-color','blue');
+          });
+        $('.drop div').finish();
+        /* Stuff to do when the mouse leaves the element */
+        });
+     });
+    </script>
 
 </template>
 
 <template name="content">
-  <div class="row mx-0">
-    <div class="col-12 col-md-8 p-2">
+    <style type="text/css">
+           .bol{
+            background-color: white;
+            box-shadow: 0.2rem 0.2rem .2rem silver;
+            border-radius: 0.2rem;
+          }
+          .img-card{
+           display: flex;
+           align-items: center;
+            min-height: 14vw;
+            
+            
+          }
+         @media (max-width: 767.98px) {
+            .img-card{
+              min-height: 40vw;
+            }
+          }
+
+           
+    </style>
+    <div class="row mx-0 ">
+    <div class="col-12 p-1">
+
+      <div class="d-flex justify-content-center" style="background-color:#416fad;color: white;">
+        <h2 >BOLETINES</h2>
+      </div>
+      <div class="row mx-0 text-center d-flex justify-content-around my-2 ">
+        <div class="col-11 col-md-6 col-lg-6  my-2 d-flex align-content-stretch pb-1 " >
+          <div class="row p-2 bol m-1 " >
+            <div class="col-6">
+             <img class="img-fluid  mx-auto" src="/students.jpg" alt="Card image cap" style=" ">
+             
+            </div>
+            <div class="col-6 d-flex align-items-center">
+              <h2 class="">Card title</h2>
+            </div>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        
+          </div>
+          
+        </div>
+         
+        <div class="col-11 col-md-6 col-lg-6  my-2 d-flex align-content-stretch pb-1" >      
+              <div class=" row p-2 bol m-1 " >
+                <div class="col-6 ">
+                  <img class="img-fluid mx-auto" src="/light-wave.png" alt="Card image cap">
+                </div>
+                <div class="col-6 d-flex align-items-center">
+                  <h2 >Card title</h2>     
+                </div>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>                  
+              </div>
+        </div>
+      </div>
+    </div>  
+    <div class="col-12 col-md-8 ">
       <!--{{>contenido}} deberia ser dinamico ?-->
+      <div class="d-flex justify-content-center" style="background-color:#60883F;color: white;">
+        <h2 >EVENTOS</h2>            
+      </div>
+      <div class="row d-flex justify-content-center"> 
+        <div class="col-md-4 col-sm-6 d-flex align-items-stretch mb-1" >
+          <div class="card  p-1" >
+            <div class="img-card">
+                <img class=" img-fluid" src="/robot.jpg" alt="Card image cap">
+            </div>
+            <div class="" style="">
+              <h4 class="card-title text-center">Algun Titulo</h4>
+              <p class="card-text text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-success mx-auto">Ver mas ... </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6  d-flex align-items-stretch mb-1" >
+          <div class="card  p-1" >
+            <div class="img-card">
+                <img class=" img-fluid" src="/robot-62.jpg" alt="Card image cap">
+            </div>
+            <div class="" style="">
+              <h4 class="card-title text-center">Algun Titulo</h4>
+              <p class="card-text text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-success mx-auto">Ver mas ... </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6  d-flex align-items-stretch mb-1" >
+          <div class="card p-1" >
+            <div class="img-card">
+                <img class=" img-fluid" src="/students.jpg" alt="Card image cap">
+            </div>
+            <div class="" style="">
+              <h4 class="card-title text-center">Algun Titulo</h4>
+              <p class="card-text text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-success mx-auto">Ver mas ... </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6  d-flex align-items-stretch mb-1 " >
+          <div class="card p-1" >
+            <div class="img-card">
+                <img class=" img-fluid" src="/nature.jpg" alt="Card image cap">
+            </div>
+            <div class="" style="">
+              <h4 class="card-title text-center">Algun Titulo</h4>
+              <p class="card-text text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-success mx-auto">Ver mas ... </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center" style="background-color:#60883F;color: white;">
+        <a href="" class="nav-link " style="color :white;"><h2 >MAS EVENTOS</h2></a>            
+      </div>
       <div class="" role="alert">
           <strong>Aun no hay contenido para mostrar</strong> 
+          <div style="border:solid 2px black;" class="l-nav"></div>
       </div>
     </div>
-    <div class="col-12 col-md-4 p-1">
+    
+    <div class="col-12 col-md-4">
+      <div class="d-flex justify-content-center" style="background-color:#416fad;color: white;">
+        <h2 >ENLACES EXTERNOS</h2>
+      </div>
       {{> sidebar}}
     </div>
+    </div>
 
-  </div>
 
 </template>
 <template name="sidebar">
-  <div class="d-flex justify-content-center">
-    <form class="form-inline mt-2 ">
-    <input class="form-control mr-sm-2" type="text" placeholder="Que buscas?" aria-label="Search">
-    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Buscar</button>
-    </form>   
-  </div>
+  
   <div class="my-2">
     {{#each listMenus}}
       
@@ -186,5 +405,16 @@
         
       </div>
     </footer>
+    <script type="text/javascript">
+      /*$(document).ready(function() {
+        var alto = $(window).height();
+                //console.log(alto);
+        //var footerpos = $('#contfooter').offset();
+        var footerh = $('#contfooter').height();
+        //console.log(footerh);
+        $('#contenedor').height(alto-5);
+        $('#contfooter').offset({top:alto-footerh-5}); 
+      });*/
+    </script>
 </template>
 
