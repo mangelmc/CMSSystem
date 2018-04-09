@@ -16,33 +16,10 @@ body {
   
 }
 
-
-
-.fondo{
-  background: url('../img/2D81108F8.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover;
-
-}
-
-
 h1 {
   font-size: 4rem;
 }
 
-
-.text-color{
-  background-color:  rgba(135, 195, 109, 0.80);
-  text-shadow: 2px 2px 5px black;
-  color: white;
-}
-.t-verde{
- color:  #04060e;
-  text-shadow: 2px 2px 5px forestgreen;
-  font-family: 'Times New Roman';
-}
 .l-nav{
   display: none;
   position: absolute;
@@ -50,21 +27,23 @@ h1 {
   z-index: 1000;
   float: left;
   border:solid .05rem darkblue;
-  border-radius: 0;
-  padding-bottom: 0;
-  padding-top: 0;
-    
+  border-radius:0 0.5rem 0.5rem 0.5rem ;
+  box-shadow: 0rem 0.2rem 0.3rem 0.2rem hsl(0,0%,30%);  
 }
 @media (max-width: 767.98px) {
   .l-nav{
     position: relative;
-  }
+  }/*
   .bg-a, .bg-ai{
   border:solid 0.05rem darkblue !important;
   border-radius: 0.1rem;
   padding-left: 1rem;
   padding-right:  0.5rem; 
 
+  }*/
+  .navbar-nav .nav-link {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
   }
   
 }
@@ -73,22 +52,21 @@ h1 {
   height: 200px  !important;
   background-color: orange;
 }*/
-.l-nav a{
+.l-nav a,.l-nav-s{
+  /*border-top:solid 0.05rem darkblue;
   border-bottom:solid 0.05rem darkblue;
   border-right:solid 0.05rem darkblue;
-  border-left:solid 0.05rem darkblue;
-  background-color: blue;
+  border-left:solid 0.05rem darkblue;*/
+  /*background-color: blue;*/
+  border-radius: .3rem;
   color: white;
-}
-.l-nav a:hover{
 
+}
+.l-nav a:hover,.l-nav-s:hover{
   color: white;
-  background-color: orange;
+  background-color: #bd8a17;
 }
-
-.bg-a .bg-ai:hover {
-  background-color: orange;
-}
+/*
 .bg-a{
   border-top: solid .05rem darkblue;
   border-right: solid .05rem darkblue;
@@ -97,7 +75,7 @@ h1 {
 .bg-ai{
   color:white;
   border:solid .05rem darkblue;
-}
+}*/
 
 
 .sombra-box{
@@ -120,13 +98,13 @@ h1 {
   font-size: 1rem;
   font-style: italic;
 }
-
+/*
 .bg-faded {
-  /*background-color:  rgba(94, 156, 38, 0.80);*/
+  
   text-shadow: 2px 2px 5px black;
   color: white;
   border-radius: 0.5rem;
-}
+}*/
 
 .dropdown-toggle::after {
     display:none
@@ -141,12 +119,100 @@ h1 {
   text-decoration: none;
 }
 
-.borde-der {
-  /*border: solid white 0.1rem !important;*/
-
-}
 
 
 .onactive:active{
     background-color: black !important ;
+}
+/* clases de footer user*/
+.l-foot a{
+  padding: 0.3rem 0.9rem;
+  /*border-right: solid 0.1rem white;
+  border-left: solid 0.1rem white;*/
+  
+
+  text-decoration: none;
+  color: white ;
+  text-align: center;
+}
+.l-foot a:hover{
+  border: none;
+
+  border-radius: 0.2rem;
+  font-size: 2.5rem;  
+
+}
+.l-foot span:hover{
+  
+  
+  font-size: 2.5rem;  
+
+}
+
+
+/* Ajustes generales para todos los :before y :after */
+.algo .borderanim:before,
+.algo .borderanim:after,
+.algo .borderanim span:before, 
+.algo .borderanim span:after {
+    content:'';
+    position:absolute;
+    background-color:black;
+    
+    transition:.25s all ease-out;
+    -webkit-transition:.25s all ease-out;
+    -moz-transition:.25s all ease-out;
+    -o-transition:.25s all ease-out;
+   
+}
+/* Dimensiones de los bordes */
+.algo .borderanim:before,
+.algo .borderanim:after {
+    /* Arriba y abajo */
+    height:.1rem;
+}
+.algo .borderanim span:before,
+.algo .borderanim span:after {
+    /* Izquierda y derecha */
+    width:.1rem;
+}
+.algo .borderanim:before {
+    /* Posición inicial del borde superior */
+    top:0;
+    left:0;
+    right:100%;
+}
+.algo .borderanim:hover:before {
+    /* Posición final del borde superior */
+    right:0;
+}
+.algo .borderanim:after {
+    /* Posición inicial del borde inferior */
+    bottom:0;
+    left:100%;
+    right:0;
+}
+.algo .borderanim:hover:after {
+    /* Posición final del borde inferior */
+    left:0;
+}
+.algo .borderanim span:before {
+    /* Posición inicial del borde lateral izquierdo */
+    top:100%;
+    left:0;
+    bottom:0;
+}
+.algo .borderanim:hover span:before {
+    /* Posición final del borde lateral izquierdo */
+    top:0;
+}
+.algo .borderanim span:after {
+    /* Posición inicial del borde lateral derecho */
+    top:0;
+    right:0;
+    bottom:100%;
+}
+.algo .borderanim:hover span:after {
+    /* Posición final del borde lateral derecho */
+    bottom:0;
 }

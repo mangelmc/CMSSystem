@@ -30,10 +30,12 @@ Template.navbaradmin.helpers({
 		var id = FlowRouter.getParam('titulo');
 		if (NAVBAR.findOne({idSitio:id})!=undefined) {
 			var estilo = NAVBAR.findOne({idSitio:id});
+			$('#bannerestilo').removeClass();
 			$('#bannerestilo').css({
-				'background-color': estilo.color,
 				'font-family': estilo.fuente
 			});
+			$('#bannerestilo').addClass(estilo.color + ' m-2');
+
 			$('#color option[value="'+estilo.color+'"]').prop('selected', true);
 			$('#fuente option[value="'+estilo.fuente+'"]').prop('selected', true);
 
@@ -243,6 +245,7 @@ Template.navbaradmin.events({
 		});
 		$('#addsubmenu')[0].reset();
 		$('#submenuModal').modal('hide');
+		
 	},
 	///fin events submenu
 	'change #color': function () {
@@ -250,7 +253,7 @@ Template.navbaradmin.events({
 		var obj = {
 			color : $('#color').val()
 		}
-		Meteor.call('bannerChange', id,obj, function (error, result) {
+		Meteor.call('navbarChange', id,obj, function (error, result) {
 			sAlert.info(result, {effect: 'slide',offset: '130'});
 		});
 	},
@@ -259,7 +262,7 @@ Template.navbaradmin.events({
 		var obj = {
 			fuente : $('#fuente').val()
 		}
-		Meteor.call('bannerChange', id,obj, function (error, result) {
+		Meteor.call('navbarChange', id,obj, function (error, result) {
 			sAlert.info(result, {effect: 'slide',offset: '130'});
 		});
 	}

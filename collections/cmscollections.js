@@ -27,9 +27,56 @@ var sitioSchema =new SimpleSchema({
 });
 SITIO.attachSchema(sitioSchema);
 
+
 BANNER = new Mongo.Collection('banner')
 
 var bannerSchema =new SimpleSchema({
+    idSitio :{
+        type:String,
+    },
+    tipo : {
+        type:String,//DEFAULT TEXTO E IMAGEN
+    },
+    texto :{
+        type:String,//titulo o lorem ipsum 
+    },
+    imagen :{
+        type:String,//link de una imagen por defecto
+    },
+    textoPersonalizado :{
+        type:String,// la parte de html libre
+    },
+
+});
+
+BANNER.attachSchema(bannerSchema);
+
+CARROUSEL = new Mongo.Collection('carrousel') ///SE asocia directamnet al sitio ¡¡¡ solo un carrusel
+
+var carrouselSchema =new SimpleSchema({
+    idSitio :{
+        type:String,
+    },
+    titulo : {
+        type:String,//DEFAULT TEXTO E IMAGEN
+    },
+    texto :{
+        type:String,//
+    },
+    imagen :{
+        type:String,//link de una imagen por defecto
+    },
+    link:{
+        type:String,//link del boton
+        optional : true
+    },
+});
+
+CARROUSEL.attachSchema(carrouselSchema);
+
+HEADER = new Mongo.Collection('header')
+
+var headerSchema =new SimpleSchema({
     
     idSitio :{
         type:String,
@@ -42,13 +89,13 @@ var bannerSchema =new SimpleSchema({
         optional : true
     },
     tipoFondo : {
-    	type : String //si es color o imagen 
+        type : String //si es color o imagen 
     },
     fondo : {
-    	type : String //link o el color
+        type : String //link o el color
     },
     fuente : {
-    	type:String
+        type:String
     },
     logo1 : {
         type : String,
@@ -62,23 +109,20 @@ var bannerSchema =new SimpleSchema({
         type : String,      
     }
 });
-BANNER.attachSchema(bannerSchema);
+HEADER.attachSchema(headerSchema);
 
 NAVBAR = new Mongo.Collection('navbar')
 
-var navbarSchema =new SimpleSchema({
-    
+var navbarSchema =new SimpleSchema({    
     idSitio :{
         type:String,
-    },
-    
+    },    
     color : {
         type : String
     },
     fuente : {
         type : String
     }
-
 });
 NAVBAR.attachSchema(navbarSchema);
 
@@ -163,6 +207,13 @@ var sidebarMenuSchema =new SimpleSchema({
     fuente : {
         type : String 
     },
+    tipo :  {
+        type : String 
+    },
+    html :  {
+        type : String,
+        optional : true 
+    },
 });
 
 SIDEBARMENU.attachSchema(sidebarMenuSchema);
@@ -219,7 +270,15 @@ var footerSchema =new SimpleSchema({
     },
     texto : {
     	type : String // pore el momento se pueden add mas cosas (menus.etc)
-    }
+    },
+    tipo : {
+        type : String // tipo de footer default o personalizado
+    },
+    html : {
+        type : String, // codigo html personalizado
+        optional: true
+    },
+
 });
 FOOTER.attachSchema(footerSchema);
 

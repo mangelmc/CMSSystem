@@ -1,6 +1,20 @@
 <template name="sidebaradmin">
-
-	<div class="row mx-0">
+	<div class="d-flex justify-content-center m-1" style="background-color: #464892e0;border-radius: .5rem;color: white">
+		<h3>EDICION DE SIDEBAR</h3>
+	</div>
+	{{>sAlert}}
+	<div class="form-group row">
+		<label class="col-3 offset-1 col-form-label h5">Tipo de Sidebar</label>
+		<div class="col-7">
+		<select class="form-control" id="tiposidebar">
+			
+			<option value="default">Menus de enlaces Externos</option>
+			<option value="personalizado">Personalizado</option>
+		</select>
+		</div>
+	</div>
+	{{#if sidebarDefault}}
+		<div class="row mx-0">
 			<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="col-10 d-flex   p-1 align-items-center justify-content-between">
 				<div class="p-2">
 					<h3 class=""> MENUS DE ENLACES EXTERNOS</h3>
@@ -21,40 +35,58 @@
 				<button type="button" id="btnnuevomenu" class=" btn btn-primary ">NUEVO MENU</button>
 			</div>
 		</div>
-	
-	<table class="table table-inverse">
-		<thead>
-			<tr>
-				<th>Nombre del menu</th>
-				<th>Posicion</th>
-				<th>Acciones</th>
+		
+		<table class="table table-inverse">
+			<thead>
+				<tr>
+					<th>Nombre del menu</th>
+					<th>Posicion</th>
+					<th>Acciones</th>
 
-			</tr>
-		</thead>
-		<tbody>
-			{{#each listMenuEnlace}}
+				</tr>
+			</thead>
+			<tbody>
+				{{#each listMenuEnlace}}
 
-			<tr>
-				<td>{{nombre}}</td>
-				<td>{{posicion}}</td>
-				{{#if sidebarActivo}}
-				<td><button class="btn btn btn-outline-dark btn-sm editsidebar"><i class="fa fa-edit"></i></button> <button class="btn btn btn-outline-danger btn-sm elisidebar"><i class="fa fa-trash"></i></button></td>
+				<tr>
+					<td>{{nombre}}</td>
+					<td>{{posicion}}</td>
+					{{#if sidebarActivo}}
+					<td><button class="btn btn btn-outline-dark btn-sm editsidebar"><i class="fa fa-edit"></i></button> <button class="btn btn btn-outline-danger btn-sm elisidebar"><i class="fa fa-trash"></i></button></td>
+					{{else}}
+					<td><button class="btn btn btn-outline-dark btn-sm restsidebar"><i class="fa fa-rotate-left"></i></button></td>
+					{{/if}}
+				</tr>
 				{{else}}
-				<td><button class="btn btn btn-outline-dark btn-sm restsidebar"><i class="fa fa-rotate-left"></i></button></td>
-				{{/if}}
-			</tr>
-			{{else}}
-			<tr>
-				<td colspan="3">
-						
-					<div class="alert alert-warning" role="alert">
-					    <strong>NO hay menus de enlaces ....</strong> 
-					</div>
-				</td>
-			</tr>
-			{{/each}}
-		</tbody>
-	</table>
+				<tr>
+					<td colspan="3">
+							
+						<div class="alert alert-warning" role="alert">
+						    <strong>NO hay menus de enlaces ....</strong> 
+						</div>
+					</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	{{else}}
+		<form id="formsidebarhtml" method="post"> 
+	    <div class="form-group row ">
+			<label for="texto" class="col-2 offset-2 col-form-label">Texto HTML</label>
+			<div class="col-6 ">			
+				<textarea type="text" name="texto" class="form-control" id="texto" placeholder="Codigo HTML" required>{{sidebar.html}}</textarea>
+				<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>
+			</div>
+		</div>
+		
+
+	  	<div class="d-flex justify-content-center">
+	    	<button type="submit" class="btn btn-primary">Guardar Cambios</button>	      	
+	    
+	  	</div>
+	 	</form>
+	{{/if}}
+	
 	
 
 </template>

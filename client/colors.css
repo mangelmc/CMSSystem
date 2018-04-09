@@ -15,3 +15,77 @@
   background-color:  black !important;
   
 }
+.seablue{
+	background-color: #1c3d6c !important;
+}
+.darkblue{
+	background-color: darkblue !important;
+}
+.mostaza{
+	background-color: #bd8a17 !important;
+}
+
+/* #212529  negro-plomo*/
+
+.estilo > .titulo {
+	background-color: solid .2rem black;
+	
+}
+
+.title-event {
+	background-color:hsl(93, 37%, 39%);
+	box-shadow: 0rem 0.3rem 0.3rem 0.2rem hsl(93, 27%, 24%);
+	text-shadow: 0.1rem 0.3rem 0.3rem black;
+	border-radius: 0.2rem/0.3rem;
+	color: white ;
+}
+.foot-event {
+	background-color:hsl(93, 37%, 39%);
+	box-shadow: 0rem 0.3rem 0.3rem 0.2rem hsl(93, 27%, 24%);
+	text-shadow: 0.1rem 0.1rem 0.2rem black;
+	border-radius: 0.2rem/0.3rem;
+	color: white;
+}
+.foot-event a{
+	color: white ;
+}
+.foot-event a:hover{
+	color: hsl(128,70%,20%);
+}
+	
+.item-event{
+	box-shadow: 0rem 0rem 0.3rem 0.2rem silver;
+	margin: .5rem .1rem;
+}
+
+/* theme con hsl(+33,-10,-14) great..! -------- menu con o*/
+.title-sidebar {
+	background-color:hsl(214, 47%, 47%);
+	box-shadow: 0rem 0.3rem 0.3rem 0.2rem hsl(247, 37%, 33%);
+	text-shadow: 0.1rem 0.3rem 0.3rem black;
+	border-radius: 0.2rem/0.3rem;
+	color: white;
+}
+/*ESTILOS DE SIDEBAR*/
+.menu-sidebar{
+	background-color: hsl(197,96%,38%);
+	border-radius: .5rem;
+	border: solid .05rem silver;
+	box-shadow: 0rem 0.3rem 0.3rem 0.2rem hsl(197, 96%, 33%);
+}
+.menu-sidebar li{
+	list-style: none;
+}
+.menu-sidebar a:hover{
+	color: blue !important;
+}
+
+
+.footer-content{
+	/*background-color: theme*/
+	margin: .5rem;
+	text-shadow: 0.1rem 0.3rem 0.3rem black;
+	box-shadow: 0 0 .3rem .2rem hsl(248, 49%, 13%);
+	border-radius: 0.5rem;
+	border: solid .09rem gray;
+}

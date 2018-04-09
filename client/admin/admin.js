@@ -43,6 +43,11 @@ Template.admin.events({
 		Meteor.logout();
 		FlowRouter.go('/');
 	},
+	'click #header': function () {
+		//myTemplates.set('banneradmin');
+		FlowRouter.go('/admin/:titulo/header',{titulo:FlowRouter.getParam('titulo')},1);
+		
+	},
 	'click #banner': function () {
 		//myTemplates.set('banneradmin');
 		FlowRouter.go('/admin/:titulo/banner',{titulo:FlowRouter.getParam('titulo')},1);

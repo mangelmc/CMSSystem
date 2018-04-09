@@ -13,6 +13,9 @@ var urlEnFormE = new ReactiveVar(true);
 
 
 Template.sidebaradmin.helpers({
+	sidebar: function () {
+		return SIDEBARMENU.findOne();
+	},
 	listMenuEnlace: function () {
 		return MENUENLACE.find({estado:estadoSidebar.get()});
 	},
@@ -28,7 +31,17 @@ Template.sidebaradmin.helpers({
 			return true
 		}
 		return false;
-	},	
+	},
+	sidebarDefault : function(){
+		var sidebar = SIDEBARMENU.findOne({});
+		//console.log(tipo);
+		if (sidebar != undefined && sidebar.tipo == "default") {
+			$('#tiposidebar option[value="'+sidebar.tipo+'"]').prop('selected', true);
+			return true;
+		}
+		$('#tiposidebar option[value="personalizado"]').prop('selected', true);
+		return false;
+	}	
 });
 
 Template.sidebaradmin.events({
@@ -58,6 +71,30 @@ Template.sidebaradmin.events({
 		//console.log(this);
 		Meteor.call('darEstadoSidebar', this._id,'Activo', function (error, result) {});
 	},
+	'change #tiposidebar': function (e) {
+		var idSitio = FlowRouter.getParam("titulo");
+		var obj = {
+			tipo : e.target.value,
+		}
+		//console.log(obj);
+		Meteor.call('sidebarChange', idSitio,obj, function (error, result) {
+			sAlert.info('Se modifico ', {effect: 'slide',offset: '130'});
+			//console.log(result);
+		});
+	},
+	'submit #formsidebarhtml': function (e) {
+		e.preventDefault();
+		var obj = {
+			html : e.target.texto.value
+		}
+		var idSitio = FlowRouter.getParam('titulo');
+		Meteor.call('editsidebarHtml', idSitio,obj, function (error, result) {
+			if (result) {				
+					sAlert.success('Se ha modificado', {effect: 'slide',offset: '130',html:true});
+			}
+
+		});
+	}
 
 
 });
@@ -142,7 +179,7 @@ Template.editarmenuenlace.events({
 		Meteor.call('insEnlace', obj, function (error, result) {
 			if (result) {
 				//console.log(result);
-				sAlert.success('Se ha creado un nuevo enlace', {effect: 'slide',offset: '130',html:true});
+				sAlert.success('Se ha creado un nuevo enlace', {effect: 'slide',offset: '160',html:true});
 		
 			}
 		});
@@ -185,7 +222,7 @@ Template.editarmenuenlace.events({
 		//
 		Meteor.call('editmenuenlace', nombre,idMenu, function (error, result) {
 			if (result) {
-				sAlert.info('Se guardaron los cambios', {effect: 'slide',offset: '130',html:true});	
+				sAlert.info('Se guardaron los cambios', {effect: 'slide',offset: '200'});	
 			}
 			
 		});

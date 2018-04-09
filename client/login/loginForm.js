@@ -44,10 +44,13 @@ Template.loginForm.events({
 
 	"submit #login" : function(e){
 		e.preventDefault();
+
 		var user = e.target.user.value;
 		if (loginForm.user.get() == false||loginForm.password.get() == false) {
 			alert('Debe arreglar lo errores del formulario');
 			return;
+		}else{
+			$('#exampleModal').modal('hide');
 		}
 		Meteor.loginWithPassword(user,e.target.password.value,function(err,result){
 			if (err) {
@@ -70,31 +73,30 @@ Template.loginForm.events({
 				
 				Meteor.call('checkRol', 1, function (error, result) {
 					if (result) {
+						//console.log('ok');
+						$('#exampleModal').modal('hide');
 						if (result.tipo=='normal') {
-							$('closemodal').click();
-							return;
+														
 						}
 						if (result.tipo=='admin') {
 							
 							FlowRouter.go('/admin');
-							$('closemodal').click();
 							
-							return;
 						}
 						if (result.tipo=='root') {
+							
 							FlowRouter.go('/root');
-							$('closemodal').click();
-							return;
 						}
 						//$('#closemodal1').click();
-						
-						console.log('no return');
+												
 					}
+					
 				});
+				
 				
 			}
 		});
-		$('#exampleModal').modal('hide');
+		//$('#exampleModal').modal('hide');
 		setForm.set({temp:'loginForm',name:'Formulario de inicio de sesion'});
 		
 		e.target.user.value='';e.target.password.value='';

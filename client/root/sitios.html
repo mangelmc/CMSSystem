@@ -195,6 +195,12 @@
 			
 			{{#each listSitios}}
 				{{>sitio}}
+			{{else}}
+			<div class="col-12 mx-0 d-flex justify-content-center">
+				<div class="alert alert-warning " role="alert">
+				    <h5>NO TIENES SITIOS DISPONIBLES PARA ADMINISTRAR ...!</h5>
+				</div>
+			</div>
 			{{/each}}
 		</div>
 		<!-- Modal para Cambiar Administrador  -->

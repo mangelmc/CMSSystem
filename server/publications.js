@@ -13,15 +13,26 @@ Meteor.startup(() => {
     return SITIO.find({_id:sitio});
     });
 
+  Meteor.publish("getHeader",function(idSitio){
+    return HEADER.find({idSitio:idSitio});
+
+    });
   Meteor.publish("getBanner",function(idSitio){
     return BANNER.find({idSitio:idSitio});
+
+    });
+  Meteor.publish("getCarrusel",function(idSitio){
+    return CARROUSEL.find({idSitio:idSitio});
 
     });
   Meteor.publish("getSitiosAdmin",function(admin){
     return SITIO.find({admin:admin});
 
     });
-  
+  Meteor.publish("getSidebar",function(idSitio){
+    return SIDEBARMENU.find({idSitio:idSitio});
+
+    });
   Meteor.publish("getMenu",function(idSitio){
     return MENU.find({idSitio:idSitio});
 
@@ -53,21 +64,34 @@ Meteor.startup(() => {
   Meteor.publish("getSitioClient",function(sitio){
     return SITIO.find({titulo:sitio});
     });
-  Meteor.publish("getBannerClient",function(titulo){
+  Meteor.publish("getHeaderClient",function(titulo){
     var idSitio = SITIO.findOne({titulo:titulo});
     if (idSitio!=undefined) {
-      return BANNER.find({idSitio:idSitio._id});
+      return HEADER.find({idSitio:idSitio._id});
     }
     });
+
   Meteor.publish("getNavbarClient",function(titulo){
     var idSitio = SITIO.findOne({titulo:titulo});
     if (idSitio!=undefined) {
       return NAVBAR.find({idSitio:idSitio._id});
     }
   });
+  Meteor.publish("getBannerClient",function(titulo){
+    var idSitio = SITIO.findOne({titulo:titulo});
+    if (idSitio!=undefined) {
+      return BANNER.find({idSitio:idSitio._id});
+    }
+    });
   Meteor.publish("getMenuClient",function(idNavbar){
       return MENU.find();
     
+  });
+  Meteor.publish("getSidebarClient",function(titulo){
+    var idSitio = SITIO.findOne({titulo:titulo});
+    if (idSitio!=undefined) {
+      return SIDEBARMENU.find({idSitio:idSitio._id});
+    }
   });
   Meteor.publish("getSidebarMenuClient",function(titulo){
     var idSitio = SITIO.findOne({titulo:titulo});

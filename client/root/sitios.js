@@ -1,3 +1,4 @@
+
 import { ReactiveVar } from 'meteor/reactive-var';
 import './sitios.html';
 import validar from '../validations.js';
