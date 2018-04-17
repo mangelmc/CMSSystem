@@ -58,7 +58,7 @@
 	margin: .5rem .1rem;
 }
 
-/* theme con hsl(+33,-10,-14) great..! -------- menu con o*/
+/* theme con hsl(+33,-10,-14) great..! ojo sombra-------- menu con ------*/
 .title-sidebar {
 	background-color:hsl(214, 47%, 47%);
 	box-shadow: 0rem 0.3rem 0.3rem 0.2rem hsl(247, 37%, 33%);
@@ -71,8 +71,12 @@
 	background-color: hsl(197,96%,38%);
 	border-radius: .5rem;
 	border: solid .05rem silver;
+	color: white;
 	box-shadow: 0rem 0.3rem 0.3rem 0.2rem hsl(197, 96%, 33%);
+	text-shadow: 0.1rem 0.3rem 0.3rem black;
 }
+
+
 .menu-sidebar li{
 	list-style: none;
 }

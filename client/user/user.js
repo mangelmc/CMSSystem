@@ -18,6 +18,7 @@ Template.user.helpers({
 		//seria genial cargar aqui la variable reactiva sitioClient
         return FlowRouter.subsReady("getSitioClient");
     },
+    
 	Sitio: function () {
 		
 		if (SITIO.find({estado : 'Activo'}).fetch().length>0) {
@@ -53,11 +54,20 @@ Template.header.helpers({
 	header: function () {
 		return HEADER.find({});
 	}
+
 });
+Template.banner.onRendered(function(){
+	//console.log($('#banneruser div').attr('data-ride'));
+   	$('#banneruser').fadeIn('slow');
+})
 Template.banner.helpers({
 	banner : function(){
 		return BANNER.findOne({});
 	},
+	bannerReady : function(){
+    	
+    	return FlowRouter.subsReady("getBannerClient");
+    },
 	tipoDefault : function(){
 		var banner = BANNER.findOne({});
 		if (banner != undefined && banner.tipo == "carrusel") {
@@ -121,6 +131,83 @@ Template.menu.helpers({
 		
 	}
 });
+Template.content.onRendered(function(){
+
+	
+
+	if ($(window).innerWidth() > 768) {
+		console.log($(window).innerWidth());
+		$(window).scroll(function() {
+			var scrollWindow = $(window).scrollTop();
+			var posicionbol = 150, posicioneve = 350;//
+
+			//console.log($('#t-boletines').offset().top);
+
+			if ( scrollWindow > posicionbol && $("#boletines").css('display')=='none') {
+				//console.log($('#boletines').scrollTop());
+				$("#boletines").slideDown().addClass('d-flex');
+			}
+			if( scrollWindow < posicionbol && $("#boletines").css('display')=='flex'){
+				//console.log($('#boletines').scrollTop());
+				$("#boletines").slideUp().removeClass('d-flex');
+			}
+			
+			//console.log($('#t-eventos').offset().top);
+
+			if ( scrollWindow > posicioneve && $("#eventos").css('display')=='none') {
+				//console.log($('#eventos').scrollTop());
+				$("#eventos").slideDown().addClass('d-flex');
+			}
+			if( scrollWindow < posicioneve && $("#eventos").css('display')=='flex'){
+				//console.log($('#eventos').scrollTop());
+				$("#eventos").slideUp().removeClass('d-flex');
+			}
+		});
+	}
+});
+Template.sidebar.onRendered(function(){
+	//arregglar con removeClass d-flex
+	//console.log($(window).innerHeight()*0.05);
+	//console.log($(window).scrollTop());
+
+	$('#t-boletines').click(function(event) {
+		/* Act on the event */
+		//console.log('side');
+		$("#boletines").slideToggle();
+	});
+	$('#t-eventos').click(function(event) {
+		/* Act on the event */
+		//console.log('side');
+		$("#eventos").slideToggle();
+	});
+	$('#t-sidebar').click(function(event) {
+		/* Act on the event */
+		//console.log('side');
+		$("#sidebar").slideToggle();
+	});
+	if ($(window).innerWidth() > 768) {
+		$(window).scroll(function() {
+
+		var scrollWindow = $(window).scrollTop();
+		var posicionside = 350;//
+
+		//console.log($('#t-sidebar').offset().top);
+
+		if ( scrollWindow > posicionside && $("#sidebar").css('display') == 'none') {
+			//console.log($('#sidebar').scrollTop());
+			$("#sidebar").slideDown();
+		}
+		if( scrollWindow < posicionside && $("#sidebar").css('display') == 'block'){
+			//console.log($('#sidebar').scrollTop());
+			$("#sidebar").slideUp();
+		}
+
+		});	
+	}
+
+	
+
+})
 Template.sidebar.helpers({
 	listMenus: function () {
 		return MENUENLACE.find();

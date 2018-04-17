@@ -5,32 +5,46 @@
     <meta name="viewport" content="width=device-width">
 
   </head>
-  <body class="{{navbarTheme.fuente}}" style="background-color:#f5f6f8 !important">    
+  <body id="mainuser" class="{{navbarTheme.fuente}}" style="background-color:#f5f6f8 !important">    
     <div id="" class="row mx-0" >
        
                
         {{#if Sitio}}
+
           {{#if readySitio}}
+
+            
+              <div class="col-sm-12 col-md-12  p-0"  >
               
-              <div class="col-sm-12 col-md-12  p-0"  >       
-              {{#if headerArriba}} 
+              {{#if headerArriba}}
+
                 {{> Template.dynamic template=header}}
                 {{> Template.dynamic template=navbar}}
+
               {{else}}
                 {{> Template.dynamic template=navbar}}
                 {{> Template.dynamic template=header}}
-
               {{/if}}
-              </div>
               
+
+              </div>
 
               <div class="col-sm-12 col-md-10 offset-md-1 p-0">
-                {{> Template.dynamic template=banner}}
-                
-                {{> Template.dynamic template=content}}
-              
-                {{> Template.dynamic template=footer}}
+               
+                {{#animate type="rubberBand"}} 
+
+                      {{> Template.dynamic template=banner}}
+                  
+                {{/animate}}
+
+                {{#animate type="rubberBand"}}
+                  {{> Template.dynamic template=content}}
+                {{/animate}}
+                {{#animate type="pulse"}}
+                  {{> Template.dynamic template=footer}}
+                {{/animate}}
               </div>
+                
           {{else}}
             <p>cargando ...</p><i class="fa fa-spinner fa-4x"></i>
           {{/if}}
@@ -47,6 +61,9 @@
 
 
 <template name="header">
+
+
+
   <header>
 
   {{#each header }}  
@@ -55,10 +72,10 @@
     <div class="col-md-10 col-sm-12" style="background-color: #3b4042;">
       <div class="row mx-0">
         <div class="col-md-6 col-sm-12 col-xs-12 p-2 mb-0  d-flex justify-content-start align-items-center" >
-        <img src="/logou.png" class="img-fluid px-2" alt="Logo" style="max-height: 15vh">
+        <img src="/logou.png" class="img-fluid " alt="Logo" style="max-height: 15vh">
         <!--<img src="img/logoc.png" class="img-fluid collapse  float-right d-lg-block pb-4"  alt="Logo">-->
       
-        <div >
+        <div class="pl-2" >
           <h2 style="color:white;text-shadow: 4px 0px 10px black;" >{{titulo}}</h2>        
           <h5 style="color:white;text-shadow: 2px 2px 10px black;" class=" text-uppercase d-none d-lg-block d-md-block">{{subtitulo}}</h5>
         </div>
@@ -78,6 +95,7 @@
   </div>
   {{/each}}
   </header>
+   
 </template>
 <template name="navbar">
   
@@ -97,17 +115,15 @@
           </button>
 
           <div class="collapse navbar-collapse " id="navbarResponsive">
-            <ul class="navbar-nav " >
+            <ul class="navbar-nav">
               <!--M E N U-->
               <li class="nav-item active d-block " >
                 <a class="bg-ai l-nav-s bajar nav-link text-uppercase text-expanded py-3 " href="" style="">
                   inicio
-                  
                 </a>
               </li>
               {{#each listMenu}}
-                {{> menu}}
-              
+                {{> menu}}              
               {{/each}}
             </ul>
           </div>
@@ -149,6 +165,7 @@
       </a> 
     </li>
   {{/if}}
+  
   <script type="text/javascript">
    $(document).ready(function() {
     //console.log('load');
@@ -156,6 +173,7 @@
   
       console.log($(document).());
     }*/
+
     var time= false;
     $(".drop").click().hover(function() {
         
@@ -191,6 +209,9 @@
 </template>
 
 <template name="banner">
+ {{#if bannerReady}}
+
+
   {{#if tipoDefault.default}}
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -206,9 +227,9 @@
               <h1 style="font-size: 4.5vw !important;">Ejemplo de Encabezado.</h1>
               <div class="d-none d-md-block " style="font-size: 1.6vw !important;">
               <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p></p>
+              <p><a class="btn  btn-primary" href="#" role="button">Mas detalles...</a></p>
               </div>
-              <a class="btn  btn-primary" href="#" role="button">Mas detalles...</a>
+              
             </div>
           </div>
         </div>
@@ -259,14 +280,13 @@
         {{{banner.textoPersonalizado}}}  
       </center>
     {{/if}}
-  {{/if}}
-  
+  {{/if}}  
 
+{{/if}}
 </template>
 
-
-
 <template name="content">
+
     <style type="text/css">
            .bol{
             background-color: white;
@@ -277,24 +297,20 @@
            display: flex;
            align-items: center;
             min-height: 14vw;
-            
-            
           }
          @media (max-width: 767.98px) {
             .img-card{
               min-height: 40vw;
             }
           }
-
-           
     </style>
   <div class="row mx-0 ">
     <div class="col-12 p-1">
 
-      <div class="d-flex justify-content-center" style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;">
+      <div id="t-boletines" class=" d-flex justify-content-center mb-2 p-2" style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;">
         <h2 >BOLETINES</h2>
       </div>
-      <div class="row mx-0 text-center d-flex justify-content-around my-2">
+      <div id="boletines" class="row mx-0 text-center justify-content-around my-2" style="display: none;">
         <div class="col-11 col-md-6 col-lg-6  my-2 d-flex align-content-stretch pb-1 " >
           <div class="row p-2 bol m-1 " >
             <div class="col-6">
@@ -323,13 +339,17 @@
         </div>
       </div>
     </div>  
-    <div class="col-sm-12 col-md-8 p-1">
+    <div  class="col-sm-12 col-md-8 p-1">
       <!--{{>contenido}} deberia ser dinamico ?-->
-      <div class="title-event d-flex justify-content-center mb-2 p-2" >
+
+      <div id="t-eventos" class="title-event d-flex justify-content-center mb-2 p-2" >
         <h2 >EVENTOS</h2>            
       </div>
-      <div class="row d-flex justify-content-center mx-0 px-sm-4"> 
-        <div class="col-md-6 col-sm-6 -flex align-items-stretch mb-1" >
+      <!--<div id="aparecer" class="p-5 appear" >
+        algo
+      </div>-->
+      <div id="eventos" class="row  justify-content-center mx-0 px-sm-4" style="display: none;"> 
+        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1" >
           <div class="item-event card  p-1 ">
             <div class="img-card">
                 <img class=" img-fluid" src="/graduacion.jpg" alt="Card image cap">
@@ -398,54 +418,57 @@
 
       
      
-      <div class="alert alert-warning my-3" role="alert">
+      <!--<div class="alert alert-warning my-3" role="alert">
           <strong>Aun no hay contenido para mostrar</strong>
-      </div>
-       
-      <div style="border:solid 2px black;" class="l-nav">algo</div>
-  
+      </div>-->
     </div>
     
-    <div class="col-12 col-md-4 p-1">
-      
+    <div  class="col-12 col-md-4 p-1">
       {{> sidebar}}
     </div>
+    
   </div>
 
 
 </template>
+
 <template name="sidebar">
+
   {{#if sidebarDefault}}
-    <div class="title-sidebar p-2 d-flex justify-content-center" >
+    <div id="t-sidebar" class="title-sidebar  d-flex justify-content-center p-2 mb-2" >
       <h2 >ENLACES EXTERNOS</h2>
     </div>
-    <div class="m-2">
-      {{#each listMenus}}
-        
-        <div class="py-2 mt-3 menu-sidebar" style="">
-          <div class="text-center">
-            <h4 class="">{{nombre}}</h4>
+    <div id="sidebar" style="display: none;">
+      <div class="m-2">
+        {{#each listMenus}}
+          
+          <div class="py-2 mt-3 menu-sidebar" style="">
+            <div class="text-center">
+              <h4 class="">{{nombre}}</h4>
+            </div>
+            <hr>
+            <ul style="padding-left: 0;">
+                {{#each listEnlaces}}          
+                  <li >
+                    <a class="nav-link text-white" target="_blank" href="{{url}}"><i class="pr-2 fa fa-share"></i> {{nombre}}</a>
+                  </li>
+                {{/each}}
+            </ul>
           </div>
-          <hr>
-          <ul style="padding-left: 0;">
-              {{#each listEnlaces}}          
-                <li >
-                  <a class="nav-link text-white" target="_blank" href="{{url}}"><i class="pr-2 fa fa-share"></i> {{nombre}}</a>
-                </li>
-              {{/each}}
-          </ul>
+        {{else}}
+        <div class="alert alert-primary" role="alert">
+            <strong>Aun no se agrego nada</strong>
         </div>
-      {{else}}
-      <div class="alert alert-primary" role="alert">
-          <strong>Aun no se agrego nada</strong>
+        {{/each}}
       </div>
-      {{/each}}
     </div>
-  {{else}}
-    <center>
-      {{{sidebar.html}}}  
-    </center>
-  {{/if}}
+    {{else}}
+      <center>
+        {{{sidebar.html}}}  
+      </center>
+    {{/if}}
+
+  
 </template>
 <template name="footer">
   {{#if footerDefault}}
@@ -462,15 +485,15 @@
         <div class="l-foot mt-3">
             <a  style="" class=" h5" href="https://www.youtube.com/?hl=es-419">
               
-              <span class=" h3"><i class="fa fa-youtube-square "></i></span>
+              <span class=" h3"><i class="fa fa-youtube "></i></span>
             </a>
             <a  class="l-foot h5" href="https://twitter.com/?lang=es">
               
-              <span class="text-center h3"><i class="fa fa-twitter-square "></i></span>
+              <span class="text-center h3"><i class="fa fa-twitter "></i></span>
             </a>
             <a  class="l-foot h5" href="https://es-la.facebook.com">
               
-              <span class=" h3"><i class="fa fa-facebook-square "></i></span>
+              <span class=" h3"><i class="fa fa-facebook "></i></span>
             </a>
             <a  class="l-foot h5" href="https://www.instagram.com/?hl=es-la">              
               <span class=" h3"><i class="fa fa-instagram "></i></span>

@@ -72,7 +72,8 @@
 	<script type="text/javascript">			
 			var cont = 0;
 			var contc = 0;
-			var color = ['#007bff','#6c757d','#28a745','#dc3545','#ffc107','#17a2b8','#f8f9fa','#343a40','#ffffff']
+			var color1 = ['#007bff','#6c757d','#28a745','#dc3545','#ffc107','#17a2b8','#f8f9fa','#343a40','#ffffff'];
+			var color = ['white','black'];
 			//console.log(color[0]);
 
 			var rotar = function(){
@@ -85,7 +86,7 @@
 					transform: 'rotateY('+cont+'deg)'});						
 			}
 			var ccolor = function(){				
-				if (contc == 8) {
+				if (contc == 2) { //cant de colores
 					contc=0;
 				}
 				$('.girar').css({					

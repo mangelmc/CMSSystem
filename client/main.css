@@ -138,14 +138,21 @@ h1 {
 .l-foot a:hover{
   border: none;
 
-  border-radius: 0.2rem;
-  font-size: 2.5rem;  
+  
+  /*font-size: 2.5rem;  */
+  
+  
 
 }
-.l-foot span:hover{
-  
-  
-  font-size: 2.5rem;  
+.l-foot i:hover{
+  padding:.2rem .6rem; 
+  border-radius: 0.7rem;
+  background-color: white;
+  color: black;
+  text-shadow: none;
+  box-shadow: 0rem 0rem .5rem .3rem silver;
+  border: solid .01rem gray; 
+  /*font-size: 2.5rem;  */
 
 }
 
@@ -215,4 +222,14 @@ h1 {
 .algo .borderanim:hover span:after {
     /* Posición final del borde lateral derecho */
     bottom:0;
+}
+
+
+
+
+
+.appear{
+  float: left;
+  border:solid .5rem cyan;
+  margin-right:-700px;  
 }

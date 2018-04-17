@@ -78,6 +78,7 @@ Meteor.startup(() => {
         //}        
     },
     checkSiteRoute : function (idSitio){
+
       if (Roles.userIsInRole(this.userId,'admin')) {
         var sitioAdmin = SITIO.findOne({admin:this.userId,_id:idSitio});
         if (sitioAdmin != undefined) {
@@ -98,8 +99,9 @@ Meteor.startup(() => {
       return {check : false,rol:''};
       
     },
-    redirect : function (){
+    redirectUser : function (){
 
+     
       if (Roles.userIsInRole(this.userId,'admin')) {
         
         return {res : true,rol:'admin'};
@@ -108,7 +110,7 @@ Meteor.startup(() => {
                   
           return {res : true,rol:'root'};
       }
-      return {res:false}; 
+      return {res:false,rol:''}; 
     },
     checkRolRoot : function(){
       if (Roles.userIsInRole(this.userId,'root')) {
@@ -117,10 +119,25 @@ Meteor.startup(() => {
       }
       if (Roles.userIsInRole(this.userId,'admin')) {
         
-        return {res : true ,route : 'admin'};
+        return {res : false ,route : 'admin'};
       }
-      return {res : true ,route : ''};
+      return {res : false ,route : ''};
     },
+
+    trackUser : function(){
+       //console.log(this.connection);
+      //ip = this.connection.clientAddress; en produccion
+      //console.log(JSON.parse('http://jsonip.com?callback=?'));
+
+      /*
+      $.getJSON('http://jsonip.com?callback=?', function(json, textStatus) {
+          
+          console.log(json);
+      });*/
+      //return HTTP.get('http://jsonip.com?callback=?').data.ip;
+      return this.connection.clientAddress;
+    },
+
     crearAdmin : function (user){
       
       var newUser = {
