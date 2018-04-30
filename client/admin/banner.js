@@ -38,9 +38,9 @@ Template.banneradmin.events({
 		e.preventDefault();
 		idBanner = BANNER.findOne({})._id;
 		var html = e.target.texto.value;
-		console.log(idBanner);
+		//console.log(idBanner);
 		Meteor.call('editBannerHtml',idBanner, html, function (error, result) {
-			console.log(result);
+			//console.log(result);
 			sAlert.info('Se modifico', {effect: 'slide',offset: '130'});
 		});
 		

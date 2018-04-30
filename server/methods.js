@@ -62,11 +62,13 @@ Meteor.startup(() => {
                   idSitio:result,titulo:obj.carrera,subtitulo:'Subtitulo del Sitio',tipoFondo:'ninguno',
                   fondo:'ninguno',fuente:'Arial',logo1:'logo1.jpg',logo2:'logo2.jpg',posicion:'up',tipo : 'default'
                 });
-                NAVBAR.insert({idSitio:result,color:'blue',fuente:'Arial'});
+                NAVBAR.insert({idSitio:result,color:'seablue',fuente:'Arial'});
+                MENU.insert({nombre:"inicio",link:"/",tipo:'normal',idSitio:result,estado:"activo"});
+
                 CUERPO.insert({idSitio:result,tipoFondo:'color',fondo:'white'});
                 SIDEBARMENU.insert({idSitio:result,tipoFondo:'color',fondo:'skyblue',fuente:'Times New Roman',tipo:'default',html:'<div>Sidebar Personalizado </div>'});
                 FOOTER.insert({idSitio:result, fuente:'Arial', texto:obj.carrera+' '+ new Date().getFullYear(),tipo:'default',html:'<div>Footer Personalizado </div>'});
-                BANNER.insert({idSitio:result, tipo:'texto e imagen', texto:obj.carrera,imagen:'/students.jpg',textoPersonalizado:'<div class="bg-primary"><span class="text-white">Texto Personalizado </span></div>'});
+                BANNER.insert({idSitio:result, tipo:'texto e imagen', texto:obj.carrera,imagen:'/students.jpg',textoPersonalizado:'<div class="bg-primary p-5 m-5" style="height:25vw"><span class="text-white">Texto Personalizado </span></div>'});
                 response = "Se creó el Sitio Web " ;
                }
                if (error) {
@@ -124,7 +126,7 @@ Meteor.startup(() => {
       return {res : false ,route : ''};
     },
 
-    trackUser : function(){
+    trackUser : function(obj){
        //console.log(this.connection);
       //ip = this.connection.clientAddress; en produccion
       //console.log(JSON.parse('http://jsonip.com?callback=?'));
@@ -135,7 +137,7 @@ Meteor.startup(() => {
           console.log(json);
       });*/
       //return HTTP.get('http://jsonip.com?callback=?').data.ip;
-      return this.connection.clientAddress;
+      var ipLocal = this.connection.clientAddress;
     },
 
     crearAdmin : function (user){
@@ -154,13 +156,13 @@ Meteor.startup(() => {
         }
       };
        
-      var account =Accounts.createUser(newUser);
+      var account = Accounts.createUser(newUser);
 
       if (account) {
      
         Roles.addUsersToRoles(account, ['admin']);
       }
-      console.log(account);
+      //console.log(account);
       return account;
     },
     darEstado : function(id,estado){
@@ -178,8 +180,6 @@ Meteor.startup(() => {
     editHeader : function (id,obj){
       return HEADER.update({_id:id}, {$set:obj});
     },  
-    
-    
     
     ////////HEADER METHODS END//////////
     ////////BANNER METHODS BEGIN//////////

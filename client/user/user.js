@@ -2,6 +2,9 @@ import {Meteor} from "meteor/meteor";
 
 import './user.html';
 
+import '/imports/css3-animate-it/js/css3-animate-it.js';
+
+
 sitioClient = new ReactiveVar();
 posBanner = new ReactiveVar();
 var estilo = new ReactiveVar();
@@ -12,7 +15,9 @@ Template.user.onCreated(function(){
 			//console.log(sitioClient.get());
 		});			
 });
-
+Template.user.onRendered(function(){
+	//console.log($(document).height());
+})
 Template.user.helpers({
 	readySitio : function(){
 		//seria genial cargar aqui la variable reactiva sitioClient
@@ -58,7 +63,7 @@ Template.header.helpers({
 });
 Template.banner.onRendered(function(){
 	//console.log($('#banneruser div').attr('data-ride'));
-   	$('#banneruser').fadeIn('slow');
+   	//$('#banneruser').fadeIn('slow');
 })
 Template.banner.helpers({
 	banner : function(){
@@ -71,12 +76,20 @@ Template.banner.helpers({
 	tipoDefault : function(){
 		var banner = BANNER.findOne({});
 		if (banner != undefined && banner.tipo == "carrusel") {
-			return	{default : true};
+			
+			$(window).scrollTop($(window).scrollTop()+1);
+			return	{carrusel : true};
 		}
 		if (banner != undefined && banner.tipo == "texto e imagen") {
+			
+			$(window).scrollTop($(window).scrollTop()+1);			
 			return	{texto : true};
 		}
+		$(window).scrollTop($(window).scrollTop()+1);
 		//return false;
+	},
+	listCarrusel : function(){
+		return CARROUSEL.find();
 	}
 });
 Template.navbar.helpers({
@@ -112,6 +125,36 @@ Template.navbar.helpers({
 	}
 
 });
+Template.menu.onRendered(function(){
+	$(".drop").click().hover(function() {
+        
+        var id = $(this).attr('id');
+        
+        
+          $(this).addClass('mostaza');
+          $('#'+id+1).show('fast');
+
+        //$('.drop').finish();
+        
+        $('.drop ').clearQueue();
+        /* Stuff to do when the mouse enters the element */
+      }, function() {
+        
+        /*var id = $(this).attr('id');
+        $('#'+id+1).hide('fast');
+        $(this).css('background-color','blue');*/
+
+        $('.drop div').each(function(index, el) {
+          if ($(this).css('display')=='block') {
+            $(this).hide('fast');
+            
+          }
+          $(this).parent().removeClass('mostaza');
+        });
+      $('.drop div').finish();
+      /* Stuff to do when the mouse leaves the element */
+      });
+})
 Template.menu.helpers({
 	submenu : function () {
 		if (this.tipo=="con submenu") {
@@ -131,12 +174,26 @@ Template.menu.helpers({
 		
 	}
 });
+Template.header.onRendered(() => {
+	$(window).scrollTop($(window).scrollTop()+1);
+
+	/*var window_left = $(window).scrollLeft();
+    var window_top = $(window).scrollTop();
+    var offset = $('#t-eventos').offset();
+    var left = offset.left;
+    var top = offset.top;
+    console.log(top);
+    console.log(left);
+    console.log(window_left);
+    console.log(window_top);*/
+})
+/*
 Template.content.onRendered(function(){
 
 	
 
 	if ($(window).innerWidth() > 768) {
-		console.log($(window).innerWidth());
+		//console.log($(window).innerWidth());
 		$(window).scroll(function() {
 			var scrollWindow = $(window).scrollTop();
 			var posicionbol = 150, posicioneve = 350;//
@@ -171,17 +228,17 @@ Template.sidebar.onRendered(function(){
 	//console.log($(window).scrollTop());
 
 	$('#t-boletines').click(function(event) {
-		/* Act on the event */
+		
 		//console.log('side');
 		$("#boletines").slideToggle();
 	});
 	$('#t-eventos').click(function(event) {
-		/* Act on the event */
+		
 		//console.log('side');
 		$("#eventos").slideToggle();
 	});
 	$('#t-sidebar').click(function(event) {
-		/* Act on the event */
+	
 		//console.log('side');
 		$("#sidebar").slideToggle();
 	});
@@ -205,9 +262,7 @@ Template.sidebar.onRendered(function(){
 		});	
 	}
 
-	
-
-})
+})*/
 Template.sidebar.helpers({
 	listMenus: function () {
 		return MENUENLACE.find();

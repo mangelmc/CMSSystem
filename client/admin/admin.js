@@ -60,7 +60,7 @@ Template.admin.events({
 	},
 	'click #content': function () {
 		//myTemplates.set('contentadmin');
-		FlowRouter.go('/admin/:titulo/contenido',{titulo:FlowRouter.getParam('titulo')},1);
+		FlowRouter.go('/admin/:titulo/menucontenido',{titulo:FlowRouter.getParam('titulo')},1);
 		
 	},
 	'click #nuevocont': function () {

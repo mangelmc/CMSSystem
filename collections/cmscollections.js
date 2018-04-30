@@ -4,7 +4,7 @@ import {Mongo} from "meteor/mongo";
 SITIO = new Mongo.Collection('sitio');
 
 var sitioSchema =new SimpleSchema({
-    
+
     titulo : {
         type:String,
     },
@@ -38,7 +38,7 @@ var bannerSchema =new SimpleSchema({
         type:String,//DEFAULT TEXTO E IMAGEN
     },
     texto :{
-        type:String,//titulo o lorem ipsum 
+        type:String,//titulo o lorem ipsum
     },
     imagen :{
         type:String,//link de una imagen por defecto
@@ -77,7 +77,7 @@ CARROUSEL.attachSchema(carrouselSchema);
 HEADER = new Mongo.Collection('header')
 
 var headerSchema =new SimpleSchema({
-    
+
     idSitio :{
         type:String,
     },
@@ -89,7 +89,7 @@ var headerSchema =new SimpleSchema({
         optional : true
     },
     tipoFondo : {
-        type : String //si es color o imagen 
+        type : String //si es color o imagen
     },
     fondo : {
         type : String //link o el color
@@ -106,17 +106,17 @@ var headerSchema =new SimpleSchema({
         optional : true
     },
     posicion : {
-        type : String,      
+        type : String,
     }
 });
 HEADER.attachSchema(headerSchema);
 
 NAVBAR = new Mongo.Collection('navbar')
 
-var navbarSchema =new SimpleSchema({    
-    idSitio :{
+var navbarSchema =new SimpleSchema({
+    idSitio : {
         type:String,
-    },    
+    },
     color : {
         type : String
     },
@@ -129,7 +129,7 @@ NAVBAR.attachSchema(navbarSchema);
 MENU = new Mongo.Collection('menu')
 
 var menuSchema = new SimpleSchema({
-    
+
     /*idNavbar :{
         type:String,
     },---- mientars no haya problema con referencia al navbar*/
@@ -156,9 +156,9 @@ SUBMENU = new Mongo.Collection('submenu')
 
 var submenuSchema =new SimpleSchema({
     idSitio : {
-        type:String,        
+        type:String,
     },
-    idMenu :{
+    idMenu : {
         type:String,
     },
     nombre : {
@@ -177,12 +177,12 @@ SUBMENU.attachSchema(submenuSchema);
 CUERPO = new Mongo.Collection('cuerpo')
 
 var cuerpoSchema =new SimpleSchema({
-    
-    idSitio :{
+
+    idSitio : {
         type:String,
     },
     tipoFondo : {
-    	type : String //si es color o imagen 
+    	type : String //si es color o imagen
     },
     fondo : {
     	type : String //link o el color
@@ -194,25 +194,25 @@ CUERPO.attachSchema(cuerpoSchema);
 SIDEBARMENU = new Mongo.Collection('sidebarmenu')
 
 var sidebarMenuSchema =new SimpleSchema({
-    
-    idSitio :{
+
+    idSitio : {
         type:String,
     },
     tipoFondo : {
-    	type : String //si es color o imagen 
+    	type : String //si es color o imagen
     },
     fondo : {
     	type : String //link de la imagen o el color
     },
     fuente : {
-        type : String 
+        type : String
     },
     tipo :  {
-        type : String 
+        type : String
     },
     html :  {
         type : String,
-        optional : true 
+        optional : true
     },
 });
 
@@ -221,7 +221,7 @@ SIDEBARMENU.attachSchema(sidebarMenuSchema);
 MENUENLACE =new Mongo.Collection('menuenlace')
 
 var menuenlaceSchema =new SimpleSchema({
-    
+
     idSitio :{
         type:String,
     },
@@ -229,10 +229,10 @@ var menuenlaceSchema =new SimpleSchema({
         type : String
     },
     posicion : {
-        type : String 
+        type : String
     },
     estado : {
-        type : String 
+        type : String
     }
 });
 MENUENLACE.attachSchema(menuenlaceSchema);
@@ -240,27 +240,44 @@ MENUENLACE.attachSchema(menuenlaceSchema);
 ENLACE =new Mongo.Collection('enlace')
 
 var enlaceSchema =new SimpleSchema({
-    
-    idSitio:{
+
+    idSitio : {
         type:String,
-    }, 
-    idMenu :{
+    },
+    idMenu : {
         type:String,
     },
     nombre : {
         type : String
     },
     url : {
-        type : String 
+        type : String
     }
 });
 ENLACE.attachSchema(enlaceSchema);
 
+CONTENIDO = new Mongo.Collection('contenido')
 
+var contenidoSchema =new SimpleSchema({
+    
+    idSitio : {
+        type:String,
+    },
+    idMenu : {
+        type:String,
+    },
+    tipo : {
+        type : String
+    },
+    comentarios : {
+        type : String
+    }
+});
+CONTENIDO.attachSchema(contenidoSchema);
 FOOTER = new Mongo.Collection('footer')
 
 var footerSchema =new SimpleSchema({
-    
+
     idSitio :{
         type:String,
     },
@@ -281,4 +298,3 @@ var footerSchema =new SimpleSchema({
 
 });
 FOOTER.attachSchema(footerSchema);
-

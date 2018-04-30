@@ -11,13 +11,26 @@
 
 body {
   font-family: 'Arial', serif ;
-  /*font-family: 'Lora', 'Lucida Sans', serif; ;*/
+  /*font-family: 'Lora', 'Lucida Sans', serif; */
   background-color: transparent;
   
 }
 
 h1 {
   font-size: 4rem;
+}
+
+.title-menu-adm h5{
+  font-size: 1.5rem !important;
+  text-shadow: .5rem .5rem .5rem black;
+  box-shadow: .1rem .3rem .2rem .2rem gray;
+  border-radius: .3rem;
+  padding-bottom: .5rem;
+  padding-top: .5rem;
+  padding-left: .5rem;
+}
+.title-menu-adm i{
+  text-shadow: .2rem .2rem .3rem black;
 }
 
 .l-nav{
@@ -229,7 +242,92 @@ h1 {
 
 
 .appear{
-  float: left;
+  
   border:solid .5rem cyan;
   margin-right:-700px;  
 }
+
+
+
+@keyframes izq {
+    0% { 
+        transform: translateX(-100%);
+        opacity: 0
+    }
+    30%{
+        opacity: .33;
+    }
+    75% {
+        transform: translateX(5%);
+        opacity: .66;
+    }
+    100% {
+        transform: translateX(0%);
+        opacity: 1
+    }
+}
+@keyframes der {
+    0% { 
+        transform: translateX(+100%);
+        opacity: 0
+    }
+    30%{
+        opacity: .33;
+    }
+    75% {
+        transform: translateX(-5%);
+        opacity: .66;
+    }
+    100% {
+        transform: translateX(0%);
+        opacity: 1
+    }
+}
+
+.box-l {
+    
+    animation-duration: 4s;
+    animation-fill-mode:both;
+    animation-name: izq;
+}
+.box-r {
+    
+    animation-duration: 4s;
+    animation-fill-mode:both;
+    animation-name: der;
+}
+
+@keyframes scale {
+    0% { 
+        transform: scale(0.2); 
+    }
+    70%{
+        transform: scale(1.5); 
+    }
+    100% {
+       transform: scale(1); 
+    }
+}
+
+.box-s {
+    animation-duration: 4s;
+    animation-fill-mode:both;
+    animation-name: scale;
+    transform: scale(0.2); 
+}
+
+@keyframes ancho {
+    0% {width:100%;}
+    100% {width:50%;}
+}
+
+.box-a {
+    animation-duration: 2s;
+    animation-fill-mode:both;
+    /*animation-name: ancho;
+    transform: width;*/
+}
+.box-a:hover {
+    animation-name: ancho;
+}
+

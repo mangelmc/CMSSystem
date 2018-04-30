@@ -87,29 +87,6 @@ Template.navbaradmin.events({
 	'click .listmenu': function (e) {
 		//console.log(e.target.id);
 		estadoMenu.set(e.target.id);
-		///////
-		if (e.target.id=='activo') {
-			$('#'+e.target.id).css({
-				'background-color': 'blue',
-				'color': 'white'
-			});
-			$('#inactivo').css({
-				'background-color': 'white',
-				'color': 'black'
-			});
-		}
-		else{
-			$('#activo').css({
-				'background-color': 'white',
-				'color': 'black'
-			});
-			$('#'+e.target.id).css({
-				'background-color': 'blue',
-				'color': 'white'
-			});
-		}
-		//////volverlo reactivo para que cambie al eliminar o restaurar menu
-
 	},
 	'click .editarmenu': function () {
 		

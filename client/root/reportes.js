@@ -23,8 +23,7 @@ Template.reportes.events({
 
         $.getJSON("https://api.ipify.org?format=jsonp&callback=?",
 	      function(json) {
-	      	
-	         $("#GeoResults").html(json.ip);
+	      	$("#GeoResults").html(json.ip);
 	      }
     	);
     	 ipLocal.set();

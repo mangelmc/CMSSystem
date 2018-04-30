@@ -77,6 +77,12 @@ Meteor.startup(() => {
       return NAVBAR.find({idSitio:idSitio._id});
     }
   });
+  Meteor.publish("getCarruselClient",function(titulo){
+    var idSitio = SITIO.findOne({titulo:titulo});
+    if (idSitio!=undefined) {
+      return CARROUSEL.find({idSitio:idSitio._id});
+    }
+  });
   Meteor.publish("getBannerClient",function(titulo){
     var idSitio = SITIO.findOne({titulo:titulo});
     if (idSitio!=undefined) {

@@ -3,46 +3,36 @@
     <title>Civil.net</title>
     <link href="https://fonts.googleapis.com/css?family=Bellefair" rel="stylesheet">
     <meta name="viewport" content="width=device-width">
-
   </head>
   <body id="mainuser" class="{{navbarTheme.fuente}}" style="background-color:#f5f6f8 !important">    
-    <div id="" class="row mx-0" >
-       
+    <div id="" class="row mx-0" >     
                
         {{#if Sitio}}
-
           {{#if readySitio}}
 
-            
-              <div class="col-sm-12 col-md-12  p-0"  >
-              
-              {{#if headerArriba}}
+              <div class="col-sm-12 col-md-12  p-0"  >              
+                {{#if headerArriba}}
+                  
+                  {{> header}}
+                  {{> navbar}}
 
-                {{> Template.dynamic template=header}}
-                {{> Template.dynamic template=navbar}}
+                {{else}}
 
-              {{else}}
-                {{> Template.dynamic template=navbar}}
-                {{> Template.dynamic template=header}}
-              {{/if}}
-              
+                  <div class="d-flex flex-column">
+                    <div class="order-2">{{> header}}</div>
+                    <div class="order-1">{{> navbar}}</div>
+                  </div>
+                  
+                {{/if}}
 
               </div>
 
               <div class="col-sm-12 col-md-10 offset-md-1 p-0">
-               
-                {{#animate type="rubberBand"}} 
 
-                      {{> Template.dynamic template=banner}}
-                  
-                {{/animate}}
+                {{> banner}}                
+                {{> content}}
+                {{> footer}} 
 
-                {{#animate type="rubberBand"}}
-                  {{> Template.dynamic template=content}}
-                {{/animate}}
-                {{#animate type="pulse"}}
-                  {{> Template.dynamic template=footer}}
-                {{/animate}}
               </div>
                 
           {{else}}
@@ -51,7 +41,7 @@
         {{else}}
           <div class="col-12 m-3">
             <div class="alert alert-warning " role="alert">
-                <strong> EL SITIO SOLICITADO NO EXISTE O NO ESTA DISPONIBLE TEMPORALMENTE...! :´( </strong> 
+                <strong> EL SITIO SOLICITADO NO EXISTE O NO ESTA DISPONIBLE TEMPORALMENTE...! :´( </strong>
             </div>
           </div>    
         {{/if}}
@@ -66,22 +56,23 @@
 
   <header>
 
-  {{#each header }}  
+  {{#each header }}
+  <div id="t-header" class="animatedParent" data-sequence='500'>
   <div class="row mx-0" >
-    <div class="col-md-1 d-md-block d-none" style="background-color: #5e5e5f;"></div>
+    <div class="col-md-1 d-md-block d-none " style="background-color: #5e5e5f;"></div>
     <div class="col-md-10 col-sm-12" style="background-color: #3b4042;">
-      <div class="row mx-0">
+      <div class="row mx-0 animated shakeUp" data-id='1'>
         <div class="col-md-6 col-sm-12 col-xs-12 p-2 mb-0  d-flex justify-content-start align-items-center" >
-        <img src="/logou.png" class="img-fluid " alt="Logo" style="max-height: 15vh">
+        <img src="/logou.png" class="img-fluid " alt="Logo" style="max-height: 15vh" data-id='1'>
         <!--<img src="img/logoc.png" class="img-fluid collapse  float-right d-lg-block pb-4"  alt="Logo">-->
       
-        <div class="pl-2" >
+        <div class="pl-2 animated rotateInDownLeft" data-id='2'>
           <h2 style="color:white;text-shadow: 4px 0px 10px black;" >{{titulo}}</h2>        
           <h5 style="color:white;text-shadow: 2px 2px 10px black;" class=" text-uppercase d-none d-lg-block d-md-block">{{subtitulo}}</h5>
         </div>
         </div>
       
-      <div class="col-md-6 col-sm-12 col-xs-12 d-flex align-items-center justify-content-md-end justify-content-md-end justify-content-sm-center p-sm-0">
+      <div class="animated  col-md-6 col-sm-12 col-xs-12 d-flex align-items-center justify-content-md-end justify-content-md-end justify-content-sm-center p-sm-0" data-id='3'>
         
           <form class="d-flex  justify-content-sm-center m-1" >
           <input class="form-control " type="text" placeholder="Que buscas?" aria-label="Search">
@@ -93,13 +84,14 @@
     <div class="col-md-1 d-md-block d-none" style="background-color: #5e5e5f;"></div>
      
   </div>
+  </div>  
   {{/each}}
   </header>
    
 </template>
 <template name="navbar">
   
-  <div class="row mx-0">
+  <div class="row mx-0 ">
     <div class="col-md-1 d-md-block d-none" style="background-color: #2c4d71;"></div>     
     <div class="col-md-10 col-sm-12 px-0">
       {{#if navbar }}
@@ -142,7 +134,7 @@
 </template>
 
 <template name="menu">
-
+  
   {{#if submenu}}
     <li class="l-nav-s drop dropdown nav-item d-block "  id="{{_id}}" >
       <a href="{{link}}" class="dropdown-toggle nav-link text-uppercase text-expanded text-white py-3 " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><!--id="dropdownMenuButton"-->
@@ -165,63 +157,26 @@
       </a> 
     </li>
   {{/if}}
-  
-  <script type="text/javascript">
-   $(document).ready(function() {
-    //console.log('load');
-    /*window.onresize = function() {
-  
-      console.log($(document).());
-    }*/
-
-    var time= false;
-    $(".drop").click().hover(function() {
-        
-        var id = $(this).attr('id');
-        
-        
-          $(this).addClass('mostaza');
-          $('#'+id+1).show('fast');
-
-        //$('.drop').finish();
-        
-        $('.drop ').clearQueue();
-        /* Stuff to do when the mouse enters the element */
-      }, function() {
-        
-        /*var id = $(this).attr('id');
-        $('#'+id+1).hide('fast');
-        $(this).css('background-color','blue');*/
-
-        $('.drop div').each(function(index, el) {
-          if ($(this).css('display')=='block') {
-            $(this).hide('fast');
-            
-          }
-          $(this).parent().removeClass('mostaza');
-        });
-      $('.drop div').finish();
-      /* Stuff to do when the mouse leaves the element */
-      });
-   });
-  </script>
-
+ 
 </template>
 
 <template name="banner">
  {{#if bannerReady}}
 
 
-  {{#if tipoDefault.default}}
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+  {{#if tipoDefault.carrusel}}
+  <div class="animatedParent">
+    <div id="myCarousel" class="animated  growIn slow carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
+        
+          <li data-target="#myCarousel" data-slide-to="0"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+
       </ol>
       <div class="carousel-inner " style="max-height: 45vw !important;">
         <div class="carousel-item active " style="max-height: 27vw;background-color: #5e5e5f;">
-          <img class="img-fluid first-slide mx-auto d-block" src="/graduacion.jpg" alt="First slide">
+          <img class="img-fluid  mx-auto d-block" src="/graduacion.jpg" alt="First slide">
           <div class="container">
             <div class="carousel-caption text-left" style="text-shadow:.2rem .2rem .9rem blue; ">
               <h1 style="font-size: 4.5vw !important;">Ejemplo de Encabezado.</h1>
@@ -234,7 +189,7 @@
           </div>
         </div>
         <div class="carousel-item" style="max-height: 27vw;background-color: #5e5e5f;">
-          <img class="img-fluid second-slide mx-auto d-block" src="/students.jpg" alt="Second slide" >
+          <img class="img-fluid  mx-auto d-block" src="/students.jpg" alt="Second slide" >
           <div class="container">
             <div class="carousel-caption text-center" style="text-shadow:.2rem .2rem .9rem blue; ">
               <h1 style="font-size: 4.5vw !important;">Algun Ejemplo de Titulo.</h1>
@@ -269,15 +224,20 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
+  </div>
   {{else}}
     {{#if tipoDefault.texto}}
-      <div style="background: url('{{banner.imagen}}');background-size: cover; min-height: 28vw;max-height: 33vw;" class="d-flex justify-content-center align-items-start d-block">
+      <div class="animatedParent">
+      <div style="background: url('{{banner.imagen}}');background-size: cover; min-height: 28vw;max-height: 33vw;" class="animated growIn slow d-flex justify-content-center align-items-start d-block">
           <h1 class="text-white text-uppercase" style="text-shadow: 0.2rem .3rem .5rem black">{{banner.texto}}</h1>
       
       </div>
+      </div>
     {{else}}
       <center>
-        {{{banner.textoPersonalizado}}}  
+        <div class="animatedParent">
+          <div class="animated growIn slow ">{{{banner.textoPersonalizado}}}</div>
+        </div>
       </center>
     {{/if}}
   {{/if}}  
@@ -305,13 +265,13 @@
           }
     </style>
   <div class="row mx-0 ">
-    <div class="col-12 p-1">
-
-      <div id="t-boletines" class=" d-flex justify-content-center mb-2 p-2" style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;">
+    <div class="col-12 p-1 animatedParent" data-sequence='500'>
+      <div id="t-boletines" class="animated fadeInDown d-flex justify-content-center mb-2 p-2 " style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;" data-id='1' >
         <h2 >BOLETINES</h2>
       </div>
-      <div id="boletines" class="row mx-0 text-center justify-content-around my-2" style="display: none;">
-        <div class="col-11 col-md-6 col-lg-6  my-2 d-flex align-content-stretch pb-1 " >
+      <div id="boletines" class="row mx-0 text-center d-flex justify-content-around my-2" >
+        <div class="col-11 col-md-6 col-lg-6  my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest" data-id='2'>
+          
           <div class="row p-2 bol m-1 " >
             <div class="col-6">
              <img class="img-fluid  mx-auto" src="/students.jpg" alt="Card image cap" style=" ">
@@ -326,7 +286,7 @@
           
         </div>
          
-        <div class="col-11 col-md-6 col-lg-6  my-2 d-flex align-content-stretch pb-1" >      
+        <div class="col-11 col-md-6 col-lg-6  my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest " data-id='3'>      
               <div class=" row p-2 bol m-1 " >
                 <div class="col-6 ">
                   <img class="img-fluid mx-auto" src="/light-wave.png" alt="Card image cap">
@@ -339,18 +299,19 @@
         </div>
       </div>
     </div>  
-    <div  class="col-sm-12 col-md-8 p-1">
+    <div  class="col-sm-12 col-md-8 p-1 ">
       <!--{{>contenido}} deberia ser dinamico ?-->
-
-      <div id="t-eventos" class="title-event d-flex justify-content-center mb-2 p-2" >
-        <h2 >EVENTOS</h2>            
+      <div class="animatedParent">
+        <div id="t-eventos" class="title-event d-flex justify-content-center mb-2 p-2 animated fadeInLeft" >
+          <h2 >EVENTOS</h2>            
+        </div>
       </div>
       <!--<div id="aparecer" class="p-5 appear" >
         algo
       </div>-->
-      <div id="eventos" class="row  justify-content-center mx-0 px-sm-4" style="display: none;"> 
-        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1" >
-          <div class="item-event card  p-1 ">
+      <div id="eventos" class="row d-flex justify-content-center mx-0 px-sm-4"  > 
+        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent" >
+          <div class="item-event card  p-1 animated rotateInUpLeft">
             <div class="img-card">
                 <img class=" img-fluid" src="/graduacion.jpg" alt="Card image cap">
             </div>
@@ -364,8 +325,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1" >
-          <div class="item-event card  p-1" >
+        <div class=" col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent" >
+          <div class="item-event card p-1 animated rotateInUpLeft" >
             <div class="img-card">
                 <img class=" img-fluid" src="/robot-62.jpg" alt="Card image cap">
             </div>
@@ -379,8 +340,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1" >
-          <div class="item-event card p-1" >
+        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent " >
+          <div class="item-event card p-1 animated rotateInUpLeft" >
             <div class="img-card">
                 <img class=" img-fluid" src="/students.jpg" alt="Card image cap">
             </div>
@@ -394,8 +355,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 " >
-          <div class="item-event card p-1" >
+        <div class=" col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent " >
+          <div class="item-event card p-1 animated rotateInUpLeft" >
             <div class="img-card">
                 <img class=" img-fluid" src="/nature.jpg" alt="Card image cap">
             </div>
@@ -409,8 +370,8 @@
             </div>
           </div>
         </div>
-        <div class="col-12 my-2 d-flex justify-content-center" >
-          <div class="foot-event d-flex justify-content-center" style="width: 80%;">
+        <div class="col-12 my-2 d-flex justify-content-center animatedParent" >
+          <div class="foot-event d-flex justify-content-center animated fadeInUpShort slow " style="width: 80%;">
             <a href="" class="nav-link " style=""><h4 class="mx-auto d-block">MAS EVENTOS</h4></a>            
           </div>
         </div>
@@ -435,11 +396,12 @@
 <template name="sidebar">
 
   {{#if sidebarDefault}}
-    <div id="t-sidebar" class="title-sidebar  d-flex justify-content-center p-2 mb-2" >
+  <div class="animatedParent">
+    <div id="t-sidebar" class="title-sidebar d-flex justify-content-center p-2 mb-2 animated fadeInUp" >
       <h2 >ENLACES EXTERNOS</h2>
     </div>
-    <div id="sidebar" style="display: none;">
-      <div class="m-2">
+    <div id="sidebar" >
+      <div class="m-2 animated rotateInUpRight">
         {{#each listMenus}}
           
           <div class="py-2 mt-3 menu-sidebar" style="">
@@ -462,27 +424,30 @@
         {{/each}}
       </div>
     </div>
-    {{else}}
-      <center>
-        {{{sidebar.html}}}  
-      </center>
-    {{/if}}
+  </div>
+  {{else}}
+    <center>
+      {{{sidebar.html}}}  
+    </center>
+  {{/if}}
 
   
 </template>
 <template name="footer">
   {{#if footerDefault}}
-    <footer id="contfooter" class="footer-content text-center py-4 {{navbarTheme.color}}" >
+  <div class="animatedParent">
+    <footer id="contfooter" class="animated flipInX footer-content text-center py-4 {{navbarTheme.color}}" >
       
-      <div class="container">
+      <div class="container animatedParent">
 
-        <p class="m-0 text-white h5 text-uppercase">&copy; {{titulo}} {{footer.texto}}</p>
+        <p class="animated bounceInLeft slower  m-0 text-white h5 text-uppercase">
+          &copy; {{titulo}} {{footer.texto}}</p>
         <!--{{idSitio}} {{fuente}} {{texto}}-->
         
-        <span class="text-white h5 ">Siguenos : </span><br>
+        <span class="animated bounceInRight slower text-white h5 d-block">Siguenos : </span>
           
             
-        <div class="l-foot mt-3">
+        <div class="animated growIn slowest l-foot mt-3 ">
             <a  style="" class=" h5" href="https://www.youtube.com/?hl=es-419">
               
               <span class=" h3"><i class="fa fa-youtube "></i></span>
@@ -503,6 +468,7 @@
         
       </div>
     </footer>
+  </div>
   {{else}}
     <center>
       {{{footer.html}}}  
