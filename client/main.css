@@ -241,11 +241,7 @@ h1 {
 
 
 
-.appear{
-  
-  border:solid .5rem cyan;
-  margin-right:-700px;  
-}
+
 
 
 
@@ -330,4 +326,15 @@ h1 {
 .box-a:hover {
     animation-name: ancho;
 }
+
+.t-contenido table {
+    border-collapse: collapse; /* Los bordes de la tabla se pegarán (mejor aspecto) */
+}
+.t-contenido td{
+    border: 1px solid #343a40;
+}
+.t-contenido th{
+    border: 1px solid #343a40;
+}
+
 

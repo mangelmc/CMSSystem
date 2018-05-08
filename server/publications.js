@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 Meteor.startup(() => {
   // code to run on server at startup
+  //Publicaciones de ROOT
   Meteor.publish("getSitios",function(){
       // if () {} CONTROLAR PUBLICAION SOLO PARA EL ROOT
     return SITIO.find();
@@ -9,8 +10,13 @@ Meteor.startup(() => {
   Meteor.publish("getUsers",function(){
     return Meteor.users.find();
     });
-  Meteor.publish("getSitio",function(sitio){
-    return SITIO.find({_id:sitio});
+  //Publicaciones de ADMIN
+  Meteor.publish("getSitiosAdmin",function(admin){
+    return SITIO.find({admin:admin});
+
+    });
+  Meteor.publish("getSitio",function(idSitio){
+    return SITIO.find({_id:idSitio});
     });
 
   Meteor.publish("getHeader",function(idSitio){
@@ -25,10 +31,7 @@ Meteor.startup(() => {
     return CARROUSEL.find({idSitio:idSitio});
 
     });
-  Meteor.publish("getSitiosAdmin",function(admin){
-    return SITIO.find({admin:admin});
-
-    });
+  
   Meteor.publish("getSidebar",function(idSitio){
     return SIDEBARMENU.find({idSitio:idSitio});
 
@@ -57,9 +60,25 @@ Meteor.startup(() => {
     //console.log(idSitio);
     return SUBMENU.find({idSitio:idSitio});
   });
+  Meteor.publish("getContenidos",function(idMenu){
+    //console.log(idMenu);
+    return CONTENIDO.find({idMenu:idMenu});
+  });
+  Meteor.publish("getContenido",function(idCont){
+    //console.log(idMenu);
+    return CONTENIDO.find({_id:idCont});
+  });
+  Meteor.publish("getOneMenu",function(idMenu){
+    return MENU.find({_id:idMenu});
 
-
-
+    });
+  Meteor.publish("getOneSubmenu",function(idSubMenu){
+  
+    return SUBMENU.find({_id:idSubMenu});
+  });
+  Meteor.publish("getImages",function(){
+    return IMAGES.find().cursor;
+  });
   /////// Publicaciones de user
   Meteor.publish("getSitioClient",function(sitio){
     return SITIO.find({titulo:sitio});

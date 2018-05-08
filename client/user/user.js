@@ -6,7 +6,7 @@ import '/imports/css3-animate-it/js/css3-animate-it.js';
 
 
 sitioClient = new ReactiveVar();
-posBanner = new ReactiveVar();
+
 var estilo = new ReactiveVar();
 
 Template.user.onCreated(function(){

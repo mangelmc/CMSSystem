@@ -1,0 +1,59 @@
+<template name="uploadFormImages">
+  <div class="row">
+  <style type="text/css">
+	.btn-file {
+	    position: relative;
+	    overflow: hidden;
+	}
+	.btn-file input[type=file] {
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    min-width: 100%;
+	    min-height: 100%;
+	    font-size: 100px;
+	    text-align: right;
+	    filter: alpha(opacity=0);
+	    opacity: 0;
+	    outline: none;
+	    background: white;
+	    cursor: inherit;
+	    display: block;
+	}
+	</style>
+  {{#with currentUpload}}
+    Uploading <b>{{file.name}}</b>:
+    <span id="progress" class=" skyblue-text">{{progress.get}}%</span>
+  {{else}}
+  	
+  	<div class="col-6  ">
+        
+		<label class="btn btn-primary btn-file">
+		    Browse <input type="file" id="fileInput" >
+		</label> 
+	</div>
+    <div class="col-6 " >
+    	<div class="btn btn-primary vergaleria">Mi Galeria </div>
+    </div><br><br>
+    <div class="col-12 center" style="display: block;margin-top: 2%;">
+  		<img src="{{currentImage.link}}" class="z-depth-2 responsive-img indigo lighten-2" style="max-height: 100px">
+  		{{currentImage._id}}
+  	</div>
+  {{/with}}
+</div> 
+<div class="row text-white galeria bg-info" style="display: none;">
+	
+	{{#each listGaleria}}
+	<div class="col-12  col-sm-4 col-md-6 col-lg-l3" style="padding:1%">
+		<center>
+
+			<div style="display: block;box-shadow:.2rem .2rem .2rem .2rem silver;" class="bg-secondary" >
+				<a href="" class="check" id="{{_id}}c"><img src="/user.png" class="img-fluid " style=" max-height: 50px;padding-top: 3%;padding-bottom: 1%">
+				<i class="fa fa-circle-o fa-2x text-white"></i></a>
+			</div>
+		</center>
+	</div>
+	{{/each}}
+
+</div> 
+</template>

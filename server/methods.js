@@ -243,25 +243,35 @@ Meteor.startup(() => {
     },
     insSubmenu : function (obj){
       
-      var response= 'error';
+      var response = 'error';
       //console.log(contador);
       return SUBMENU.insert(obj, function(e,r){
         if (e) {
           response = e;
-          console.log(e);
+          //console.log(e);
         }if (r) {
           response = r;
-          console.log(r);
+          //console.log(r);
         }
         return response;
-      });      
+      });    
     },
     editSubmenu : function (id,obj){
       
       return SUBMENU.update({_id:id},{$set:obj});      
     },
     ////////NAVBAR METHODS END//////////
-
+    ////////CONTENT METHODS BEGIN//////////
+    insContent : function(obj){
+      return CONTENIDO.insert(obj);
+    },
+    editContent : function (idCont,obj){
+      return  CONTENIDO.update({_id : idCont}, {$set:obj});
+    },
+    visibilityContent : function(idCont,obj){
+      return CONTENIDO.update({_id : idCont}, {$set : obj});
+    },
+    ////////CONTENT METHODS END//////////
     ////////SIDEBAR METHODS BEGIN//////////
     sidebarChange : function (idSitio,obj){      
       return SIDEBARMENU.update({idSitio:idSitio}, {$set:obj});

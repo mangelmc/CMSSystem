@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+import { FilesCollection } from 'meteor/ostrio:files';
 import {Mongo} from "meteor/mongo";
 
 //import { FilesCollection } from 'meteor/ostrio:files';
@@ -190,6 +192,42 @@ var cuerpoSchema =new SimpleSchema({
 });
 CUERPO.attachSchema(cuerpoSchema);
 
+CONTENIDO = new Mongo.Collection('contenido')
+
+var contenidoSchema =new SimpleSchema({
+    
+    idSitio : {
+        type:String,
+    },
+    idMenu : {
+        type:String,
+    },
+    tipo : {
+        type : String
+    },
+    
+    titulo : {
+        type : String
+    },
+    texto : {type : String},
+    //dar la opcion de poner multiples imgs o files
+    idImagen : {
+        type : String,
+        optional : true
+    },
+    idArchivo : {
+       type : String,
+       optional : true 
+    },
+    comentarios : {
+        type : String
+    },
+    visible : {
+        type : String
+    }
+});
+CONTENIDO.attachSchema(contenidoSchema);
+
 // REVISAR SIDEBAR
 SIDEBARMENU = new Mongo.Collection('sidebarmenu')
 
@@ -256,24 +294,7 @@ var enlaceSchema =new SimpleSchema({
 });
 ENLACE.attachSchema(enlaceSchema);
 
-CONTENIDO = new Mongo.Collection('contenido')
 
-var contenidoSchema =new SimpleSchema({
-    
-    idSitio : {
-        type:String,
-    },
-    idMenu : {
-        type:String,
-    },
-    tipo : {
-        type : String
-    },
-    comentarios : {
-        type : String
-    }
-});
-CONTENIDO.attachSchema(contenidoSchema);
 FOOTER = new Mongo.Collection('footer')
 
 var footerSchema =new SimpleSchema({
@@ -298,3 +319,33 @@ var footerSchema =new SimpleSchema({
 
 });
 FOOTER.attachSchema(footerSchema);
+
+
+//Archivos con ostrio
+
+
+IMAGES = new FilesCollection({
+  collectionName: 'images',
+  allowClientCode: false, // Disallow remove files from Client
+  storagePath : 'C:/Users/MIke/data',
+  downloadRoute : 'C:/Users/MIke/data/downloads',
+  allowClient : false,
+  onBeforeUpload(file) {
+    // Allow upload files under 10MB, and only in png/jpg/jpeg formats
+    if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
+      return true;
+    } else {
+      return 'Please upload image, with size equal or less than 10MB';
+    }
+  }
+});
+
+if (Meteor.isClient) {
+  Meteor.subscribe('files.images.all');
+}
+
+if (Meteor.isServer) {
+  Meteor.publish('files.images.all', function () {
+    return IMAGES.find().cursor;
+  });
+}

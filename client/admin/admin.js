@@ -15,6 +15,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 	console.log(sitio.get())
 
 });*/
+sitioId = new ReactiveVar();
 Template.welcomeAdmin.helpers({
 	idSitio: function () {
 		return FlowRouter.getParam('titulo');
@@ -37,7 +38,15 @@ Template.admin.helpers({
 	},
 
 });
+Template.admin.onRendered(function(){
+	this.autorun(function(){
+		if (FlowRouter.subsReady("getSitio")) {
+			sitioId.set(SITIO.findOne()._id);
+		}
 
+		
+	})
+})
 Template.admin.events({
 	'click #logout': function () {
 		Meteor.logout();
@@ -63,9 +72,9 @@ Template.admin.events({
 		FlowRouter.go('/admin/:titulo/menucontenido',{titulo:FlowRouter.getParam('titulo')},1);
 		
 	},
-	'click #nuevocont': function () {
+	'click #newcont': function () {
 		//myTemplates.set('nuevocont');
-		FlowRouter.go('/admin/:titulo/contenido/nuevo',{titulo:FlowRouter.getParam('titulo')},1);
+		FlowRouter.go('/admin/:titulo/newcontenido/asdff',{titulo:FlowRouter.getParam('titulo')},1);
 		
 	},
 

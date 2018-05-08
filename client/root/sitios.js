@@ -299,8 +299,9 @@ Template.sitioslist.events({
 		//console.log(set)
 		//console.log(sitio)
 		Meteor.call('changeAdmin', sitio, set, function (error, result) {
-			if (result) {h
+			if (result) {
 				console.log(result);
+				sAlert.success('Administrador modificado', {effect: 'slide',offset: '130'});
 			}
 		});
 		$('#changeadmin').modal('hide');
