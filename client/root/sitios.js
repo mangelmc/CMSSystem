@@ -27,6 +27,8 @@ var emailForm = new ReactiveVar(false);
 var nameForm = new ReactiveVar(false);
 var surnameForm = new ReactiveVar(false);
 var careerForm = new ReactiveVar(false);
+
+
 Template.sitios.helpers({
     listUsers : function(){
         return Meteor.users.find({_id:{$ne:Meteor.userId()},roles : ["admin"]});
@@ -83,6 +85,7 @@ Template.sitioslist.helpers({
 ///
 
 Template.sitios.events({
+	
 	'input #carrera': function (e) {
 		
 		var link = e.target.value.trim().split(" ").join("-");
@@ -128,24 +131,19 @@ Template.sitios.events({
 		}
 
 		var titulo = e.target.titulo.value.trim().split(" ").join("-");
-		/*Meteor.call('checkSitio', titulo, function (error, result) {
-			if (result == false) {
-				
-				console.log('error');
-				return;
-			}
+		let sitio  = SITIO.findOne({titulo : titulo});
+		if (sitio != undefined) {
 
-		});*/
-		//var cadena = "hello world!";
-		
-		//console.log(titulo);
-
+			alert("El dominio '" + titulo + "' Ya existe..! Pruebe con otro dominio o Carrera");
+			return;
+		}
 		var obj = {
 			titulo : titulo,
 			carrera : e.target.carrera.value,
 			estado : e.target.estado.value,
 			admin : e.target.admin.value
 		}
+
 		Meteor.call('insertSitio', obj, function (error, result) {
 			if (result) {
 				sAlert.success(result, {effect: 'slide',offset: '130'});
@@ -158,6 +156,9 @@ Template.sitios.events({
 		FlowRouter.go('/root');
 		//alert('termino');
 	},
+	
+});
+Template.createuser.events({
 	
 	'input #username': function (e) {
 		//console.log(e.target.value);	
@@ -244,7 +245,7 @@ Template.sitios.events({
 			alert('Las contraseñas no coinciden');
 			return false;
 		}
-
+		var rol = e.target.rol.value;
 	 	var user = {
 			username : e.target.username.value,
 			email : e.target.email.value,
@@ -254,7 +255,7 @@ Template.sitios.events({
 			carrera : e.target.carrerae.value,
 				
 		};
-		 Meteor.call('crearAdmin', user, function (error, result) {
+		 Meteor.call('crearUser', user,rol, function (error, result) {
 			
 			if (error) {
 				
@@ -273,6 +274,7 @@ Template.sitios.events({
 			}			
 		});
 		$('#regnew').modal('hide');
+		
 	}
 });
 Template.sitioslist.events({

@@ -18,7 +18,6 @@
 
 
 <template name="admin">
-  {{ > sAlert}}
   <head>
     <link href="https://fonts.googleapis.com/css?family=Bellefair" rel="stylesheet">
     
@@ -49,7 +48,7 @@
           <li class="nav-item dropdown justify-content-end">
             <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: uppercase;" ><i class="fa fa-user"></i> usuario {{currentUser.username}}</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
-              <a class="dropdown-item" href="#">perfil</a>
+              <a class="dropdown-item" href="/perfil">Mi Perfil</a>
              
               <a class="dropdown-item" href="" id="logout">Cerrar Sesion </a>
             </div>
@@ -157,7 +156,7 @@
 {{else}}
 <div class="row m-4">
   <div class="col">
-    <div class="alert alert-warning m-2 h6" role="alert">
+    <div class="alert alert-warning m-2 h6 d-flex" role="alert">
       <strong>¡..Cuidado..!</strong> Vista disponible solo para usuarios adiministradores
       {{>mainLogin}}
   </div>  
@@ -187,7 +186,7 @@
       </div>
       <div class="col-12 col-md-4 mx-auto px-0 my-3"  >
         <a href="/admin/{{idSitio}}/banner" class="nav-link" >
-        <div class="bg-primary p-4 text-white" style="box-shadow:4px 4px 4px 1px silver;border:solid 2px white;border-radius: 0.4rem;">  
+        <div class="bg-dark p-4 text-white" style="box-shadow:4px 4px 4px 1px silver;border:solid 2px white;border-radius: 0.4rem;">  
             <div class="d-flex justify-content-center"><i class="fa fa-window-maximize fa-5x" ></i></div>
             <div class="d-flex justify-content-center"><h4 class="font-weight-bold " > BANNER</h4></div>
         </div>

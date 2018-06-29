@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { publishComposite } from 'meteor/reywood:publish-composite';
 
 Meteor.startup(() => {
   // code to run on server at startup
@@ -79,6 +80,12 @@ Meteor.startup(() => {
   Meteor.publish("getImages",function(){
     return IMAGES.find().cursor;
   });
+  Meteor.publish("getVideos",function(){
+    return VIDEOS.find().cursor;
+  });
+  Meteor.publish("getArchivos",function(){
+    return ARCHIVOS.find().cursor;
+  });
   /////// Publicaciones de user
   Meteor.publish("getSitioClient",function(sitio){
     return SITIO.find({titulo:sitio});
@@ -108,8 +115,11 @@ Meteor.startup(() => {
       return BANNER.find({idSitio:idSitio._id});
     }
     });
-  Meteor.publish("getMenuClient",function(idNavbar){
-      return MENU.find();
+  Meteor.publish("getMenuClient",function(titulo){
+    var idSitio = SITIO.findOne({titulo:titulo});
+    if (idSitio!=undefined) {
+      return MENU.find({idSitio:idSitio._id});
+    }
     
   });
   Meteor.publish("getSidebarClient",function(titulo){
@@ -146,4 +156,82 @@ Meteor.startup(() => {
     }
 
   });
+
+  Meteor.publish("getContenidosMenuClient",function(tituloSitio , linkMenu){
+    //por el momento solo menus en el caso de ser submenus deberia hacerse de otra manera menu y submenu ambos 
+    
+    var sitio = SITIO.findOne({titulo : tituloSitio});
+    //CONTRLAR INDEF
+    var menu = MENU.findOne({link : linkMenu, idSitio : sitio._id});
+    
+
+    if (menu != undefined && sitio != undefined) {
+      //console.log(CONTENIDO.find({idMenu : menu._id}).fetch());
+      return CONTENIDO.find({idMenu : menu._id});
+    
+    }
+  });
+  Meteor.publish("getContenidosSubmenuClient",function(tituloSitio , linkSubmenu){
+    //por el momento solo menus en el caso de ser submenus deberia hacerse de otra manera menu y submenu ambos 
+    
+    var sitio = SITIO.findOne({titulo : tituloSitio});
+    //CONTRLAR INDEF
+    var submenu = SUBMENU.findOne({link : linkSubmenu, idSitio : sitio._id});
+    
+
+    if (submenu != undefined && sitio != undefined) {
+      //console.log(CONTENIDO.find({idMenu : menu._id}).fetch());
+      return CONTENIDO.find({idMenu : submenu._id});
+    
+    }
+  });
+  Meteor.publish("getHomeContentClient",function(titulo){
+    var sitio = SITIO.findOne({titulo:titulo});
+     if (sitio!=undefined) {
+      var menu = MENU.findOne({nombre : "BOLETINES", idSitio : sitio._id});
+      return CONTENIDO.find({idSitio:sitio._id,idMenu : menu._id,visible:"visible"},{limit : 2});
+    }
+  });
+  Meteor.publish("getMContentClient",function(titulo,menu,contenido){
+    var sitio = SITIO.findOne({titulo:titulo});
+     if (sitio!=undefined) {
+      var menu = MENU.findOne({link : menu, idSitio : sitio._id});
+      return CONTENIDO.find({idSitio:sitio._id,idMenu : menu._id, ruta : contenido});
+    }
+  });
+
+  Meteor.publish("getSContentClient",function(titulo,submenu,contenido){
+    var sitio = SITIO.findOne({titulo:titulo});
+    
+    if (sitio!=undefined) {
+      var submenu = SUBMENU.findOne({link : submenu, idSitio : sitio._id});
+      return CONTENIDO.find({idSitio:sitio._id,idMenu : submenu._id, ruta : contenido});
+    }
+  });
+  publishComposite("getComentsClient",function(ruta){
+    var content = CONTENIDO.findOne({ruta:ruta});
+    
+    if (content!=undefined) {
+      return {
+        find() {
+            
+            return COMENTARIO.find({idContenido : content._id});
+        },
+        children: [{
+            find(coment) {
+                // Find post author. Even though we only want to return
+                // one record here, we use "find" instead of "findOne"
+                // since this function should return a cursor.
+                return Meteor.users.find(
+                    { _id: coment.idUsuario },
+                    { fields: { profile: 1 ,username:1} });
+            }
+        }]
+    }
+      
+    }
+    
+  });
+  
 });
+

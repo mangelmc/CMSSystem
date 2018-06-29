@@ -43,9 +43,8 @@ Template.admin.onRendered(function(){
 		if (FlowRouter.subsReady("getSitio")) {
 			sitioId.set(SITIO.findOne()._id);
 		}
-
-		
-	})
+	});
+	
 })
 Template.admin.events({
 	'click #logout': function () {

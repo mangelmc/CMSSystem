@@ -2,24 +2,31 @@ import { Meteor } from 'meteor/meteor';
 
 Meteor.startup(() => {
   // code to run on server at startup
-  
+  reCAPTCHA.config({
+        privatekey: '6Lch5V0UAAAAAGqdgRz-LfpnUnJWrZ9SRmR6JBOL'
+    });
   Meteor.methods({
-    /*/checkRootUser :function(user, email){
-      var response = {};
-      if (user=='root' && email=='root@gmail.com') {
-        response = {res:true};
-
+    checkBan : function(user){
+      var user = Meteor.users.findOne({_id:this.userId,'profile.bloqueado':true});
+      //console.log(user.username);
+      if (user!=undefined) {
+        return true;
       }
-      if (user=='root' && email!='root@gmail.com') {
-        response = {res : false ,text : 'correo no disponible'};
+      return false;
+    },
+    checkCaptcha: function(captchaData) {
 
-      }
-      if (user != 'root' && email == 'root@gmail.com') {
-        response = {res : false ,text : 'usuario no disponible'};
-
-      }
-      return response;
-    },/*/
+        var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captchaData);
+        //console.log(verifyCaptchaResponse);
+        if (!verifyCaptchaResponse.success) {
+            //console.log('reCAPTCHA check failed!', verifyCaptchaResponse);
+            throw new Meteor.Error(422, 'reCAPTCHA Failed: ' + (verifyCaptchaResponse.error || "Timeout or duplicate"));
+            return  false;
+        } else{
+          //console.log('reCAPTCHA verification passed!');
+          return true;
+        }
+    },
     "checkLoginRoot" : function(user,email){
       var rootUs = Meteor.users.findOne({_id:this.userId,username:'root','emails.address':'root@gmail.com'});
       if (rootUs!=undefined) {
@@ -42,6 +49,12 @@ Meteor.startup(() => {
       Roles.addUsersToRoles(idUser, [rol]);
       //console.log(idUser+'---'+rol);
     },
+    changeRol :function(rol,idUser){
+      //is in role falta
+      Roles.setUserRoles(idUser, [rol]);
+      //console.log(idUser+'---'+rol);
+      return true;
+    },
     ///////// SITIO METHODS BEGIN
     checkSitio : function (titulo){
       var sitio = SITIO.findOne({titulo:titulo});
@@ -49,6 +62,20 @@ Meteor.startup(() => {
         return true;
       }
       return  false;
+    },
+    checkIfExistSitio : function (titulo){
+      var sitio = SITIO.findOne({titulo : titulo});
+      if (sitio != undefined) {
+        return true;
+      }
+      return false;
+    },
+    checkIfExistMenu : function (link){
+      var menu = MENU.findOne({link : link});
+      if (menu != undefined) {
+        return true;
+      }
+      return false;
     },
     "insertSitio" : function(obj){
         //if(Meteor.userId()){ 
@@ -63,7 +90,10 @@ Meteor.startup(() => {
                   fondo:'ninguno',fuente:'Arial',logo1:'logo1.jpg',logo2:'logo2.jpg',posicion:'up',tipo : 'default'
                 });
                 NAVBAR.insert({idSitio:result,color:'seablue',fuente:'Arial'});
-                MENU.insert({nombre:"inicio",link:"/",tipo:'normal',idSitio:result,estado:"activo"});
+
+                MENU.insert({nombre:"INICIO",link:"/",tipo:'normal',idSitio:result,estado:"activo"});
+                MENU.insert({nombre:"EVENTOS",link:"eventos",tipo:'normal',idSitio:result,estado:"activo"});
+                MENU.insert({nombre:"BOLETINES",link:"boletines",tipo:'normal',idSitio:result,estado:"activo"});
 
                 CUERPO.insert({idSitio:result,tipoFondo:'color',fondo:'white'});
                 SIDEBARMENU.insert({idSitio:result,tipoFondo:'color',fondo:'skyblue',fuente:'Times New Roman',tipo:'default',html:'<div>Sidebar Personalizado </div>'});
@@ -140,7 +170,7 @@ Meteor.startup(() => {
       var ipLocal = this.connection.clientAddress;
     },
 
-    crearAdmin : function (user){
+    crearUser : function (user,rol){
       
       var newUser = {
         username : user.username,
@@ -160,7 +190,7 @@ Meteor.startup(() => {
 
       if (account) {
      
-        Roles.addUsersToRoles(account, ['admin']);
+        Roles.addUsersToRoles(account, [rol]);//user.rol
       }
       //console.log(account);
       return account;
@@ -173,6 +203,15 @@ Meteor.startup(() => {
       //console.log(change);
       
     },
+    setNewPassword : function(userId,newPassword){
+      
+      Accounts.setPassword(userId, newPassword,{logout:false});
+      return true; 
+    },
+    editUser : function (id,obj){
+      //console.log(id);
+      return Accounts.users.update({_id:id}, {$set:obj});
+    }, 
     ////////SITIO METHODS BEGIN//////////
 
     ////////HEADER METHODS BEGIN//////////
@@ -271,6 +310,10 @@ Meteor.startup(() => {
     visibilityContent : function(idCont,obj){
       return CONTENIDO.update({_id : idCont}, {$set : obj});
     },
+
+    insComentario : function(obj){
+      return COMENTARIO.insert(obj);
+    },
     ////////CONTENT METHODS END//////////
     ////////SIDEBAR METHODS BEGIN//////////
     sidebarChange : function (idSitio,obj){      
@@ -341,7 +384,23 @@ Meteor.startup(() => {
     footerChange : function (id,obj){      
       return FOOTER.update({idSitio:id}, {$set:obj});
     },
+    //////// SITE METHODS BEGIN //////////
+    insComentario : function(obj){
+      var response= 'error';
+      return COMENTARIO.insert(obj, function(e,r){
+        if (e) {
+          response = e;
+          console.log(e);
+        }if (r) {
+          response = r;
+          //console.log(r);
+        }
+        return response;
+      });
+    }
 
+
+    ////////SITE METHODS END//////////
   });
 
 });

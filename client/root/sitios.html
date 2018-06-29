@@ -77,7 +77,7 @@
 						</div>
 						<div class="form-group col-3">
 						   	<!-- Button trigger modal -->
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#regnew">Crear Usuario ADM</button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#regnew">Crear Usuario</button>
 						</div>
 					
 				</div>
@@ -93,9 +93,7 @@
 			<hr>
 		
 		</div>
-
-
-		<!-- Modal para nuevo administrador -->
+	<!-- Modal para nuevo administrador -->
 	<div class="modal fade" id="regnew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -107,54 +105,77 @@
 	      </div>
 	      
 	      <div class="modal-body">
+			{{>createuser}}
+			</div>
+	      
+	     
+	    </div>
+	  </div>
+	</div>
+</template>
+
+<template name="createuser">
+	
+	
 			<form method="post" id="regAdminForm">
 				<div class="form-group row">
 				    <label for="username" class="col-sm-3 col-form-label">Usuario :</label>
 				    <div class="col-sm-9">
 				      <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
-				      <div class="alert alert-danger" id="alertusername"> </div>
+				      <div class="alert alert-danger" id="alertusername" style="display:none;"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="password" class="col-sm-3 col-form-label">Password :</label>
 				    <div class="col-sm-9">
 				      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-				      <div class="alert alert-danger" id="alertpassword"> </div>
+				      <div class="alert alert-danger" id="alertpassword" style="display:none;"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="repassword" class="col-sm-3 col-form-label">Re-Password :</label>
 				    <div class="col-sm-9">
 				      <input type="password" class="form-control" id="repassword" name="repassword" placeholder= "Repita  el Password" required>
-				      <div class="alert alert-danger" id="alertrepassword"> </div>
+				      <div class="alert alert-danger" id="alertrepassword" style="display:none;"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="email" class="col-sm-3 col-form-label">Email :</label>
 				    <div class="col-sm-9">
 				      <input type="email" class="form-control" id="email" name="email" placeholder="Correo  Electrónico" required>
-				      <div class="alert alert-danger" id="alertemail"> </div>
+				      <div class="alert alert-danger" id="alertemail" style="display:none;"> </div>
+				    </div>
+				</div>
+				<div class="form-group row">
+				    <label for="rol" class="col-sm-3 col-form-label">Rol :</label>
+				    <div class="col-sm-9">
+				    	<select class="form-control" name="rol">
+				    		<option value="normal">normal</option>
+				    		<option value="admin">admin</option>
+				    		<option value="root">root</option>
+				    	</select>
+				      
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="name" class="col-sm-3 col-form-label">Nombres :</label>
 				    <div class="col-sm-9">
 				      <input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
-				      <div class="alert alert-danger" id="alertname"> </div>
+				      <div class="alert alert-danger" id="alertname" style="display:none;"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="surname" class="col-sm-3 col-form-label">Apellidos :</label>
 				    <div class="col-sm-9">
 				      <input type="text" class="form-control" id="surname" name="surname" placeholder="Apellidos" required>
-				      <div class="alert alert-danger" id="alertsurname"> </div>
+				      <div class="alert alert-danger" id="alertsurname" style="display:none;"> </div>
 				    </div>
 				</div>
 				<div class="form-group row">
 				    <label for="carrerae" class="col-sm-3 col-form-label">Carrera :</label>
 				    <div class="col-sm-9">
 				      <input type="text" class="form-control" id="carrerae" name="carrerae" placeholder="Carrera" required>
-				      <div class="alert alert-danger" id="alertcarrerae"> </div>
+				      <div class="alert alert-danger" id="alertcarrerae" style="display:none;"> </div>
 				    </div>
 				</div>
 				<div class="d-flex align-items-center ">
@@ -163,13 +184,10 @@
 					<button type="button" class="btn btn-secondary mx-auto d-block" data-dismiss="modal">Cancelar</button>
 				</div>
 			 </form>
-	      </div>
 	      
-	     
-	    </div>
-	  </div>
-	</div>
 </template>
+
+
 <template name="sitioslist">
 
 	<div class=" m-2 p-2 bg-secondary" style="box-shadow: .3rem .3rem .3rem  #343a40;">
@@ -309,6 +327,7 @@
 	</div>
 	
 </template>
+
 <template name="listusers">
 	<option value="{{_id}}">{{username}}</option>
 </template>

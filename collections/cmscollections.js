@@ -202,15 +202,20 @@ var contenidoSchema =new SimpleSchema({
     idMenu : {
         type:String,
     },
-    tipo : {
-        type : String
-    },
+    /*tipo : {
+        type : String reconstruir
+    },*/
     
     titulo : {
         type : String
     },
-    texto : {type : String},
-    //dar la opcion de poner multiples imgs o files
+    ruta : {
+        type : String
+    },
+    descripcion : {type : String},//
+    
+    contenidoHtml : {type : String},
+    //ya da la opcion de poner multiples imgs o files
     idImagen : {
         type : String,
         optional : true
@@ -224,9 +229,51 @@ var contenidoSchema =new SimpleSchema({
     },
     visible : {
         type : String
+    },
+    creado: {
+        type : Date,
+        autoValue: function (){
+            return new Date();
+        }
+    },
+    lastEdit : {
+        type : Date,
+        optional : true
     }
 });
 CONTENIDO.attachSchema(contenidoSchema);
+
+COMENTARIO = new Mongo.Collection('comentario')
+
+var comentarioSchema =new SimpleSchema({
+    
+    /*idSitio : {
+        type:String,
+    },
+    idMenu : {
+        type:String,
+    },*/   
+    idContenido : {
+        type : String
+    },
+    texto : {
+        type : String
+    },
+    idUsuario : {
+        type : String
+    },
+    creado: {
+        type : Date,
+        autoValue: function (){
+            return new Date();
+        }
+    },
+    lastEdit : {
+        type : Date,
+        optional : true
+    }
+});
+COMENTARIO.attachSchema(comentarioSchema);
 
 // REVISAR SIDEBAR
 SIDEBARMENU = new Mongo.Collection('sidebarmenu')
@@ -327,12 +374,13 @@ FOOTER.attachSchema(footerSchema);
 IMAGES = new FilesCollection({
   collectionName: 'images',
   allowClientCode: false, // Disallow remove files from Client
-  storagePath : 'C:/Users/MIke/data',
-  downloadRoute : 'C:/Users/MIke/data/downloads',
+  storagePath : '/home/mike/data',
+  downloadRoute : '/home/mike/data/downloads',
   allowClient : false,
   onBeforeUpload(file) {
+    console.log(file);
     // Allow upload files under 10MB, and only in png/jpg/jpeg formats
-    if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
+    if (file.size <= 10485760 && /png|jpg|jpeg|bmp|gif|tif/i.test(file.extension)) {
       return true;
     } else {
       return 'Please upload image, with size equal or less than 10MB';
@@ -340,12 +388,57 @@ IMAGES = new FilesCollection({
   }
 });
 
-if (Meteor.isClient) {
-  Meteor.subscribe('files.images.all');
-}
+AVATARS = new FilesCollection({
+  collectionName: 'avatars',
+  allowClientCode: false, // Disallow remove files from Client
+  storagePath : '/home/mike/data',
+  downloadRoute : '/home/mike/data/downloads',
+  allowClient : false,
+  onBeforeUpload(file) {
+    // Allow upload files under 10MB, and only in png/jpg/jpeg formats
+    if (file.size <= 10485760 && /png|jpg|jpeg|bmp|gif/i.test(file.extension)) {
+      return true;
+    } else {
+      return 'Please upload image, with size equal or less than 10MB';
+    }
+  }
+});
 
-if (Meteor.isServer) {
-  Meteor.publish('files.images.all', function () {
-    return IMAGES.find().cursor;
-  });
-}
+//pending
+
+
+VIDEOS = new FilesCollection({
+  collectionName: 'videos',
+  allowClientCode: false, // Disallow remove files from Client
+  storagePath : '/home/mike/data',
+  downloadRoute : '/home/mike/data/downloads',
+  allowClient : false,
+  onBeforeUpload(file) {
+    // Allow upload files under 100MB, and only in png/jpg/jpeg formats
+    if (file.size <= 2097143200 && /avi|mp4|m4a|mpeg|mov|rm|flv|div|mpg|mkv|wmv|wma|vob|qt|qtl|ogv/i.test(file.extension)) {
+      return true;
+    } else {
+      return 'Por favor sube un video valido , con un tamaño menor o igual 200MBs';
+    }
+  }
+});
+
+
+ARCHIVOS = new FilesCollection({
+  collectionName: 'archivos',
+  allowClientCode: false, // Disallow remove files from Client
+  storagePath : '/home/mike/data',
+  downloadRoute : '/home/mike/data/downloads',
+  allowClient : false,
+  onBeforeUpload(file) {
+    console.log(file);
+    // Allow upload files under 100MB, and only in png/jpg/jpeg formats
+    if (file.size <= 104857600 && !/autorun|inf|bat|pif|scr|com|cmd|job|lnk|prf|reg|tmp|xnk/i.test(file.extension)) {
+      return true;
+    } else {
+      return 'Por favor sube un archivo valido (Documento,Instalador,comprimido,etc),\n Con un tamaño menor o igual 100MBs';
+    }
+    
+  }
+});
+

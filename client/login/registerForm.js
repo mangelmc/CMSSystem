@@ -12,6 +12,15 @@ var nameForm = new ReactiveVar(false);
 var surnameForm = new ReactiveVar(false);
 var careerForm = new ReactiveVar(false);
 
+var captchaCheck = new ReactiveVar(false);
+
+Meteor.startup(function() {
+    reCAPTCHA.config({
+        publickey: '6Lch5V0UAAAAALZvbn-SHfEmvyNhvJwUYYzoP2GX',
+        //hl: 'ja' // optional display language
+    });
+});
+
 Template.registerForm.events({
 	'click #loginform': function () {
 		setForm.set({temp:'loginForm',name:'Formulario de inicio de Sesion'});
@@ -90,11 +99,37 @@ Template.registerForm.events({
 
 	"submit form" : function(e){
 		e.preventDefault();
+		function callMeteorMethod(methodName, data) {
+		    return new Promise((resolve, reject) => {
+		        Meteor.call(methodName, data, (error, result) => {
+		            if (error) reject(error)
+		            else resolve(result)
+		        })
+		    })
+		}
+		var captchaData = grecaptcha.getResponse();
+		if (captchaData == "") {
+			alert("Por favor verifique el reCaptcha");
+			return;
+		}
 
+		async function main() {
+		    let result = await callMeteorMethod('checkCaptcha',captchaData)
+		    console.log(result)
+		}
+
+		var res = main();
+		
+		if (res == false) {
+			alert("error de verificacion de captchaCheck intente nuevamnete");
+		}
+		
 		if (userForm.get() == false || emailForm.get() == false || nameForm.get() == false ||surnameForm.get() == false || careerForm.get() == false ||passForm.get() == false) {
 			alert('Debe Arreglar los errores del Formulario');
 			return;
 		}
+
+
 	 	var user = {
 			"username" : e.target.username.value,
 			"email" : e.target.email.value,
@@ -125,9 +160,11 @@ Template.registerForm.events({
 		Accounts.createUser(user, function(e){
 			if(e == undefined){
 				Meteor.loginWithPassword(user.username,user.password);
-				//Roles.setUserRoles(Meteor.user()._id, ['estudiante'], 'user');
+							
 				//$(".panelForm").fadeOut('slow');
+				Meteor.call('setRol', 'normal', Meteor.userId());
 				setForm.set({temp:'loginForm',name:'Formulario de inicio de sesion'});
+				
 				Meteor.call('checkLoginRoot', 1,function(error,result){
 					if (result) {
 						FlowRouter.go('/root');

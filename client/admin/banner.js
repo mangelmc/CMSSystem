@@ -3,11 +3,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import validar from '../validations.js'
 
 var loadTipo = new ReactiveVar();
-/*cambiar
-colections
-forms
-methods
-*/
+
 
 Template.banneradmin.events({
 	'change #tipo': function (e) {

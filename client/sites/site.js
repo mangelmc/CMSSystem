@@ -1,24 +1,27 @@
 import {Meteor} from "meteor/meteor";
 
-import './user.html';
+import './site.html';
+import badWordsFilter from '../badWordFilter.js';
 
 import '/imports/css3-animate-it/js/css3-animate-it.js';
-
-
+render = new ReactiveVar(false);
+renderfoot = new ReactiveVar(false);
+rendersub = new ReactiveVar(false);
 sitioClient = new ReactiveVar();
 
 var estilo = new ReactiveVar();
 
-Template.user.onCreated(function(){
-	this.autorun(()=>{
+Template.site.onCreated(function(){
+	this.autorun(() => {
 			sitioClient.set(SITIO.findOne());
 			//console.log(sitioClient.get());
 		});			
 });
-Template.user.onRendered(function(){
+Template.site.onRendered(function(){
 	//console.log($(document).height());
+	$.force_appear();
 })
-Template.user.helpers({
+Template.site.helpers({
 	readySitio : function(){
 		//seria genial cargar aqui la variable reactiva sitioClient
         return FlowRouter.subsReady("getSitioClient");
@@ -61,9 +64,14 @@ Template.header.helpers({
 	}
 
 });
+Template.header.events({
+	'click #logout': function () {
+		Meteor.logout();
+		FlowRouter.go('/');
+	}
+});
 Template.banner.onRendered(function(){
-	//console.log($('#banneruser div').attr('data-ride'));
-   	//$('#banneruser').fadeIn('slow');
+	$.force_appear();
 })
 Template.banner.helpers({
 	banner : function(){
@@ -112,7 +120,7 @@ Template.navbar.helpers({
 	listMenu : function	(){
 
 		//console.log(sitioClient.get());
-		return MENU.find({estado : 'activo',idSitio:sitioClient.get()._id});
+		return MENU.find({estado : 'activo'});
 	},
 	navbarTheme : function(){
 		var id = sitioClient.get();
@@ -126,6 +134,7 @@ Template.navbar.helpers({
 
 });
 Template.menu.onRendered(function(){
+	//hacer reactivo
 	$(".drop").click().hover(function() {
         
         var id = $(this).attr('id');
@@ -153,7 +162,7 @@ Template.menu.onRendered(function(){
         });
       $('.drop div').finish();
       /* Stuff to do when the mouse leaves the element */
-      });
+    });
 })
 Template.menu.helpers({
 	submenu : function () {
@@ -172,97 +181,193 @@ Template.menu.helpers({
 			return	estilo.get().color;
 		}
 		
+	},
+	enlace : function (){
+		
+		if (this.link == "/") {
+			return FlowRouter.getParam('titulo');	
+		}
+		if (this.tipo == undefined) {
+			
+			return {t : FlowRouter.getParam('titulo'),sub :  this.link};
+		}
+
+		return FlowRouter.getParam('titulo') + "/" + this.link;
 	}
 });
-Template.header.onRendered(() => {
-	$(window).scrollTop($(window).scrollTop()+1);
+Template.menu.events({
+	'click .tosubmenu': function () {
+		console.log('tosub');
+		$(window).scrollTop($(window).scrollTop()+10);
+		idMenu = this.idMenu;
+		$('#'+idMenu+1).hide('fast');
+		
+	}
+});
 
-	/*var window_left = $(window).scrollLeft();
-    var window_top = $(window).scrollTop();
-    var offset = $('#t-eventos').offset();
-    var left = offset.left;
-    var top = offset.top;
-    console.log(top);
-    console.log(left);
-    console.log(window_left);
-    console.log(window_top);*/
-})
-/*
-Template.content.onRendered(function(){
 
+
+Template.contenthome.onRendered(function(){
 	
+	//$.force_appear();
+    		
+});
+Template.contenthome.helpers({
+	boletines: function () {
+		return CONTENIDO.find();
+	},
+	sitio : function(){
 
-	if ($(window).innerWidth() > 768) {
-		//console.log($(window).innerWidth());
-		$(window).scroll(function() {
-			var scrollWindow = $(window).scrollTop();
-			var posicionbol = 150, posicioneve = 350;//
+		return FlowRouter.getParam('titulo');
+	}
+});
+Template.contenthome.events({
+	'click #sendCont': function () {
+		var sitio = FlowRouter.getParam('titulo');
+		$(window).scrollTop(1);
+		FlowRouter.go("/:titulo/boletines",{titulo : sitio});
+	}
+});
 
-			//console.log($('#t-boletines').offset().top);
+Template.contentmenu.onRendered(function(){
+	this.autorun(() => {
+		if (render.get() == true) {			
+    		$.force_appear();
+    		//$(window).scrollTop($(window).scrollTop()+1);
+			//console.log('rendered verif app force_appear');
+		}
+		render.set(false);
+	});
+	Tracker.autorun(() => {
+		$.force_appear();
+		//console.log('tracked');
+	})
 
-			if ( scrollWindow > posicionbol && $("#boletines").css('display')=='none') {
-				//console.log($('#boletines').scrollTop());
-				$("#boletines").slideDown().addClass('d-flex');
-			}
-			if( scrollWindow < posicionbol && $("#boletines").css('display')=='flex'){
-				//console.log($('#boletines').scrollTop());
-				$("#boletines").slideUp().removeClass('d-flex');
-			}
-			
-			//console.log($('#t-eventos').offset().top);
+});
 
-			if ( scrollWindow > posicioneve && $("#eventos").css('display')=='none') {
-				//console.log($('#eventos').scrollTop());
-				$("#eventos").slideDown().addClass('d-flex');
-			}
-			if( scrollWindow < posicioneve && $("#eventos").css('display')=='flex'){
-				//console.log($('#eventos').scrollTop());
-				$("#eventos").slideUp().removeClass('d-flex');
+
+
+
+
+Template.contentmenu.helpers({
+	
+	listContentMenu: function () {
+		
+		return	CONTENIDO.find();
+	},
+	menu (){
+		return MENU.findOne({link : FlowRouter.getParam('menu')});
+	}
+});
+Template.contentmenu.events({
+	'click .todetails': function () {
+		console.log(this.ruta);
+		var sitio = FlowRouter.getParam('titulo');
+		var menu = FlowRouter.getParam('menu');
+		var ruta= this.ruta;
+		FlowRouter.go('menuContent',{titulo:sitio,menu:menu,contenido:ruta});
+	}
+});
+
+Template.contentsubmenu.onRendered(function(){
+	this.autorun(() => {
+		if (rendersub.get() == true) {			
+    		$.force_appear();
+    		//$(window).scrollTop($(window).scrollTop()+1);
+			//console.log('rendered verif app force_appear');
+		}
+		rendersub.set(false);
+
+	});
+
+});
+Template.contentsubmenu.helpers({
+	listContentSubmenu: function () {
+		return	CONTENIDO.find();//submenu
+	},
+	submenu (){
+		$.force_appear();
+		return SUBMENU.findOne({link : FlowRouter.getParam('submenu')});
+	},
+	allRuta : function(){
+		return '/' + FlowRouter.getParam('titulo') +
+				'/' + FlowRouter.getParam('menu') +
+				'/' + FlowRouter.getParam('submenu') +
+				'/' + this.ruta;
+	}
+	
+});
+Template.contentsubmenu.events({
+	
+});
+
+Template.contenido.helpers({
+	content: function () {
+		$.force_appear();
+		return CONTENIDO.findOne();
+	},
+	comentable : function(comentarios){
+		
+		if (comentarios == 'Si') {
+			return	true;
+		}
+		return false;
+	},
+	listComents : function(){
+		return COMENTARIO.find();
+	},
+	user : function(){
+		return Meteor.users.findOne({_id : this.idUsuario});
+	},
+	fecha : function(){
+    	var fecha = this.creado;
+        var options ={
+            weekday:'long',year:'numeric',month:'long',day:'numeric'
+        }
+        fecha = fecha.toLocaleDateString('es-ES',options);
+        return fecha;
+    },
+
+});
+Template.contenido.onRendered(function(){
+	$.force_appear();
+});
+Template.contenido.events({
+	'submit #comentForm': function (e,t) {
+
+		var txt = e.target.texto.value;
+		var res = badWordsFilter(txt);
+		
+
+		//var regExp = new RegExp(/*badWords.join("|")*/badWords[0],"gi");
+		//console.log(regExp);
+		//console.log(txt.match(regExp));
+		//
+		if (res == false) {
+			//aumentar confirm para coment 
+			return false;
+		}
+		
+		e.preventDefault();
+		var idCont = CONTENIDO.findOne()._id;
+		var obj = {
+			idContenido : idCont,
+			texto : e.target.texto.value,
+			idUsuario : Meteor.userId()
+		}
+
+		Meteor.call('insComentario', obj, function (error, result) {
+			if (result) {
+				console.log(result);
 			}
 		});
+		$('#texto').val('');
+	
 	}
 });
 Template.sidebar.onRendered(function(){
-	//arregglar con removeClass d-flex
-	//console.log($(window).innerHeight()*0.05);
-	//console.log($(window).scrollTop());
-
-	$('#t-boletines').click(function(event) {
-		
-		//console.log('side');
-		$("#boletines").slideToggle();
-	});
-	$('#t-eventos').click(function(event) {
-		
-		//console.log('side');
-		$("#eventos").slideToggle();
-	});
-	$('#t-sidebar').click(function(event) {
-	
-		//console.log('side');
-		$("#sidebar").slideToggle();
-	});
-	if ($(window).innerWidth() > 768) {
-		$(window).scroll(function() {
-
-		var scrollWindow = $(window).scrollTop();
-		var posicionside = 350;//
-
-		//console.log($('#t-sidebar').offset().top);
-
-		if ( scrollWindow > posicionside && $("#sidebar").css('display') == 'none') {
-			//console.log($('#sidebar').scrollTop());
-			$("#sidebar").slideDown();
-		}
-		if( scrollWindow < posicionside && $("#sidebar").css('display') == 'block'){
-			//console.log($('#sidebar').scrollTop());
-			$("#sidebar").slideUp();
-		}
-
-		});	
-	}
-
-})*/
+	$.force_appear();
+})
 Template.sidebar.helpers({
 	listMenus: function () {
 		return MENUENLACE.find();
@@ -282,12 +387,19 @@ Template.sidebar.helpers({
 		return false;
 	}
 });
+
 Template.footer.onRendered(	function(){
-	this.autorun(()=>{
-			
-    	
-		});
-});	
+	this.autorun(() => {
+		if (renderfoot.get() == true) {			
+    		$.force_appear();
+    		//$(window).scrollTop($(window).scrollTop()+1);
+			//console.log('rendered verif app force_appear');
+		}
+		renderfoot.set(false);
+	});
+	$.force_appear();
+});
+
 Template.footer.helpers({
 	footer: function () {
 		

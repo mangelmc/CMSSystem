@@ -96,13 +96,14 @@
 				
 				
 				<td>
-					 
+				{{#if noInicio}} 
 					{{#if activo}}
 					<a href="" class="btn btn-outline-dark btn-sm editarmenu"><i class="fa fa-edit"></i></a>
 					<a class="btn btn-outline-danger btn-sm elimenu"><i class="fa fa-trash"></i></a>
 					{{else}}
 					<a class="btn btn-outline-danger btn-sm restmenu"><i class="fa fa-rotate-left"></i></a>
 					{{/if}}
+				{{/if}}
 				</td>
 			</tr>
 			{{#if submenu }}
@@ -333,7 +334,7 @@
 					<option value="con submenu">Con Submenu</option>					
 				{{else}}
 					<option value="con submenu">Con Submenu</option>
-					<option value="normal">Normal</option>					
+									
 				{{/if}}
 			</select>
 			</div>

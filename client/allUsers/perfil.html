@@ -1,0 +1,167 @@
+<template name="perfil">
+{{#if currentUser}}
+
+<div style="background-color: #5555; padding: 5%;min-height: 100vh;">
+	<div class="row mx-0 front"  >
+		<a href="" onclick="history.back()" class="btn btn-info float-left text-white mt-2 ml-2">Volver atrás</a>
+		<div class="col-12 col-md-10 offset-md-1 d-flex justify-content-center my-2 " style="">
+			<h2 class="text-white tit">MI PERFIL</h2>
+
+		</div>
+		<div class="col-12 col-md-10 offset-md-1 d-flex justify-content-center ">
+			<div class="card-imgs my-2">
+				<img src="/logou.png" class="img-fluid " style="max-height: 30vw;">
+			</div>			
+		</div>
+		<div class="col-12 col-md-10 offset-md-1">
+			<div class="row mx-0 tit ">
+				<div class="col-4 offset-md-1"><h3 class="">Usuario </h3></div>
+				<div class="col-7"><h4 class="">: {{currentUser.username}}</h4></div>
+				<div class="col-4 offset-md-1"><h3 class="">Nombre </h3></div>
+				<div class="col-7"><h4 class="">: {{currentUser.profile.name}}</h4></div>
+				
+				<div class="col-4 offset-md-1"><h3 class="">Apellidos </h3></div>
+				<div class="col-7"><h4 class="">: {{currentUser.profile.surname}}</h4></div>
+
+				<div class="col-4 offset-md-1"><h3 class="">Email </h3></div>
+				<div class="col-7"><h4 class="">: {{#each i in  currentUser.emails}} {{i.address}} {{/each}} </h4></div>
+
+				<div class="col-4 offset-md-1"><h3 class="">Carrera </h3></div>
+				<div class="col-7"><h4 >: {{currentUser.profile.carrera}}</h4></div>
+			</div>
+		</div>
+		<div class="col-12 d-flex justify-content-around m-4">
+			
+			<button type="button" class="btn btn-primary " data-toggle="modal" data-target="#editModal">Editar Perfil</button>
+			<button type="button" class="btn btn-primary  " data-toggle="modal" data-target="#passModal">Cambiar contraseña</button>
+	
+				
+		</div>
+	</div>
+</div>
+{{else}}
+	<div class="alert alert-warning d-flex " role="alert">
+	    <strong>Para ver su perfil debe Iniciar Sesión : </strong>
+	    {{>mainLogin}}
+	</div>
+{{/if}}
+<!-- Modal Para editar perfil -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edit">Edicion de Perfil</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<form method="post" id="editForm">
+			<div class="form-group row">
+			    <label for="username" class="col-sm-3 col-form-label">Usuario :</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="username" name="username"  readonly value="{{currentUser.username}}">
+			    </div>
+			</div>	
+			<div class="form-group row">
+			    <label for="name" class="col-sm-3 col-form-label">Nombres :</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required value="{{currentUser.profile.name}}">
+			      <div class="alert alert-danger" id="alertname" style="display: none;"> </div>
+			    </div>
+			</div>
+			<div class="form-group row">
+			    <label for="surname" class="col-sm-3 col-form-label">Apellidos :</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="surname" name="surname" placeholder="Apellidos" required value="{{currentUser.profile.surname}}">
+			      <div class="alert alert-danger" id="alertsurname" style="display: none;"> </div>
+			    </div>
+			</div>
+			<div class="form-group row">
+			    <label for="carrera" class="col-sm-3 col-form-label">Carrera :</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="carrera" name="carrera" placeholder="Carrera" required value="{{currentUser.profile.carrera}}">
+			      <div class="alert alert-danger" id="alertcarrera" style="display: none;"> </div>
+			    </div>
+			</div>
+			
+			<div class="d-flex align-items-center">
+				
+				<button type="submit" class="btn btn-primary mx-auto d-block">Guardar Cambios</button>
+				
+			</div>
+		</form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- Modal Para Cambiar Contraseña-->
+<div class="modal fade" id="passModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cambio de contraseña</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<form method="post" id="changePass">
+			<div class="form-group row">
+			    <label for="username" class="col-sm-3 col-form-label">Usuario :</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" name="username" required value="{{currentUser.username}}">
+			      
+			    </div>
+			</div>
+			<div class="form-group row">
+			    <label for="oldpassword" class="col-sm-3 col-form-label">Contraseña actual:</label>
+			    <div class="col-sm-9">
+			      <input type="password" class="form-control" id="oldpassword" name="oldpassword" placeholder="Contraseña actual " required>
+			      <div class="alert alert-danger" id="alertpassword" style="display: none;"> </div>
+			    </div>
+			</div>
+			<div class="form-group row">
+			    <label for="password" class="col-sm-3 col-form-label">Nueva Contraseña :</label>
+			    <div class="col-sm-9">
+			      <input type="password" class="form-control" id="password" name="password" placeholder="Nueva Contraseña" required>
+			      <div class="alert alert-danger" id="alertpassword" style="display: none;"> </div>
+			    </div>
+			</div>
+			<div class="form-group row">
+			    <label for="repassword" class="col-sm-3 col-form-label">Repita Contraseña :</label>
+			    <div class="col-sm-9">
+			      <input type="password" class="form-control" id="repassword" name="repassword" placeholder= "Repita  Nueva Contraseña" required>
+			      <div class="alert alert-danger" id="alertrepassword" style="display: none;"> </div>
+			    </div>
+			</div>
+			<div class="d-flex align-items-center ">
+				
+				<button type="submit" class="btn btn-primary mx-auto d-block">Cambiar contraseña</button>
+				
+			</div>
+		</form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<style type="text/css">
+	.card-imgs{
+		
+		border:solid 0.1rem white;
+		box-shadow: 0.1rem 0.1rem 0.3rem 0.3rem #1111;
+	}
+	.front{
+		background-color: #919cd6;
+		box-shadow: .2rem .2rem .2rem .3rem darkcyan;
+
+	}
+	.tit{
+		text-shadow: .3rem.3rem .3rem #417590;
+		color: white;
+	}
+</style>	
+</template>

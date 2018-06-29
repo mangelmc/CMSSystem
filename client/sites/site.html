@@ -1,6 +1,6 @@
-<template name="user">
+<template name="site">
   <head>
-    <title>Civil.net</title>
+    
     <link href="https://fonts.googleapis.com/css?family=Bellefair" rel="stylesheet">
     <meta name="viewport" content="width=device-width">
   </head>
@@ -28,9 +28,9 @@
               </div>
 
               <div class="col-sm-12 col-md-10 offset-md-1 p-0">
-
-                {{> banner}}                
-                {{> content}}
+                {{> Template.dynamic template=banner}}
+                {{> Template.dynamic template=content}}              
+                
                 {{> footer}} 
 
               </div>
@@ -57,29 +57,46 @@
   <header>
 
   {{#each header }}
-  <div id="t-header" class="animatedParent" data-sequence='500'>
+  <div id="t-header" class="animatedParent " >
   <div class="row mx-0" >
     <div class="col-md-1 d-md-block d-none " style="background-color: #5e5e5f;"></div>
     <div class="col-md-10 col-sm-12" style="background-color: #3b4042;">
-      <div class="row mx-0 animated shakeUp" data-id='1'>
-        <div class="col-md-6 col-sm-12 col-xs-12 p-2 mb-0  d-flex justify-content-start align-items-center" >
-        <img src="/logou.png" class="img-fluid " alt="Logo" style="max-height: 15vh" data-id='1'>
+      <div class="row mx-0 " >
+        <div class="col-md-6 col-sm-12 col-xs-12 p-2 mb-0  d-flex justify-content-start align-items-center animated shakeUp" >
+        <img src="/logou.png" class="img-fluid " alt="Logo" style="max-height: 15vh" >
         <!--<img src="img/logoc.png" class="img-fluid collapse  float-right d-lg-block pb-4"  alt="Logo">-->
       
-        <div class="pl-2 animated rotateInDownLeft" data-id='2'>
+        <div class="pl-2 animated rotateInDownLeft" >
           <h2 style="color:white;text-shadow: 4px 0px 10px black;" >{{titulo}}</h2>        
           <h5 style="color:white;text-shadow: 2px 2px 10px black;" class=" text-uppercase d-none d-lg-block d-md-block">{{subtitulo}}</h5>
         </div>
         </div>
-      
-      <div class="animated  col-md-6 col-sm-12 col-xs-12 d-flex align-items-center justify-content-md-end justify-content-md-end justify-content-sm-center p-sm-0" data-id='3'>
         
-          <form class="d-flex  justify-content-sm-center m-1" >
-          <input class="form-control " type="text" placeholder="Que buscas?" aria-label="Search">
-          <button class="btn btn-outline-danger " type="submit"><i class="fa fa-search"></i></button>
-          </form>   
+        
+        <div class="animated bounceIn col-md-6 col-sm-12 col-xs-12 d-flex align-items-center justify-content-md-end justify-content-md-end justify-content-sm-center p-sm-0" >
+            
+              <form class="d-flex  justify-content-sm-center m-1" >
+              <input class="form-control " type="text" placeholder="Que buscas?" aria-label="Search">
+              <button class="btn btn-outline-danger " type="submit"><i class="fa fa-search"></i></button>
+              </form>
+        </div>
+        
+        
       </div>
-      </div>     
+      {{#if currentUser}}
+     
+    
+      <div class="dropdown float-right">
+        <button class="btn btn-outline-info dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-user"></i> {{currentUser.username}}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" id="perfil" href="/perfil">Mi Perfil</a>
+          
+          <a class="dropdown-item" id="logout" href="">Cerrar Sesion</a>
+        </div>    
+      </div> 
+      {{/if}}    
     </div>
     <div class="col-md-1 d-md-block d-none" style="background-color: #5e5e5f;"></div>
      
@@ -103,20 +120,18 @@
 
           <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 
-            <i class="fa fa-navicon"></i>
+            <i class="text-white fa fa-navicon fa-lg "></i>
+            <!-- cambiar icone remove al desplegar -->
           </button>
 
           <div class="collapse navbar-collapse " id="navbarResponsive">
             <ul class="navbar-nav">
-              <!--M E N U-->
-              <li class="nav-item active d-block " >
-                <a class="bg-ai l-nav-s bajar nav-link text-uppercase text-expanded py-3 " href="" style="">
-                  inicio
-                </a>
-              </li>
+              <!--M E N U-->              
+              
               {{#each listMenu}}
                 {{> menu}}              
               {{/each}}
+              
             </ul>
           </div>
         </div>
@@ -137,21 +152,21 @@
   
   {{#if submenu}}
     <li class="l-nav-s drop dropdown nav-item d-block "  id="{{_id}}" >
-      <a href="{{link}}" class="dropdown-toggle nav-link text-uppercase text-expanded text-white py-3 " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><!--id="dropdownMenuButton"-->
+      <a href="" class="dropdown-toggle nav-link text-uppercase text-expanded text-white py-3 " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><!--id="dropdownMenuButton"-->
         {{nombre}}
         <span class="float-right d-md-none d-sm-block "><i class="fa fa-2x fa-plus-square"></i></span>
       </a>
       <div class="l-nav {{themeColor}} p-2" id="{{_id}}1" ><!--class="dropdown- menu l-nav" aria-labelledby="dropdownMenuButton" -->
         {{#each listSubmenu}}
         <!-- tal vez otro template para mostrar-->
-          <a class="dropdown-item subir cargar nav-link text-white text-uppercase" href="" >{{nombre}}</a>
+          <a class="tosubmenu dropdown-item subir cargar nav-link text-white text-uppercase " href="/{{enlace.t}}/{{../link}}/{{enlace.sub}}" >{{nombre}}</a>
         {{/each}}
 
       </div>
     </li>
   {{else}}
     <li class=" nav-item d-block">
-      <a class=" l-nav-s bajar nav-link text-uppercase text-expanded py-3" href="" >
+      <a class=" l-nav-s bajar nav-link text-uppercase text-expanded py-3 " href="/{{enlace}}" >
         {{nombre}}
        
       </a> 
@@ -243,33 +258,19 @@
   {{/if}}  
 
 {{/if}}
+
 </template>
 
-<template name="content">
+<template name="contenthome">
 
-    <style type="text/css">
-           .bol{
-            background-color: white;
-            box-shadow: 0.2rem 0.2rem .2rem silver;
-            border-radius: 0.2rem;
-          }
-          .img-card{
-           display: flex;
-           align-items: center;
-            min-height: 14vw;
-          }
-         @media (max-width: 767.98px) {
-            .img-card{
-              min-height: 40vw;
-            }
-          }
-    </style>
   <div class="row mx-0 ">
     <div class="col-12 p-1 animatedParent" data-sequence='500'>
       <div id="t-boletines" class="animated fadeInDown d-flex justify-content-center mb-2 p-2 " style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;" data-id='1' >
         <h2 >BOLETINES</h2>
       </div>
       <div id="boletines" class="row mx-0 text-center d-flex justify-content-around my-2" >
+        {{#each boletines}}
+
         <div class="col-11 col-md-6 col-lg-6  my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest" data-id='2'>
           
           <div class="row p-2 bol m-1 " >
@@ -278,25 +279,19 @@
              
             </div>
             <div class="col-6 d-flex align-items-center">
-              <h2 class="">Card title</h2>
+              <h2 class="">{{titulo}}</h2>
             </div>
-            <p class="">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="">{{descripcion}}</p>
                         
           </div>
           
         </div>
+        {{/each}}
          
-        <div class="col-11 col-md-6 col-lg-6  my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest " data-id='3'>      
-              <div class=" row p-2 bol m-1 " >
-                <div class="col-6 ">
-                  <img class="img-fluid mx-auto" src="/light-wave.png" alt="Card image cap">
-                </div>
-                <div class="col-6 d-flex align-items-center">
-                  <h2 >Card title</h2>     
-                </div>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>                  
-              </div>
-        </div>
+       
+      </div>
+      <div class="col-12 d-flex justify-content-center">
+        <a id="sendCont" href="">Ver Mas....</a>
       </div>
     </div>  
     <div  class="col-sm-12 col-md-8 p-1 ">
@@ -310,7 +305,7 @@
         algo
       </div>-->
       <div id="eventos" class="row d-flex justify-content-center mx-0 px-sm-4"  > 
-        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent" >
+        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent animateOnce" >
           <div class="item-event card  p-1 animated rotateInUpLeft">
             <div class="img-card">
                 <img class=" img-fluid" src="/graduacion.jpg" alt="Card image cap">
@@ -325,7 +320,7 @@
             </div>
           </div>
         </div>
-        <div class=" col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent" >
+        <div class=" col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent animateOnce" >
           <div class="item-event card p-1 animated rotateInUpLeft" >
             <div class="img-card">
                 <img class=" img-fluid" src="/robot-62.jpg" alt="Card image cap">
@@ -340,7 +335,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent " >
+        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent animateOnce" >
           <div class="item-event card p-1 animated rotateInUpLeft" >
             <div class="img-card">
                 <img class=" img-fluid" src="/students.jpg" alt="Card image cap">
@@ -355,7 +350,7 @@
             </div>
           </div>
         </div>
-        <div class=" col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent " >
+        <div class=" col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent animateOnce" >
           <div class="item-event card p-1 animated rotateInUpLeft" >
             <div class="img-card">
                 <img class=" img-fluid" src="/nature.jpg" alt="Card image cap">
@@ -385,6 +380,56 @@
     </div>
     
     <div  class="col-12 col-md-4 p-1">
+      {{> sidebar }}
+    </div>
+    
+  </div>
+
+
+</template>
+
+<template name="contentmenu">
+  <div class="row mx-0 ">
+
+    <div class="col-sm-12 col-md-8 p-1 animatedParent" data-sequence='500'>
+      <div id="t-boletines" class="animated fadeInDown d-flex justify-content-center mb-2 p-2 " style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;" data-id='1' >
+        <h2 class="text-uppercase">{{menu.nombre}}</h2><!-- NOMBRE DE LINK -->
+      </div>
+      <div class="row mx-0 text-center d-flex justify-content-around my-2" >
+      
+      {{#each listContentMenu}}
+      
+        <div class="col-11 my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest" data-id='2'>
+          
+          <div class="row p-2 bol m-1" >
+            <div class="col-5">
+             <img class="img-fluid  mx-auto" src="/students.jpg" alt="Card image cap" style=" ">
+             
+            </div>
+            <div class="col-6 d-flex align-items-center">
+              <div class="d-flex flex-column">
+                <h2 class="">{{titulo}}</h2>
+                <p class="">{{descripcion}} </p>
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-end">
+              <a class="btn btn-primary todetails" href="">Ver mas ...</a>
+            </div>  
+          </div>
+        </div>
+      
+      {{else}}
+      
+        <div class="alert alert-warning animated bounceInLeft " data-id='2'  role="alert">
+            <strong>No Hay Contenido para Mostrar... o Contenido en cosntruccion o proximamente </strong> 
+        </div>
+      {{/each}}
+
+      </div>
+            
+    </div>  
+    
+    <div  class="col-12 col-md-4 p-1">
       {{> sidebar}}
     </div>
     
@@ -393,12 +438,131 @@
 
 </template>
 
+
+<template name="contentsubmenu">
+  <div class="row mx-0 ">
+
+    <div class="col-sm-12 col-md-8 p-1 animatedParent" data-sequence='500'>
+      <div id="t-boletines" class="animated fadeInDown d-flex justify-content-center mb-2 p-2 " style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;" data-id='1' >
+        <h2 class="text-uppercase">{{submenu.nombre}}</h2><!-- NOMBRE DE LINK -->
+      </div>
+      <div class="row mx-0 text-center d-flex justify-content-around my-2" >
+      {{#each listContentSubmenu}}
+     
+        <div class="col-11   my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest" data-id='2'>
+          
+          <div class="row p-2 bol m-1 " >
+            <div class="col-5">
+             <img class="img-fluid  mx-auto" src="/students.jpg" alt="Card image cap" style=" ">
+             
+            </div>
+            <div class="col-6 d-flex align-items-center">
+              <div class="d-flex flex-column">
+                <h2 class="">{{titulo}}</h2>
+                <p class="">{{descripcion}} Some quick example text to build on the card title  content.</p>
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-end">
+              <a class="btn btn-primary todetails" href="{{allRuta}}">Ver mas ...</a>
+            </div>
+            
+                        
+          </div>
+          
+        </div>
+      
+      {{else}}
+      
+        <div class="alert alert-warning" role="alert">
+            <strong>No Hay Contenido para Mostrar... o Contenido en cosntruccion o proximamente </strong> 
+        </div>
+      {{/each}}
+      </div>
+            
+    </div>  
+    
+    <div  class="col-12 col-md-4 p-1">
+      {{> sidebar}}
+    </div>
+    
+  </div>
+</template>
+<template name="contenido">
+  <div class="col-12 col-sm-12 col-md-10 p-1 offset-md-1 animatedParent" data-sequence='500'>
+      <div id="t-boletines" class="animated fadeInDown d-flex justify-content-center mb-2 p-2 " style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;" data-id='1' >
+        <h2 class="text-uppercase">{{content.titulo}}</h2>
+        <!-- NOMBRE DE LINK -->
+      </div>
+      <div class="box-s my-4 px-3" >
+        {{{content.contenidoHtml}}}
+      </div>
+      <hr>
+      {{#if comentable content.comentarios}}
+        <div class="box-s my-2 row mx-0 " >
+          
+          <div class="col-6  bg-light "><h3 class="m-0">COMENTARIOS</h3></div>
+          <!-- <div class="col-2 btn-light btn">Ver mas</div> -->
+          <div class="col-6 bg-light"><p class="text-center mb-0 h4">{{contComents}}</p></div>
+          <!-- <div class="col-2 btn-light btn"><i class="fa fa-thumbs-o-up"></i> : 15</div>
+          <div class="col-2 btn-light btn"><i class="fa fa-thumbs-down"></i> : 15</div>
+          <div class="col-2 btn-light btn " ><a href="" class="nav-link"> Me gusta </a></div> -->
+        </div>
+        <hr>
+      
+        {{#each listComents}}
+        <div class=" my-2 row mx-0" >
+          <div class="col-2 ">
+            <img src="/user.png" class="img-fluid" style="max-height: 75px;border-radius: 50%;">
+          </div>        
+          <div class="col-8 text-justify">
+            <p class="text">{{user.profile.name}} : {{fecha}}</p>
+            <p>{{texto}}</p>
+          </div>        
+        </div>
+        <hr>
+        {{else}}
+          <div class="alert alert-info" role="alert">
+            <strong>Esta Publicacion no tiene comentarios</strong>
+            <h5>Se el primero en comentar...!</h5> 
+          </div>
+        {{/each}}        
+        <div class="my-2">
+          {{#if currentUser}}
+          <form method="post" id="comentForm">
+            <div class="form-group row">
+              <div class="col-10">
+                  <textarea type="text" name="texto" placeholder="Escribe tu comentario {{currentUser.username}}" id="texto" class="form-control" required></textarea>
+              </div>
+              <div class="col-1 d-flex align-items-center">
+                <button class="btn btn-primary"><i class="fa fa-send"></i></button>
+              </div>
+            </div>
+          </form>
+          {{else}}
+            <div class="alert alert-info" role="alert">
+              <strong>Para Comentar debes iniciar sesión</strong>
+              <div class="d-flex align-items-center">{{> mainLogin}}</div>
+            </div>  
+          {{/if}}
+        </div>
+      <!-- {{else}}
+        <div class="alert alert-info" role="alert">
+          <strong>Se han desactivado los Comentarios para esta publicación.</strong>
+          
+        </div> --> 
+      {{/if}}
+    
+  </div>
+</template>
+
+
+
 <template name="sidebar">
 
   {{#if sidebarDefault}}
   <div class="animatedParent">
     <div id="t-sidebar" class="title-sidebar d-flex justify-content-center p-2 mb-2 animated fadeInUp" >
-      <h2 >ENLACES EXTERNOS</h2>
+      <h2 >ENLACES</h2>
     </div>
     <div id="sidebar" >
       <div class="m-2 animated rotateInUpRight">

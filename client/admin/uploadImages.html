@@ -26,32 +26,36 @@
     <span id="progress" class=" skyblue-text">{{progress.get}}%</span>
   {{else}}
   	
-  	<div class="col-6  ">
+  	<div class="col-4  offset-2">
         
 		<label class="btn btn-primary btn-file">
-		    Browse <input type="file" id="fileInput" >
+		    Subir Imagen <input type="file" id="fileInput" >
 		</label> 
 	</div>
-    <div class="col-6 " >
-    	<div class="btn btn-primary vergaleria">Mi Galeria </div>
-    </div><br><br>
-    <div class="col-12 center" style="display: block;margin-top: 2%;">
-  		<img src="{{currentImage.link}}" class="z-depth-2 responsive-img indigo lighten-2" style="max-height: 100px">
-  		{{currentImage._id}}
-  	</div>
+    <div class="col-4 " >
+    	<div class="btn btn-primary vergaleria">Ver/ocultar Galeria </div>
+    </div>
+    <!-- rehacer idea 
+    <div class="col-12 d-flex justify-content-center" style="">
+  		<img src="{{currentImage.link}}" class="responsive-img " style="max-height: 100px">
+  	</div>-->
   {{/with}}
 </div> 
-<div class="row text-white galeria bg-info" style="display: none;">
-	
+<div class="row text-white galeriai " style="display: none;">	
 	{{#each listGaleria}}
-	<div class="col-12  col-sm-4 col-md-6 col-lg-l3" style="padding:1%">
+	<div class="col-12  col-sm-6 col-md-4 col-lg-3" style="padding:1%">
 		<center>
-
 			<div style="display: block;box-shadow:.2rem .2rem .2rem .2rem silver;" class="bg-secondary" >
-				<a href="" class="check" id="{{_id}}c"><img src="/user.png" class="img-fluid " style=" max-height: 50px;padding-top: 3%;padding-bottom: 1%">
+				<a href="" class="check" id="{{_id}}c"><img src="{{itemImg.link}}" class="img-fluid " style="max-height: 100px;">
 				<i class="fa fa-circle-o fa-2x text-white"></i></a>
 			</div>
 		</center>
+	</div>
+	{{else}}
+	<div class="col-12  col-sm-4 col-md-6 col-lg-l3" style="padding:1%">
+		<div class="alert alert-warning" role="alert">
+		    No tienes imagenes subidas... :(
+		</div>
 	</div>
 	{{/each}}
 

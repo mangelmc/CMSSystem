@@ -1,4 +1,7 @@
 <template name="registerForm">
+	
+	
+
 	<form method="post">
 		<div class="form-group row">
 		    <label for="username" class="col-sm-3 col-form-label">Usuario :</label>
@@ -49,6 +52,10 @@
 		      <div class="alert alert-danger" id="alertcarrera" style="display: none;"> </div>
 		    </div>
 		</div>
+		<div class="d-flex justify-content-center mb-3 ">
+			{{> reCAPTCHA}}
+		</div>
+		
 		<div class="d-flex align-items-center ">
 			
 			<button type="submit" class="btn btn-primary mx-auto d-block">Registrarme</button>

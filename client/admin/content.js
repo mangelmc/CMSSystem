@@ -1,8 +1,16 @@
 import './content.html';
 import { ReactiveVar } from 'meteor/reactive-var';
+import validar from '../validations.js';
+import '../summernote/summernote-bs4.js';
+import '../summernote/summernote-bs4.css';
+//import '/imports/lib/summernote/font/summernote.eot';
+
 var estadoMenu = new ReactiveVar('activo');
 var estadoContenido = new ReactiveVar('visible');
 var menu = new ReactiveVar();
+
+var formContent = new ReactiveVar(false);
+var formContentEdit = new ReactiveVar(true);
 
 var globalHelpers = {
 	sitio : function(){
@@ -11,6 +19,7 @@ var globalHelpers = {
 }
 
 Template.contentmenuadmin.helpers(globalHelpers);
+
 Template.contentmenuadmin.helpers({
 
 	listBanner : function(){
@@ -66,6 +75,7 @@ Template.contentmenuadmin.helpers({
 	},
 
 });
+
 Template.contentmenuadmin.events({
 	//agregar evento para agragar submenu desde content
 	'click .listmenu': function (e) {
@@ -93,24 +103,23 @@ Template.contentmenuadmin.events({
 		}
 	}
 });
+Template.contentadmin.onCreated(function(){
+	this.linkMenu = new ReactiveVar('');
+})
 Template.contentadmin.helpers(globalHelpers);
 
 Template.contentadmin.helpers({
+	inicio : function(){
+		if (Template.instance().linkMenu.get() == 'INICIO' ) {
+			//console.log(Template.instance().linkMenu.get());
+			return true;
+		}
+		return	false;
+	},
 	listContenidos : function(){
 		return CONTENIDO.find({idMenu : FlowRouter.getParam('idMenu'),visible : estadoContenido.get()});
 	},
-	contenido: function () {
-		var id = FlowRouter.getParam('idMenu');
-		var menu = MENU.findOne({_id : id});
-		var submenu = SUBMENU.findOne({_id : id});
-		if (submenu != undefined) {
-
-			console.log(submenu);
-			return submenu;
-		} 
-		console.log(menu);
-		return	menu;	
-	},
+	
 	estado : function(){
 		if (estadoContenido.get() == 'visible') {
 			return 'Visibles';
@@ -126,13 +135,22 @@ Template.contentadmin.helpers({
 	nombreMenuContenido : function(){
 		var menu = MENU.findOne();
 		var submenu = SUBMENU.findOne({});
+
 		if (menu != undefined ) {
+			Template.instance().linkMenu.set(menu.nombre);
 			return	menu.nombre;
 		}
-		if (submenu != undefined) {
+		if (submenu != undefined) {	
+			Template.instance().linkMenu.set('');		
 			return	submenu.nombre;
 		}
 		return 'Menu Actual';
+	},
+	descripcionCut (){
+		if (this.descripcion.length > 45 ) {
+			return this.descripcion.substr(0,45) + '...';
+		}
+		return this.descripcion;
 	}
 });
 Template.contentadmin.events({
@@ -172,6 +190,70 @@ Template.contentadmin.events({
 		});
 	}
 });
+Template.newcontentadmin.onRendered(function(){
+
+	//console.log('rendered');
+	/*var HelloButton = function (context) {
+	  var ui = $.summernote.ui;
+
+	  // create button
+	  var button = ui.button({
+	    contents: '<i class="fa fa-child"/> Hello',
+	    tooltip: 'hello',
+	    click: function () {
+	      // invoke insertText method with 'hello' on editor module.
+	      context.invoke('editor.insertText', 'hello');
+	    }
+	  });
+
+	  return button.render();   // return button as jquery object
+	}
+	var MyButton = function (context) {
+	    var ui = $.summernote.ui;
+	    var button = ui.button({
+	        contents: 'MyButton',
+
+	        click: function () {
+	            var node = document.createElement('span');
+	            node.innerHTML = '{{>myTemplate}}'
+	            context.invoke('editor.insertNode', node);
+	            },
+	        });
+	    return button.render();
+	}*/
+	
+	  
+
+	es = $('#summernote');
+
+	es.summernote({
+
+	  lang : 'es-ES',
+	  //height : 200,
+	  toolbar: [
+	    ['textstyle', ['style']],
+	    //['mybutton', ['hello','buton']],  
+	    ['style', ['bold', 'italic', 'underline', 'clear']],
+	    ['fontstyle', ['fontname','fontsize','color']],		
+	    //['font', ['strikethrough', 'superscript', 'subscript']],
+	    ['para', ['ul', 'ol', 'paragraph']],
+	    ['height', ['height']],
+	    [ 'insert', [ 'link','picture','video','table','hr'] ],
+	    ['misc', ['codeview', 'undo', 'redo','help']],
+	  ],
+	  /*
+	  buttons: {
+	    hello: HelloButton,
+	    buton : MyButton
+	  }*/
+	});
+	$('div.note-group-select-from-files').remove();
+	$('.note-editable').css('background-color', 'skyblue');
+	//console.log($('#summernote').code())
+	
+
+});
+
 Template.newcontentadmin.helpers(globalHelpers);
 Template.newcontentadmin.helpers({
 	idMenu : function(){
@@ -179,21 +261,58 @@ Template.newcontentadmin.helpers({
 	}
 });
 Template.newcontentadmin.events({
+	/*'click .check': function (event,instance) {
+
+		const $check = instance.$('.check#'+ this._id + 'c');
+  		var ruta = $check.children('img').attr('src');
+		console.log(ruta);
+		//es.summernote('focus');
+		//es.summernote('editor.insertImage', 'Hello');
+	
+		
+	},*/
+	
+	'input #titulo': function (e) {
+		var ruta = e.target.value.trim().split(" ").join("-").toLowerCase();
+		var result = validar('dominio',ruta,'#alerttitulo');
+		
+		//console.log(result);
+		if (result==false) {
+			formContent.set(false);
+			//sAlert.success('Your message', {effect: 'slide'});	
+			return;
+		}else {
+			formContent.set(true);
+		}
+
+		$('#ruta').val(ruta);
+		
+		
+	},
 	'submit #formnuevocontenido': function (e) {
+		
 		e.preventDefault();
+
+		if (formContent.get() == false) {
+			alert("Debe arreglar los errore en los campos");
+			return;
+		}
+		var html = es.summernote('code');
+		var ruta = e.target.ruta.value;
 		var sitio = FlowRouter.getParam('titulo');
 		var idMenu = FlowRouter.getParam('idMenu');
 		var obj = {
 			idSitio : sitio,
 			idMenu : idMenu,
-			tipo : e.target.tipo.value,
 			titulo : e.target.titulo.value,
-			texto : e.target.texto.value,
+			ruta : e.target.ruta.value,
+			descripcion : e.target.descripcion.value,
+			contenidoHtml : html,
 			comentarios : e.target.comentable.value,
 			visible : 'visible',
-			idImagen : idImagen.get()
+			//idImagen : idImagen.get()
 		}
-		
+		console.log(obj);
 		//console.log(idImagen.get());return;
 		Meteor.call('insContent', obj, function (error, result) {
 			if (result) {
@@ -203,18 +322,58 @@ Template.newcontentadmin.events({
 		FlowRouter.go('/admin/:titulo/contenido/:idMenu',{titulo:sitio,idMenu : idMenu});
 	}
 });
+Template.newcontentadmin.onDestroyed(function(){
+	es.summernote('destroy');
+});
+Template.editcontentadmin.onCreated(function(){
+	this.idMenuEdit = new ReactiveVar('');
+})
 Template.editcontentadmin.onRendered(function(){
 	
-	this.autorun(function () {
-		//if (CONTENIDO.findOne() != undefined) {
+	
+	es = $('#summernote');
+
+	es.summernote({
+
+	  lang : 'es-ES',
+	  //height : 200,
+	  toolbar: [
+	    ['textstyle', ['style']],
+	    //['mybutton', ['hello','buton']],  
+	    ['style', ['bold', 'italic', 'underline', 'clear']],
+	    ['fontstyle', ['fontname','fontsize','color']],		
+	    //['font', ['strikethrough', 'superscript', 'subscript']],
+	    ['para', ['ul', 'ol', 'paragraph']],
+	    ['height', ['height']],
+	    [ 'insert', [ 'link','picture','video','table','hr'] ],
+	    ['misc', ['codeview', 'undo', 'redo','help']],
+	  ],
+	  /*
+	  buttons: {
+	    hello: HelloButton,
+	    buton : MyButton
+	  }*/
+	});
+	$('div.note-group-select-from-files').remove();
+	$('.note-editable').css('background-color', 'skyblue');
+	//console.log($('#summernote').code())
+	
+	this.autorun(function(){
+		if (CONTENIDO.findOne() != undefined) {
 			contenido = CONTENIDO.findOne();			
 			//console.log(contenido.tipo);
-			$('#tipo option[value="'+contenido.tipo+'"]').prop('selected', true);
-			$('input[value="'+contenido.visible+'"]').prop('checked', true);
+
+			Template.instance().idMenuEdit.set(contenido.idMenu);
 			$('input[value="'+contenido.comentarios+'"]').prop('checked', true);
-			
-		//}
+			es.summernote('code', contenido.contenidoHtml);
+
+			//control imagen
+			//if (contenido.tipo == 'Con imagen') {}
+			//idImagen.set(contenido.idImagen); podria servir para el preview de contenido
+		}
 	});
+	
+
 })
 Template.editcontentadmin.helpers(globalHelpers);
 
@@ -222,22 +381,48 @@ Template.editcontentadmin.helpers({
 	content: function () {
 		return CONTENIDO.findOne();
 	},
-	
+	idMenu : function(){
+		return Template.instance().idMenuEdit.get();
+	}
 });
+
 Template.editcontentadmin.events({
+	'input #titulo': function (e) {
+		var ruta = e.target.value.trim().split(" ").join("-").toLowerCase();
+		var result = validar('dominio',ruta,'#alerttitulo');
+		
+		//console.log(result);
+		if (result==false) {
+			formContentEdit.set(false);
+			//sAlert.success('Your message', {effect: 'slide'});	
+			return;
+		}else {
+			formContentEdit.set(true);
+		}
+
+		$('#ruta').val(ruta);
+		
+		
+	},
 	'submit #formeditcontenido': function (e) {
 		e.preventDefault();
 		var sitio = FlowRouter.getParam('titulo');
 		var idCont = FlowRouter.getParam('idCont');
 		var idMenu = e.target.idmenu.value;
-		var obj = {
-			
-			tipo : e.target.tipo.value,
-			titulo : e.target.titulo.value,
-			texto : e.target.texto.value,
-			comentarios : e.target.comentable.value,
-			visible : e.target.visible.value,
+		if (formContentEdit.get() == false) {
+			alert("Debe arreglar los errore en los campos");
+			return;
 		}
+		var obj = {
+			titulo : e.target.titulo.value,
+			descripcion : e.target.descripcion.value,
+			ruta : e.target.ruta.value,
+			contenidoHtml : es.summernote('code'),
+			comentarios : e.target.comentable.value,
+			
+			//idImagen : idImagen.get()	ver para preview
+		}
+
 		//console.log(obj);
 		Meteor.call('editContent',idCont, obj, function (error, result) {
 			if (result) {
@@ -248,13 +433,7 @@ Template.editcontentadmin.events({
 		
 	}
 });
-
-
-Template.editarcont.onRendered(function(){
-	console.log('rendered');
-	
-		$('#summernote').summernote();
+Template.newcontentadmin.onDestroyed(function(){
+	es.summernote('destroy');
 });
-Template.editarcont.onDestroyed(function(){
-	$('#summernote').summernote('destroy');
-})
+

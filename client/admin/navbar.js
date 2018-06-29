@@ -45,6 +45,13 @@ Template.navbaradmin.helpers({
 		return true;			
 		
 	},
+	noInicio : function(){
+		if (this.nombre == "INICIO") {
+			//console.log(this.nombre);
+			return false;
+		}
+		return true;
+	},
 	activo : function(){
 		//console.log();
 		if (this.estado=='activo') {
@@ -148,8 +155,42 @@ Template.navbaradmin.events({
 		//console.log(this);
 		$('#'+this._id).slideToggle('slow');
 	},
+	'submit #addsubmenu': function (e) {
+		e.preventDefault();
+		if (submenuForm.get() == false ) {
+			alert('Debe solucionar los errores del formulario');
+			return;
+		}
+		var idMenu = e.target.idmenu.value;
+		var link = e.target.link.value;
+		var idSitio = FlowRouter.getParam("titulo");
+		var submenu = SUBMENU.findOne({link : link,idMenu : idMenu});
+		//verificar para varios sitios but segun la publicaion solo hay uno :(
+		if (submenu != undefined) {
+			alert('El link ' + link + ' Ya existe ingrese otro nombre');
+			return;
+		}
+		//console.log(submenu);return;
+		var obj = {
+			idSitio : idSitio,
+			idMenu : idMenu,
+			nombre : e.target.nombre.value,
+			link : link,
+			estado : 'Activo'
+		}
+		//console.log(obj);
+		Meteor.call('insSubmenu', obj, function (error, result) {
+			if (result) {
+				sAlert.info(result, {effect: 'slide',offset: '130'});
+			}
+		});
+		$('#addsubmenu')[0].reset();
+		$('#submenuModal').modal('hide');
+		
+	},
+
 	'click .editsubmenu': function () {
-			$('#subconte div div input#nombreedit').val(this.nombre);
+		$('#subconte div div input#nombreedit').val(this.nombre);
 		$('#subconte div div input#linkedit').val(this.link);
 		$('#subconte div div input#idsubmenu').val(this._id);
 
@@ -167,11 +208,19 @@ Template.navbaradmin.events({
 			return;
 		}
 		var idSub = e.target.idsubmenu.value;
-		//console.log(idSub);
+		var link = e.target.link.value;
+		var idMenu = e.target.menu.value;
+		var submenu = SUBMENU.findOne({_id : {$ne : idSub},link : link,idMenu : idMenu });
+		if (submenu != undefined) {
+			alert('El link " ' + link +' " ya existe elija otro nombre');
+			return;
+		}
+		//console.log(submenu);return;
+
 		var obj = {
-			idMenu : e.target.menu.value,
+			idMenu : idMenu,
 			nombre : e.target.nombre.value,
-			link : e.target.link.value,
+			link : link,
 		};
 		//console.log(obj);
 		Meteor.call('editSubmenu', idSub,obj, function (error, result) {
@@ -201,29 +250,6 @@ Template.navbaradmin.events({
 		$('#submenuModal').modal('show');
 		
 	},
-	'submit #addsubmenu': function (e) {
-		e.preventDefault();
-		if (submenuForm.get() == false ) {
-			alert('Debe solucionar los errores del formulario');
-			return;
-		}
-		var obj = {
-			idSitio : FlowRouter.getParam("titulo"),
-			idMenu : e.target.idmenu.value,
-			nombre : e.target.nombre.value,
-			link : e.target.link.value,
-			estado : 'Activo'
-		}
-		//console.log(obj);
-		Meteor.call('insSubmenu', obj, function (error, result) {
-			if (result) {
-				sAlert.info(result, {effect: 'slide',offset: '130'});
-			}
-		});
-		$('#addsubmenu')[0].reset();
-		$('#submenuModal').modal('hide');
-		
-	},
 	///fin events submenu
 	'change #color': function () {
 		var id = FlowRouter.getParam("titulo");
@@ -246,8 +272,9 @@ Template.navbaradmin.events({
 });
 Template.nuevomenu.events({
 	'input #nombre': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('carrera',e.target.value,'#alertnombre');
+		//console.log(e.target.value);
+		var nombre = e.target.value.toUpperCase();	
+		var result = validar('carrera',nombre,'#alertnombre');
 		if (result == false) {
 			nombreMenuForm.set(false);
 			return;
@@ -256,6 +283,8 @@ Template.nuevomenu.events({
 			nombreMenuForm.set(true);
 		}
 		link(e.target.value,'#link');
+		e.target.value = nombre;
+		
 	},
 	'input #link': function (e) {
 		//console.log(e.target.value);	
@@ -273,9 +302,18 @@ Template.nuevomenu.events({
 			alert('Debe solucionar los errores del formulario');
 			return;
 		}
+		var link = e.target.link.value;
+		var menu = MENU.findOne({link : link});
+
+		if (menu != undefined || link == 'inicio') {
+			alert('el link " ' + link +' " ; Ya existe cambie el nombre de menu');
+			return;
+		}
+
+		//console.log('oops');return
 		var obj = {
 			nombre : e.target.nombre.value,
-			link : e.target.link.value,
+			link : link,
 			tipo : e.target.tipo.value,
 			idSitio : FlowRouter.getParam("titulo"),
 			estado : 'activo'
@@ -292,13 +330,21 @@ Template.nuevomenu.events({
 	},
 	
 });
-
+Template.editarmenu.onRendered(function(){
+	//control de ruta para edicion de menu 
+	var menu = MENU.findOne({_id : FlowRouter.getQueryParam('idMenu')});
+	if (menu == undefined) {
+		alert('Error');
+		FlowRouter.go('/admin');
+	}
+})
 Template.editarmenu.helpers({
 	menu: function () {
+		
 		return MENU.findOne({_id:FlowRouter.getQueryParam('idMenu')});
 	},
 	menuNormal : function (){
-		var menu = MENU.findOne({_id:FlowRouter.getQueryParam('idMenu')});
+		var menu = MENU.findOne({_id : FlowRouter.getQueryParam('idMenu')});
 		if (menu != undefined && menu.tipo=='normal') {
 			return	true;
 		}
@@ -310,8 +356,10 @@ Template.editarmenu.helpers({
 Template.editarmenu.events({
 	
 	'input #nombre': function (e) {
-		//console.log(e.target.value);	
-		var result = validar('carrera',e.target.value,'#alertnombre');
+		//console.log(e.target.value);
+		var nombre = e.target.value.toUpperCase();
+		var result = validar('carrera',nombre,'#alertnombre');
+		e.target.value = nombre;
 		if (result == false) {
 			nombreEMenuForm.set(false);
 			return;
@@ -319,6 +367,7 @@ Template.editarmenu.events({
 		else{
 			nombreEMenuForm.set(true);
 		}
+		
 		link(e.target.value,'#link');
 	},
 	'input #link': function (e) {
@@ -334,9 +383,17 @@ Template.editarmenu.events({
 	'submit #formeditmenu': function (e) {
 		e.preventDefault();
 		var id = FlowRouter.getQueryParam('idMenu');
+		var link = e.target.link.value;
+		var menu = MENU.findOne({_id : {$ne : id},link : link});
+		if (menu != undefined || link =='inicio') {
+			alert('el link ' + link + ' , Ya existe pruebe otro nombre');
+
+			return;
+		}
+		//console.log(menu);return;
 		var obj = {
 			nombre : e.target.nombre.value,
-			link : e.target.link.value,
+			link : link,
 			tipo : e.target.tipo.value,			
 		}
 		Meteor.call('editMenu', id,obj, function (error, result) {

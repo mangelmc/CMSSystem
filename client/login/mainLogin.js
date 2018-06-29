@@ -14,4 +14,9 @@ Template.mainLogin.events({
 	'click #login': function () {
 		
 	}
+});
+Template.mainLogin.onDestroyed(function(){
+	
+	$('.modal-backdrop').remove();
+	$('body').css('overflow','auto');
 });	

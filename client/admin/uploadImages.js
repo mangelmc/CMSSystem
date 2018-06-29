@@ -10,6 +10,8 @@ Template.uploadFormImages.onRendered(function(){
   this.autorun(function(){
     if (idImagen.get() == 'none') {
       $('#currentImage').slideUp('fast');
+    }else{
+      $('#'+idImagen.get()+'c').click();
     }
     
   })
@@ -36,13 +38,20 @@ Template.uploadFormImages.helpers({
 
 Template.uploadFormImages.events({
   'click .vergaleria': function () {
-    $('.galeria').slideToggle('fast');
+    $('.galeriai').slideToggle('fast');
   },
-  'click .selimg': function (e) {
+  /*'click .selimg': function (e) {
     idImagen.set(this._id);
-  },
+  },*/
   'click .check': function (e) {
-    //console.log(this);
+    var img = e.target.querySelector('img');
+    if ( img!= null) {
+      console.log(img);
+    
+
+      es.summernote('focus');
+      es.summernote('editor.insertImage', img.src);
+    }
     $('.check i').each(function(index, el) {
         if ($(this).hasClass('fa-check-circle-o')) {
           //console.log('tiene');
@@ -54,10 +63,8 @@ Template.uploadFormImages.events({
     $('#'+this._id+'c i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
     
     idImagen.set(this._id);
-    $('#currentImage').slideDown('fast', function() {
-      $('.galeria').slideUp('fast');
-    });
-    
+    $('#currentImage').slideDown();
+    $('.galeria').slideUp('fast');
 
   },
   'change #fileInput'(e, template) {

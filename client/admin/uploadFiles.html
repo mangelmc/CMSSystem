@@ -1,0 +1,69 @@
+<template name="uploadFormFiles">
+  <div class="row">
+  <style type="text/css">
+	.btn-file {
+	    position: relative;
+	    overflow: hidden;
+	}
+	.btn-file input[type=file] {
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    min-width: 100%;
+	    min-height: 100%;
+	    font-size: 100px;
+	    text-align: right;
+	    filter: alpha(opacity=0);
+	    opacity: 0;
+	    outline: none;
+	    background: white;
+	    cursor: inherit;
+	    display: block;
+	}
+	</style>
+  {{#with currentUpload}}
+    Uploading <b>{{file.name}}</b>:
+    <span id="progress" class=" skyblue-text">{{progress.get}}%</span>
+  {{else}}
+  	
+  	<div class="col-4  offset-2">
+        
+		<label class="btn btn-primary btn-file">
+		    Subir Archivo <input type="file" id="fileInput" >
+		</label> 
+	</div>
+    <div class="col-4 " >
+    	<div class="btn btn-primary vergaleria">Ver / Ocultar Archivos</div>
+    </div>
+    <!-- rehacer idea 
+    <div class="col-12 d-flex justify-content-center" style="">
+  		<img src="{{currentImage.link}}" class="responsive-img " style="max-height: 100px">
+  	</div>-->
+  {{/with}}
+</div> 
+<div class="row  galeria " >	
+	<div class="col-12">
+	<ul class="list-group">	
+	{{#each listGaleria}}
+	
+        <li class="list-group-item d-flex justify-content-between align-items-center"><label style="background-color: silver;padding: .1rem .4rem;color: white;border-radius: .2rem;text-transform: uppercase; ">{{ext}}</label>
+          {{name}}
+          <a href="" title="añadir enlace"><span class="badge badge-primary badge-pill"><i class="fa fa-plus"></i></span></a>
+        </li>
+        
+     
+	
+	{{else}}
+	
+	<div class="col-12  col-sm-4 col-md-6 col-lg-l3 m-2" style="padding:1%">
+		<div class="alert alert-warning" role="alert">
+		    No tienes Archivos subidas... :(
+		</div>
+	</div>
+	{{/each}}
+	</ul>
+	</div>
+	
+
+</div> 
+</template>

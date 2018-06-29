@@ -3,7 +3,7 @@ export default function validar (tipo,texto,tag) {
 	var test = false;
 	
 	if (tipo == 'email') {
-		test = /^[a-z\_\-]{4,12}[@]{1}[a-z]{2,10}[.]{1}[a-z]{2,5}$/.test(texto);
+		test = /^[a-z\_\-0-9]{4,12}[@]{1}[a-z]{2,10}[.]{1}[a-z]{2,5}$/.test(texto);
 		if (test == true) {
 
 			$(tag).slideUp('slow').text('ok');

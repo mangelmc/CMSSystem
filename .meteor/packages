@@ -34,23 +34,25 @@ kadira:blaze-layout
 accounts-password
 
 #colecciones
-
 aldeed:collection2
 
 #roles
-
 alanning:roles
 
+#iconos
 fortawesome:fontawesome
 
-easylogic:summernote-bs4
-
+#alert
 juliancwirko:s-alert-slide
 
-webtempest:animate
 
-#percolate:momentum
-
+#swipe?
 swiper:swiper
 
+#archivos
 ostrio:files
+
+#recaptcha
+ejson
+altapp:recaptcha
+reywood:publish-composite
