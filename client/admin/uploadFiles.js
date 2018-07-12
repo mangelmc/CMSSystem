@@ -7,21 +7,14 @@ Template.uploadFormFiles.onCreated(function () {
   idFile.set('none');
 });
 Template.uploadFormFiles.onRendered(function(){
-  /*this.autorun(function(){
-    if (idFile.get() == 'none') {
-      $('#currentImage').slideUp('fast');
-    }else{
-      $('#'+idFile.get()+'c').click();
-    }
-    
-  })*/
+  
 })
 Template.uploadFormFiles.helpers({
   currentUpload() {
     return Template.instance().currentUpload.get();
   },
   listGaleria: function(){
-    return ARCHIVOS.collection.find({userId:Meteor.userId()}).fetch();//rev
+    return ARCHIVOS.collection.find({}).fetch();//rev
   },
   itemFile: function(){
     //console.log(ARCHIVOS.findOne({_id:this._id}));
@@ -33,30 +26,19 @@ Template.uploadFormFiles.events({
   'click .vergaleria': function () {
     $('.galeria').slideToggle('fast');
   },
-  /*'click .selimg': function (e) {
-    idFile.set(this._id);
-  },*/
-  'click .checkf': function (e) {
-    var img = e.target.querySelector('img');
-    if ( img!= null) {
-      //console.log(img.src);
+  
+  'click .checkfile': function (e) {
+    var src = $(e.currentTarget).siblings("a").attr('href');
+    var name = $(e.currentTarget).parent().siblings("span").text();
+    //console.log(src);
     
-
       es.summernote('focus');
-      es.summernote('editor.insertImage', img.src);
-    }
-    $('.check i').each(function(index, el) {
-        if ($(this).hasClass('fa-check-circle-o')) {
-          //console.log('tiene');
-          $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
-          $(this).parent().parent().removeClass().addClass('bg-secondary');
-        }
-    });
-    $('#'+this._id+'c i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
-    $('#'+this._id+'c i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
-    
+      es.summernote('createLink', {
+        text: name,
+        url: src,
+        isNewWindow: true
+      });
     idFile.set(this._id);
-    $('#currentImage').slideDown();
     $('.galeria').slideUp('fast');
 
   },
@@ -66,8 +48,11 @@ Template.uploadFormFiles.events({
       // multiple files were selected
       const upload = ARCHIVOS.insert({
         file: e.currentTarget.files[0],
+        meta : {
+          idSitio :FlowRouter.getParam("titulo"),
+        },
         streams: 'dynamic',
-        chunkSize: 'dynamic'
+        chunkSize: 'dynamic',
       }, false);
 
       upload.on('start', function () {
@@ -79,7 +64,7 @@ Template.uploadFormFiles.events({
           alert('error al subir el Archivo: ' + error);
         } else {
           idFile.set(fileObj._id);
-          //console.log(idFile);
+          //console.log(idFile);aca umentamos e id para los sitios
           alert('El archivo "' + fileObj.name + '" Se ha subido correctamente');
         }
         template.currentUpload.set(false);

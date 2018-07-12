@@ -1,6 +1,8 @@
 import { Template }    from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
+import './uploadImages.html';
+
 idImagen = new ReactiveVar('none');
 Template.uploadFormImages.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
@@ -28,7 +30,8 @@ Template.uploadFormImages.helpers({
     return false;
   },
   listGaleria: function(){
-    return IMAGES.collection.find({userId:Meteor.userId()}).fetch();
+    //CAMBIAR PERMISOS A SITIO Y NO ASI A USER
+    return IMAGES.collection.find({}).fetch();
   },
   itemImg: function(){
     //console.log(IMAGES.findOne({_id:this._id}));
@@ -46,7 +49,7 @@ Template.uploadFormImages.events({
   'click .check': function (e) {
     var img = e.target.querySelector('img');
     if ( img!= null) {
-      console.log(img);
+      //console.log(img);
     
 
       es.summernote('focus');
@@ -73,6 +76,9 @@ Template.uploadFormImages.events({
       // multiple files were selected
       const upload = IMAGES.insert({
         file: e.currentTarget.files[0],
+        meta : {
+          idSitio :FlowRouter.getParam("titulo"),
+        },
         streams: 'dynamic',
         chunkSize: 'dynamic'
       }, false);
@@ -86,7 +92,112 @@ Template.uploadFormImages.events({
           alert('error al subir la imagen: ' + error);
         } else {
           idImagen.set(fileObj._id);
+          
           //console.log(idImagen);
+          alert('La imagen "' + fileObj.name + '" Se ha subido correctamente');
+        }
+        template.currentUpload.set(false);
+      });
+
+      upload.start();
+    }
+  }
+});
+
+
+
+
+idImagenDesc = new ReactiveVar('none');
+Template.uploadFormImagesDesc.onCreated(function () {
+  this.currentUpload = new ReactiveVar(false);
+  idImagenDesc.set('none');
+});
+Template.uploadFormImagesDesc.onRendered(function(){
+  this.autorun(function(){
+    if (idImagenDesc.get() == 'none') {
+      $('#currentImage').slideUp('fast');
+    }else{
+      $('#'+idImagenDesc.get()+'desc').click();
+    }
+    
+  })
+})
+Template.uploadFormImagesDesc.helpers({
+  currentUpload() {
+    return Template.instance().currentUpload.get();
+  },
+  currentImage : function(){
+    if (idImagenDesc.get() != 'none') {
+      var image = IMAGES.findOne({_id:idImagenDesc.get()});
+      return image;
+    }
+    return false;
+  },
+  listGaleria: function(){
+    //CAMBIAR PERMISOS A SITIO Y NO ASI A USER
+    return IMAGES.collection.find({}).fetch();
+  },
+  itemImg: function(){
+    //console.log(IMAGES.findOne({_id:this._id}));
+    return IMAGES.findOne({_id:this._id});
+  }
+});
+
+Template.uploadFormImagesDesc.events({
+  'click .vergaleriadesc': function () {
+    $('.galeriadesc').slideToggle('fast');
+  },
+  /*'click .selimg': function (e) {
+    idImagenDesc.set(this._id);
+  },*/
+  'click .checkdesc': function (e) {
+    var img = e.target.querySelector('img');
+    if ( img!= null) {
+      //console.log(img);
+    $('#imgdesc').attr('src', img.src);
+
+      
+    }
+    $('.checkdesc i').each(function(index, el) {
+        if ($(this).hasClass('fa-check-circle-o')) {
+          //console.log('tiene');
+          $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
+          $(this).parent().parent().removeClass().addClass('bg-secondary');
+        }
+    });
+    $('#'+this._id+'desc i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
+    $('#'+this._id+'desc i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
+    
+    idImagenDesc.set(this._id);
+    $('#currentImage').slideDown();
+    $('#imagendesc').modal('hide');
+    
+
+  },
+  'change #fileInput'(e, template) {
+    if (e.currentTarget.files && e.currentTarget.files[0]) {
+      // We upload only one file, in case
+      // multiple files were selected
+      const upload = IMAGES.insert({
+        file: e.currentTarget.files[0],
+        meta : {
+          idSitio :FlowRouter.getParam("titulo"),
+        },
+        streams: 'dynamic',
+        chunkSize: 'dynamic'
+      }, false);
+
+      upload.on('start', function () {
+        template.currentUpload.set(this);
+      });
+
+      upload.on('end', function (error, fileObj) {
+        if (error) {
+          alert('error al subir la imagen: ' + error);
+        } else {
+          idImagenDesc.set(fileObj._id);
+          
+          //console.log(idImagenDesc);
           alert('La imagen "' + fileObj.name + '" Se ha subido correctamente');
         }
         template.currentUpload.set(false);

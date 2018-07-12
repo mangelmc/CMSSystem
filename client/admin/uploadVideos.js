@@ -21,7 +21,7 @@ Template.uploadFormVideos.helpers({
     return Template.instance().currentUpload.get();
   },
   listGaleria: function(){
-    return VIDEOS.collection.find({userId:Meteor.userId()});
+    return VIDEOS.collection.find({});
   },
   itemVideo: function(){
     //console.log(IMAGES.findOne({_id:this._id}));
@@ -36,28 +36,40 @@ Template.uploadFormVideos.events({
   /*'click .selimg': function (e) {
     idImagen.set(this._id);
   },*/
-  'click .checkv': function (e) {
-    var img = e.target.querySelector('img');
-    if ( img!= null) {
-      console.log(img);
+  'click .checkvideo': function (e) {
+    var video = $(e.currentTarget).parent().siblings(".embed-responsive").children().children();
+    //console.log(video);
+    var src = video.attr('src');
+    var type = video.attr('type');
+      var html = '<div class="row"><div class="col-12 col-md-10 offset-md-1 col-lg-10 offset-lg-1 "><div class="embed-responsive embed-responsive-16by9 mx-auto px-sm-1 px-md-2 px-lg-3 p-3">' +
+        '<video class="embed-responsive-item" controls="auto" style="background-color: black;">' +
+          '<source src="'+src +'" type="'+ type +'" >'
+        '</video></div></div></div>';
     
 
       es.summernote('focus');
-      es.summernote('editor.insertImage', img.src);
-    }
-    $('.check i').each(function(index, el) {
+      
+      //document.execCommand('insertHtml', null, html);
+      es.summernote('pasteHTML', html);
+
+      $('#descripcion').focus();
+
+      es.summernote('focus');
+    
+    $('.checkvideo i').each(function(index, el) {
         if ($(this).hasClass('fa-check-circle-o')) {
           //console.log('tiene');
           $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
-          $(this).parent().parent().removeClass().addClass('bg-secondary');
+          //$(this).parent().parent().removeClass().addClass('bg-secondary');
         }
     });
-    $('#'+this._id+'c i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
-    $('#'+this._id+'c i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
+    $('#'+this._id+'vid i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
+    //$('#'+this._id+'c i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
     
     idVideo.set(this._id);
     $('#currentImage').slideDown();
     $('.galeria').slideUp('fast');
+
 
   },
   'change #fileInput'(e, template) {
@@ -66,6 +78,9 @@ Template.uploadFormVideos.events({
       // multiple files were selected
       const upload = VIDEOS.insert({
         file: e.currentTarget.files[0],
+        meta : {
+          idSitio :FlowRouter.getParam("titulo"),
+        },
         streams: 'dynamic',
         chunkSize: 'dynamic'
       }, false);

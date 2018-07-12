@@ -224,7 +224,7 @@
 				<label for="menu" class="col-2 offset-2 col-form-label">Menu Raiz</label>
 				<div class="col-6 " >			
 					<select class="form-control " name="menu" id="menu">						
-						{{#each listMenu}}
+						{{#each listMenuEdit}}
 						<option value="{{_id}}">{{nombre}}</option>
 						{{/each}}
 					</select>
@@ -307,7 +307,7 @@
 		<h3>EDICION DE MENU</h3>
 
 	</div>
-
+	
 	<form method="post" id="formeditmenu">
 		<div class="form-group row mt-4">
 			
@@ -325,24 +325,32 @@
 				<div class="alert alert-danger" id="alertlink" style="display: none;"> </div>
 			</div>
 		</div>
-		<div class="form-group row">
-			<label for="tipo" class="col-2 offset-2 col-form-label">Tipo</label>
-			<div class="col-6">
-			<select class="form-control" name="tipo" id="tipo" required>
-				{{#if menuNormal}}
-					<option value="normal">Normal</option>
-					<option value="con submenu">Con Submenu</option>					
-				{{else}}
-					<option value="con submenu">Con Submenu</option>
-									
-				{{/if}}
-			</select>
+		{{#if hasContenido}}
+			<input type="hidden" name="tipo" value="{{menu.tipo}}">
+		{{else}}
+			<div class="form-group row">
+				<label for="tipo" class="col-2 offset-2 col-form-label">Tipo</label>
+				<div class="col-6">
+				
+				
+				<select class="form-control" name="tipo" id="tipo" required>
+					{{#if menuNormal}}
+						<option value="normal">Normal</option>
+						<option value="con submenu">Con Submenu</option>					
+					{{else}}
+						<option value="con submenu">Con Submenu</option>
+										
+					{{/if}}
+				</select>
+				
+				</div>
 			</div>
-		</div>
-		
+		{{/if}}
 		<div class="d-flex justify-content-center">
 			<button type="submit" class="btn btn-primary mx-0 d-block">Guardar Cambios</button>
 		</div>
+
 	</form>
+
 </template>
 

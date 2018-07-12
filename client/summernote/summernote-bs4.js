@@ -6,6 +6,7 @@
  * summernote may be freely distributed under the MIT license.
  *
  * Date: 2017-12-25T06:39Z
+    4229 images
  */
  import {jquery} from 'meteor/jquery';
  //var jquery = $;
@@ -2386,7 +2387,7 @@ var WrappedRange = /** @class */ (function () {
         var contentsContainer = $$1('<div></div>').html(markup)[0];
         var childNodes = lists.from(contentsContainer.childNodes);
         var rng = this.wrapBodyInlineWithPara().deleteContents();
-
+        
         return childNodes.reverse().map(function (childNode) {
             return rng.insertNode(childNode);
         }).reverse();
@@ -4025,6 +4026,7 @@ var Editor = /** @class */ (function () {
         }
         this.history.recordUndo();
     };
+
     Editor.prototype.destroy = function () {
         this.$editable.off();
     };
@@ -4578,11 +4580,11 @@ var Dropzone = /** @class */ (function () {
             }
 //work here ...!!!           
             else {
-                console.log(dataTransfer.types);
+                //console.log(dataTransfer.types);
                 $$1.each(dataTransfer.types, function (idx, type) {
 
                     var content = dataTransfer.getData(type);
-                    console.log(type);
+                    //console.log(type);
                     if (type.toLowerCase().indexOf('text') > -1) {
                         _this.context.invoke('editor.pasteHTML', content);
                     }

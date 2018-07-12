@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { FilesCollection } from 'meteor/ostrio:files';
-import {Mongo} from "meteor/mongo";
+import { Mongo } from "meteor/mongo";
 
-//import { FilesCollection } from 'meteor/ostrio:files';
+
 SITIO = new Mongo.Collection('sitio');
 
 var sitioSchema =new SimpleSchema({
@@ -145,10 +145,13 @@ var menuSchema = new SimpleSchema({
         type : String //normal o con submenu
     },
     idSitio : {
-        type : String //aqui va ekl id del sitio
+        type : String //aqui va el id del sitio
     },
     estado : {
         type : String //activo o inactivo
+    },
+    contenido : {
+        type : String //si ya tiene contenido  
     }
 
 });
@@ -216,9 +219,8 @@ var contenidoSchema =new SimpleSchema({
     
     contenidoHtml : {type : String},
     //ya da la opcion de poner multiples imgs o files
-    idImagen : {
-        type : String,
-        optional : true
+    imagenDesc : {
+        type : String,//src de la imagen desc
     },
     idArchivo : {
        type : String,
@@ -252,7 +254,8 @@ var comentarioSchema =new SimpleSchema({
     },
     idMenu : {
         type:String,
-    },*/   
+    },*/
+
     idContenido : {
         type : String
     },
@@ -261,6 +264,9 @@ var comentarioSchema =new SimpleSchema({
     },
     idUsuario : {
         type : String
+    },
+    estado :  {
+        type : String//visible u oculto(baneado)
     },
     creado: {
         type : Date,
@@ -367,13 +373,100 @@ var footerSchema =new SimpleSchema({
 });
 FOOTER.attachSchema(footerSchema);
 
+FOOTERLINKS = new Mongo.Collection('footerlinks')
+
+var footerlinksSchema =new SimpleSchema({
+
+    idSitio :{
+        type:String,
+    },
+    icono : {
+        type : String 
+    },
+    link : {
+        type : String
+    }    
+
+});
+FOOTERLINKS.attachSchema(footerlinksSchema);
+
 
 //Archivos con ostrio
-
-
+var defaultSchema = {
+  size: {
+    type: Number
+  },
+  name: {
+    type: String
+  },
+  type: {
+    type: String
+  },
+  path: {
+    type: String
+  },
+  isVideo: {
+    type: Boolean
+  },
+  isAudio: {
+    type: Boolean
+  },
+  isImage: {
+    type: Boolean
+  },
+  isText: {
+    type: Boolean
+  },
+  isJSON: {
+    type: Boolean
+  },
+  isPDF: {
+    type: Boolean
+  },
+  extension: {
+    type: String,
+    optional: true
+  },
+  _storagePath: {
+    type: String
+  },
+  _downloadRoute: {
+    type: String
+  },
+  _collectionName: {
+    type: String
+  },
+  public: {
+    type: Boolean,
+    optional: true
+  },
+  meta: {
+    type: Object,
+  },
+  userId: {
+    type: String,
+    optional: true
+  },
+  updatedAt: {
+    type: Date,
+    optional: true
+  },
+  versions: {
+    type: Object,
+    blackbox: true
+  }
+}
+const newMeta = {
+    'meta.idSitio': {
+        type: String
+      }
+}
+_.extend(defaultSchema,newMeta);
+//console.log(defaultSchema);
 IMAGES = new FilesCollection({
   collectionName: 'images',
   allowClientCode: false, // Disallow remove files from Client
+  schema : defaultSchema,
   storagePath : '/home/mike/data',
   downloadRoute : '/home/mike/data/downloads',
   allowClient : false,
@@ -388,31 +481,38 @@ IMAGES = new FilesCollection({
   }
 });
 
+
+_.extend(defaultSchema,newMeta);
+IMAGES.collection.attachSchema(new SimpleSchema(defaultSchema));
+
 AVATARS = new FilesCollection({
   collectionName: 'avatars',
   allowClientCode: false, // Disallow remove files from Client
   storagePath : '/home/mike/data',
   downloadRoute : '/home/mike/data/downloads',
   allowClient : false,
+
   onBeforeUpload(file) {
     // Allow upload files under 10MB, and only in png/jpg/jpeg formats
     if (file.size <= 10485760 && /png|jpg|jpeg|bmp|gif/i.test(file.extension)) {
       return true;
     } else {
-      return 'Please upload image, with size equal or less than 10MB';
+      return 'Por favor sube una image valida, con un tamaño menor o igual a 10MB';
     }
   }
 });
+
 
 //pending
 
 
 VIDEOS = new FilesCollection({
   collectionName: 'videos',
-  allowClientCode: false, // Disallow remove files from Client
+  //allowClientCode: false, // Disallow remove files from Client
   storagePath : '/home/mike/data',
   downloadRoute : '/home/mike/data/downloads',
   allowClient : false,
+  schema : defaultSchema,
   onBeforeUpload(file) {
     // Allow upload files under 100MB, and only in png/jpg/jpeg formats
     if (file.size <= 2097143200 && /avi|mp4|m4a|mpeg|mov|rm|flv|div|mpg|mkv|wmv|wma|vob|qt|qtl|ogv/i.test(file.extension)) {
@@ -422,7 +522,7 @@ VIDEOS = new FilesCollection({
     }
   }
 });
-
+VIDEOS.collection.attachSchema(new SimpleSchema(defaultSchema));
 
 ARCHIVOS = new FilesCollection({
   collectionName: 'archivos',
@@ -430,8 +530,9 @@ ARCHIVOS = new FilesCollection({
   storagePath : '/home/mike/data',
   downloadRoute : '/home/mike/data/downloads',
   allowClient : false,
+  schema : defaultSchema,
   onBeforeUpload(file) {
-    console.log(file);
+    ///console.log(file);
     // Allow upload files under 100MB, and only in png/jpg/jpeg formats
     if (file.size <= 104857600 && !/autorun|inf|bat|pif|scr|com|cmd|job|lnk|prf|reg|tmp|xnk/i.test(file.extension)) {
       return true;
@@ -441,4 +542,4 @@ ARCHIVOS = new FilesCollection({
     
   }
 });
-
+ARCHIVOS.collection.attachSchema(new SimpleSchema(defaultSchema));

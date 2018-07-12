@@ -25,6 +25,9 @@ Template.navbaradmin.helpers({
 	listMenu : function(){
 		return MENU.find({estado:estadoMenu.get()});
 	},
+	listMenuEdit : function(){
+		return MENU.find({tipo : 'con submenu'});
+	},
 	
 	estiloNavbar : function(){
 		var id = FlowRouter.getParam('titulo');
@@ -46,7 +49,7 @@ Template.navbaradmin.helpers({
 		
 	},
 	noInicio : function(){
-		if (this.nombre == "INICIO") {
+		if (this.nombre == "INICIO" || this.nombre == "BOLETINES" ||this.nombre == "EVENTOS") {
 			//console.log(this.nombre);
 			return false;
 		}
@@ -96,6 +99,7 @@ Template.navbaradmin.events({
 		estadoMenu.set(e.target.id);
 	},
 	'click .editarmenu': function () {
+
 		
 		var carrera = FlowRouter.getParam('titulo');
 		
@@ -180,8 +184,8 @@ Template.navbaradmin.events({
 		}
 		//console.log(obj);
 		Meteor.call('insSubmenu', obj, function (error, result) {
-			if (result) {
-				sAlert.info(result, {effect: 'slide',offset: '130'});
+			if (result != 'error') {
+				sAlert.info("Submenu Agregado", {effect: 'slide',offset: '130'});
 			}
 		});
 		$('#addsubmenu')[0].reset();
@@ -316,7 +320,8 @@ Template.nuevomenu.events({
 			link : link,
 			tipo : e.target.tipo.value,
 			idSitio : FlowRouter.getParam("titulo"),
-			estado : 'activo'
+			estado : 'activo',
+			contenido : 'No'
 		}
 		//console.log(obj);
 		Meteor.call('insertMenu', obj, function (error, result) {
@@ -350,7 +355,14 @@ Template.editarmenu.helpers({
 		}
 		return false;
 		///arreglar con jquery metdo facil;
-	}
+	},
+	hasContenido : function(){
+		var menu = MENU.findOne({_id:FlowRouter.getQueryParam('idMenu')});
+		if (menu != undefined && menu.contenido == 'Si') {
+			return true;
+		}
+		return false
+	} 
 });
 
 Template.editarmenu.events({

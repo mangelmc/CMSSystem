@@ -12,6 +12,21 @@ var urlEnFormE = new ReactiveVar(true);
 
 
 
+Template.sidebaradmin.onRendered(function(){
+	this.autorun(function(){
+		if (SIDEBARMENU.findOne() != undefined) {
+			sidebar = SIDEBARMENU.findOne();			
+			//console.log(contenido.tipo);
+
+			
+			es.summernote('code', sidebar.html);
+
+			//control imagen
+			//if (contenido.tipo == 'Con imagen') {}
+			//idImagen.set(contenido.idImagen); podria servir para el preview de contenido
+		}
+	});
+})
 Template.sidebaradmin.helpers({
 	sidebar: function () {
 		return SIDEBARMENU.findOne();
@@ -85,8 +100,9 @@ Template.sidebaradmin.events({
 	'submit #formsidebarhtml': function (e) {
 		e.preventDefault();
 		var obj = {
-			html : e.target.texto.value
+			html : es.summernote('code'),
 		}
+
 		var idSitio = FlowRouter.getParam('titulo');
 		Meteor.call('editsidebarHtml', idSitio,obj, function (error, result) {
 			if (result) {				

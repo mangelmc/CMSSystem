@@ -4,7 +4,7 @@
     <link href="https://fonts.googleapis.com/css?family=Bellefair" rel="stylesheet">
     <meta name="viewport" content="width=device-width">
   </head>
-  <body id="mainuser" class="{{navbarTheme.fuente}}" style="background-color:#f5f6f8 !important">    
+  <body id="mainuser" class="{{navbarTheme.fuente}}" style="{{cuerpo}}">    
     <div id="" class="row mx-0" >     
                
         {{#if Sitio}}
@@ -54,7 +54,7 @@
 
 
 
-  <header>
+  <div>
 
   {{#each header }}
   <div id="t-header" class="animatedParent " >
@@ -62,7 +62,7 @@
     <div class="col-md-1 d-md-block d-none " style="background-color: #5e5e5f;"></div>
     <div class="col-md-10 col-sm-12" style="background-color: #3b4042;">
       <div class="row mx-0 " >
-        <div class="col-md-6 col-sm-12 col-xs-12 p-2 mb-0  d-flex justify-content-start align-items-center animated shakeUp" >
+        <div class="col-md-6 col-sm-12 col-xs-12 p-2 mb-0  d-flex justify-content-start align-items-center animated bounceInLeft" >
         <img src="/logou.png" class="img-fluid " alt="Logo" style="max-height: 15vh" >
         <!--<img src="img/logoc.png" class="img-fluid collapse  float-right d-lg-block pb-4"  alt="Logo">-->
       
@@ -103,7 +103,7 @@
   </div>
   </div>  
   {{/each}}
-  </header>
+  </div>
    
 </template>
 <template name="navbar">
@@ -264,6 +264,7 @@
 <template name="contenthome">
 
   <div class="row mx-0 ">
+    {{#if boletinesOk}}
     <div class="col-12 p-1 animatedParent" data-sequence='500'>
       <div id="t-boletines" class="animated fadeInDown d-flex justify-content-center mb-2 p-2 " style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;" data-id='1' >
         <h2 >BOLETINES</h2>
@@ -273,15 +274,18 @@
 
         <div class="col-11 col-md-6 col-lg-6  my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest" data-id='2'>
           
-          <div class="row p-2 bol m-1 " >
-            <div class="col-6">
-             <img class="img-fluid  mx-auto" src="/students.jpg" alt="Card image cap" style=" ">
+          <div class="row p-2 bol m-1 text-center" >
+            <div class="col-10 col-md-6 col-lg-6 col mx-auto">
+             <img class="img-fluid  mx-auto" src="/students.jpg" alt="Imagen de contenido">
              
             </div>
-            <div class="col-6 d-flex align-items-center">
-              <h2 class="">{{titulo}}</h2>
+            <div class="col-10 col-md-6 col-lg-6 col d-flex align-items-center ">
+              <div class="mx-auto">
+                <h2 class="">{{titulo}}</h2>
+                <p class="">{{descripcion}}</p>
+              </div>
             </div>
-            <p class="">{{descripcion}}</p>
+            
                         
           </div>
           
@@ -291,13 +295,16 @@
        
       </div>
       <div class="col-12 d-flex justify-content-center">
-        <a id="sendCont" href="">Ver Mas....</a>
+        <a class="btn btn-outline-info " id="goCont1" href="">VER MAS....</a>
       </div>
-    </div>  
+    </div>
+    {{/if}} 
+    {{#if eventosOk}}
+       
     <div  class="col-sm-12 col-md-8 p-1 ">
       <!--{{>contenido}} deberia ser dinamico ?-->
       <div class="animatedParent">
-        <div id="t-eventos" class="title-event d-flex justify-content-center mb-2 p-2 animated fadeInLeft" >
+        <div id="t-eventos" class="title-event d-flex justify-content-center mb-2 p-2 animated fadeInLeft">
           <h2 >EVENTOS</h2>            
         </div>
       </div>
@@ -305,14 +312,15 @@
         algo
       </div>-->
       <div id="eventos" class="row d-flex justify-content-center mx-0 px-sm-4"  > 
-        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent animateOnce" >
-          <div class="item-event card  p-1 animated rotateInUpLeft">
+        {{#each eventos}}
+        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent " >
+          <div class="item-event card  p-1 animated rotateInUpLeft animateOnce">
             <div class="img-card">
                 <img class=" img-fluid" src="/graduacion.jpg" alt="Card image cap">
             </div>
-            <div class="" style="">
-              <h4 class="card-title text-center">Algun Titulo 1</h4>
-              <p class="card-text text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <div >
+              <h4 class="text-center text-uppercase">{{titulo}}</h4>
+              <p class=" text-center text-capitalize">{{descripcion}}.</p>
               
             </div>            
             <div>
@@ -320,54 +328,12 @@
             </div>
           </div>
         </div>
-        <div class=" col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent animateOnce" >
-          <div class="item-event card p-1 animated rotateInUpLeft" >
-            <div class="img-card">
-                <img class=" img-fluid" src="/robot-62.jpg" alt="Card image cap">
-            </div>
-            <div class="" style="">
-              <h4 class="card-title text-center">Algun Titulo 2</h4>
-              <p class="card-text text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              
-            </div>
-            <div>
-              <a href="#" class="btn btn-primary mx-auto d-block">Ver mas ... </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent animateOnce" >
-          <div class="item-event card p-1 animated rotateInUpLeft" >
-            <div class="img-card">
-                <img class=" img-fluid" src="/students.jpg" alt="Card image cap">
-            </div>
-            <div class="" style="">
-              <h4 class="card-title text-center">Algun Titulo 3</h4>
-              <p class="card-text text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              
-            </div>
-            <div>
-              <a href="#" class="btn btn-primary mx-auto d-block ">Ver mas ... </a>
-            </div>
-          </div>
-        </div>
-        <div class=" col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent animateOnce" >
-          <div class="item-event card p-1 animated rotateInUpLeft" >
-            <div class="img-card">
-                <img class=" img-fluid" src="/nature.jpg" alt="Card image cap">
-            </div>
-            <div class="" style="">
-              <h4 class="card-title text-center">Algun Titulo 4</h4>
-              <p class="card-text text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              
-            </div>
-            <div>
-              <a href="#" class="btn btn-primary mx-auto d-block">Ver mas ... </a>
-            </div>
-          </div>
-        </div>
+        {{/each}}
+
+        
         <div class="col-12 my-2 d-flex justify-content-center animatedParent" >
           <div class="foot-event d-flex justify-content-center animated fadeInUpShort slow " style="width: 80%;">
-            <a href="" class="nav-link " style=""><h4 class="mx-auto d-block">MAS EVENTOS</h4></a>            
+            <a href="" class="nav-link" id="goCont2" style=""><h4 class="mx-auto d-block">MAS EVENTOS</h4></a>            
           </div>
         </div>
       </div>
@@ -378,11 +344,27 @@
           <strong>Aun no hay contenido para mostrar</strong>
       </div>-->
     </div>
-    
     <div  class="col-12 col-md-4 p-1">
       {{> sidebar }}
     </div>
+      
+    {{/if}}
     
+    
+    <div  class="col-sm-12 col-md-8 p-1 ">
+      {{#each listContInicio}}
+
+      {{else}}
+      <div class="alert alert-info" role="alert">
+        <strong>Aun no hay contenido de inicio</strong>.
+      </div>
+      {{/each}}
+    </div>
+    {{#unless eventosOk}}
+      <div  class="col-12 col-md-4 p-1">
+        {{> sidebar }}
+      </div>
+    {{/unless}}
   </div>
 
 
@@ -399,21 +381,21 @@
       
       {{#each listContentMenu}}
       
-        <div class="col-11 my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest" data-id='2'>
+        <div class="col-12 my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest" data-id='2'>
           
           <div class="row p-2 bol m-1" >
-            <div class="col-5">
-             <img class="img-fluid  mx-auto" src="/students.jpg" alt="Card image cap" style=" ">
+            <div class="col-10 col-md-6 col-lg-6 col mx-auto">
+             <img class="img-fluid  mx-auto" src="{{imagenDesc}}" alt="Card image cap" style=" ">
              
             </div>
-            <div class="col-6 d-flex align-items-center">
-              <div class="d-flex flex-column">
+            <div class="col-10 col-md-6 col-lg-6 col d-flex align-items-center ">
+              <div class="mx-auto">
                 <h2 class="">{{titulo}}</h2>
                 <p class="">{{descripcion}} </p>
               </div>
             </div>
             <div class="col-12 d-flex justify-content-end">
-              <a class="btn btn-primary todetails" href="">Ver mas ...</a>
+              <a class="btn btn-primary todetails" href="">VER MAS ...</a>
             </div>  
           </div>
         </div>
@@ -421,7 +403,7 @@
       {{else}}
       
         <div class="alert alert-warning animated bounceInLeft " data-id='2'  role="alert">
-            <strong>No Hay Contenido para Mostrar... o Contenido en cosntruccion o proximamente </strong> 
+            <strong>No Hay Contenido para Mostrar... :V</strong> 
         </div>
       {{/each}}
 
@@ -442,28 +424,26 @@
 <template name="contentsubmenu">
   <div class="row mx-0 ">
 
-    <div class="col-sm-12 col-md-8 p-1 animatedParent" data-sequence='500'>
+    <div class="col-sm-11 col-md-8 p-1 animatedParent" data-sequence='500'>
       <div id="t-boletines" class="animated fadeInDown d-flex justify-content-center mb-2 p-2 " style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;" data-id='1' >
         <h2 class="text-uppercase">{{submenu.nombre}}</h2><!-- NOMBRE DE LINK -->
       </div>
       <div class="row mx-0 text-center d-flex justify-content-around my-2" >
       {{#each listContentSubmenu}}
      
-        <div class="col-11   my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest" data-id='2'>
-          
+        <div class="col-11   my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest" data-id='2'>          
           <div class="row p-2 bol m-1 " >
-            <div class="col-5">
-             <img class="img-fluid  mx-auto" src="/students.jpg" alt="Card image cap" style=" ">
-             
+            <div class="col-10 col-md-6 col-lg-6 col mx-auto">
+             <img class="img-fluid  mx-auto" src="{{imagenDesc}}" alt="Card image cap">
             </div>
-            <div class="col-6 d-flex align-items-center">
-              <div class="d-flex flex-column">
+            <div class="col-10 col-md-6 col-lg-6 col d-flex align-items-center">
+              <div class=" mx-auto">
                 <h2 class="">{{titulo}}</h2>
-                <p class="">{{descripcion}} Some quick example text to build on the card title  content.</p>
+                <p class="">{{descripcion}}.</p>
               </div>
             </div>
             <div class="col-12 d-flex justify-content-end">
-              <a class="btn btn-primary todetails" href="{{allRuta}}">Ver mas ...</a>
+              <a class="btn btn-primary todetails " href="{{allRuta}}">VER MAS ...</a>
             </div>
             
                         
@@ -474,7 +454,7 @@
       {{else}}
       
         <div class="alert alert-warning" role="alert">
-            <strong>No Hay Contenido para Mostrar... o Contenido en cosntruccion o proximamente </strong> 
+            <strong>No Hay Contenido para Mostrar... :V</strong> 
         </div>
       {{/each}}
       </div>
@@ -612,21 +592,13 @@
           
             
         <div class="animated growIn slowest l-foot mt-3 ">
-            <a  style="" class=" h5" href="https://www.youtube.com/?hl=es-419">
-              
-              <span class=" h3"><i class="fa fa-youtube "></i></span>
-            </a>
-            <a  class="l-foot h5" href="https://twitter.com/?lang=es">
-              
-              <span class="text-center h3"><i class="fa fa-twitter "></i></span>
-            </a>
-            <a  class="l-foot h5" href="https://es-la.facebook.com">
-              
-              <span class=" h3"><i class="fa fa-facebook "></i></span>
-            </a>
-            <a  class="l-foot h5" href="https://www.instagram.com/?hl=es-la">              
-              <span class=" h3"><i class="fa fa-instagram "></i></span>
-            </a>          
+            {{#each listLinks}}
+              <a  style="" class=" h5" href="{{link}}" target="_blank">
+                
+                <span class=" h3"><i class="{{icono}}"></i></span>
+              </a>
+            {{/each}}
+                     
         </div>
         
         

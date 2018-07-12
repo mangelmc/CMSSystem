@@ -45,7 +45,9 @@ Meteor.startup(() => {
   Meteor.publish("getNavbar",function(idSitio){
     return NAVBAR.find({idSitio:idSitio});
     });
-
+  Meteor.publish("getCuerpo",function(idSitio){
+    return CUERPO.find({idSitio:idSitio});
+    });
   Meteor.publish("getMenuEnlace",function(idSitio){
     return MENUENLACE.find({idSitio:idSitio});
   });
@@ -56,6 +58,10 @@ Meteor.startup(() => {
   Meteor.publish("getFooter",function(idSitio){
     //console.log(idSitio);
     return FOOTER.find({idSitio:idSitio});
+  });
+  Meteor.publish("getFooterLinks",function(idSitio){
+    //console.log(idSitio);
+    return FOOTERLINKS.find({idSitio:idSitio});
   });
   Meteor.publish("getSubmenu",function(idSitio){
     //console.log(idSitio);
@@ -77,14 +83,14 @@ Meteor.startup(() => {
   
     return SUBMENU.find({_id:idSubMenu});
   });
-  Meteor.publish("getImages",function(){
-    return IMAGES.find().cursor;
+  Meteor.publish("getImages",function(idSitio){
+    return IMAGES.find({'meta.idSitio' : idSitio}).cursor;
   });
-  Meteor.publish("getVideos",function(){
-    return VIDEOS.find().cursor;
+  Meteor.publish("getVideos",function(idSitio){
+    return VIDEOS.find({'meta.idSitio' : idSitio}).cursor;
   });
-  Meteor.publish("getArchivos",function(){
-    return ARCHIVOS.find().cursor;
+  Meteor.publish("getArchivos",function(idSitio){
+    return ARCHIVOS.find({'meta.idSitio' : idSitio}).cursor;
   });
   /////// Publicaciones de user
   Meteor.publish("getSitioClient",function(sitio){
@@ -122,6 +128,15 @@ Meteor.startup(() => {
     }
     
   });
+  Meteor.publish("getCuerpoClient",function(titulo){
+    //console.log(titulo);
+    var idSitio = SITIO.findOne({titulo:titulo});
+    if (idSitio!=undefined) {
+      //console.log(CUERPO.find({idSitio:idSitio._id}));
+      return CUERPO.find({idSitio:idSitio._id});
+    }
+    
+  });
   Meteor.publish("getSidebarClient",function(titulo){
     var idSitio = SITIO.findOne({titulo:titulo});
     if (idSitio!=undefined) {
@@ -146,6 +161,13 @@ Meteor.startup(() => {
     var idSitio = SITIO.findOne({titulo:titulo});
     if (idSitio!=undefined) {
       return FOOTER.find({idSitio:idSitio._id});
+    }
+
+  });
+  Meteor.publish("getFooterLinksClient",function(titulo){
+    var idSitio = SITIO.findOne({titulo:titulo});
+    if (idSitio!=undefined) {
+      return FOOTERLINKS.find({idSitio:idSitio._id});
     }
 
   });
@@ -185,11 +207,19 @@ Meteor.startup(() => {
     
     }
   });
-  Meteor.publish("getHomeContentClient",function(titulo){
+  //RECIBIR NOMBRE PARAMETRO
+  Meteor.publish("getHomeContentClient1",function(titulo){
     var sitio = SITIO.findOne({titulo:titulo});
      if (sitio!=undefined) {
       var menu = MENU.findOne({nombre : "BOLETINES", idSitio : sitio._id});
       return CONTENIDO.find({idSitio:sitio._id,idMenu : menu._id,visible:"visible"},{limit : 2});
+    }
+  });
+  Meteor.publish("getHomeContentClient2",function(titulo){
+    var sitio = SITIO.findOne({titulo:titulo});
+     if (sitio!=undefined) {
+      var menu = MENU.findOne({nombre : "EVENTOS", idSitio : sitio._id});
+      return CONTENIDO.find({idSitio:sitio._id,idMenu : menu._id,visible:"visible"},{limit : 4});
     }
   });
   Meteor.publish("getMContentClient",function(titulo,menu,contenido){
@@ -210,12 +240,13 @@ Meteor.startup(() => {
   });
   publishComposite("getComentsClient",function(ruta){
     var content = CONTENIDO.findOne({ruta:ruta});
-    
+    console.log(CONTENIDO.find({ruta:ruta}).fetch());
+    //aumentar id sitio y si es mejor id menu
     if (content!=undefined) {
       return {
         find() {
             
-            return COMENTARIO.find({idContenido : content._id});
+            return COMENTARIO.find({idContenido : content._id,estado : 'visible'});
         },
         children: [{
             find(coment) {
@@ -229,6 +260,8 @@ Meteor.startup(() => {
         }]
     }
       
+    }else{
+      console.log(content);
     }
     
   });

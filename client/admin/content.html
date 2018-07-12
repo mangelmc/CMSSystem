@@ -12,27 +12,31 @@
 	</div>
 	<form >
 	<div class="row">
-		<div class="form-group col">
-			
+		<!-- <div class="form-group col">
+			<label>Color de fondo</label>
 			<label>Tipo de fondo</label>
 			
 			<select class="form-control" id="tipofondo">
 				<option value="color">Color</option>
 				<option value="imagen">Imagen</option>
 									
-			</select>	
-		</div>
+			</select> 	
+		</div>-->
 
 		<div class="form-group col " id="colorfondo">
-			<label>color de fondo</label>
-			<select class="form-control" id="fuente">
-				<option value="black">black</option>
-				<option value="white">white</option>
+			<label>COLOR DE FONDO</label>
+			<select class="form-control" id="fondo">
+				<option value="#f5f6f8">Default</option>
+				<option value="black">Negro</option>
+				<option value="white">Blanco</option>
 				<option value="blue">blue</option>
 				<option value="orange">orange</option>
-
 			</select>
 		</div>
+		<div class="col m-4" style="background-color: {{cuerpo.fondo}};box-shadow: 0 0 .2rem .2rem silver" >
+			
+		</div>
+		
 		<div class="form-group col " id="imgfondo" style="display: none;">
 			<label>Imagen</label>
 			<input type="file" name="imagen" class="form-control-file">
@@ -82,7 +86,7 @@
 						<a href="" class="btn btn-outline-dark btn-sm contenidomenu"><i class="fa fa-edit" title="Editar Contenidos"></i></a>
 						{{/if}}
 
-					<a class="btn btn-outline-danger btn-sm elimenu"><i class="fa fa-trash"></i></a>
+					<!-- <a class="btn btn-outline-danger btn-sm elimenu"><i class="fa fa-trash"></i></a> -->
 					{{else}}
 					<a class="btn btn-outline-danger btn-sm restmenu"><i class="fa fa-rotate-left"></i></a>
 					{{/if}}
@@ -104,7 +108,7 @@
 								 
 								{{#if subActivo}}
 								<a href="" class="btn btn-outline-success btn-sm contenidomenu"><i class="fa fa-edit"></i></a>
-								<a class="btn btn-outline-danger btn-sm elisubmenu"><i class="fa fa-trash"></i></a>
+								<!-- <a class="btn btn-outline-danger btn-sm elisubmenu"><i class="fa fa-trash"></i></a> -->
 								{{else}}
 								<a class="btn btn-outline-danger btn-sm restsubmenu"><i class="fa fa-rotate-left"></i></a>
 								{{/if}}
@@ -267,13 +271,13 @@
 
 <template name="editcontentadmin">
 	<nav aria-label="breadcrumb">
-		  <ol class="breadcrumb">
-		    <li class="breadcrumb-item"><a href="/admin/{{sitio}}">Inicio</a></li>
-		    <li class="breadcrumb-item"><a href="/admin/{{sitio}}/menucontenido">Listado Menus de contenido</a></li>
-		    <li class="breadcrumb-item"><a href="/admin/{{sitio}}/contenido/{{idMenu}}">Listado contenidos</a></li>
-		    <li class="breadcrumb-item active" aria-current="page">Edicion de Contenido</li>
-		  </ol>
-		</nav>
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="/admin/{{sitio}}">Inicio</a></li>
+	    <li class="breadcrumb-item"><a href="/admin/{{sitio}}/menucontenido">Listado Menus de contenido</a></li>
+	    <li class="breadcrumb-item"><a href="/admin/{{sitio}}/contenido/{{idMenu}}">Listado contenidos</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">Edicion de Contenido</li>
+	  </ol>
+	</nav>
 
 	<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-center  p-1 ">
 		<h3>EDICION DE CONTENIDO</h3>
@@ -286,7 +290,7 @@
 			
 			<label for="titulo" class="col-3 offset-1 col-form-label">Titulo de Referencia</label>
 			<div class="col-7 ">			
-				<input type="text" name="titulo" maxlength="30" class="form-control" id="titulo"  placeholder="Titulo del Contenido" value="{{content.titulo}}" required>
+				<input type="text" name="titulo" maxlength="30" class="form-control" id="titulo"  placeholder="Titulo del Contenido" value="{{content.titulo}}" required >
 				<input type="hidden" name="idmenu" value="{{content.idMenu}}">
 				<input type="hidden" name="ruta" id="ruta" value="{{content.ruta}}">				
 				<div class="alert alert-danger" id="alerttitulo" style="display: none;"> </div>
@@ -298,6 +302,18 @@
 			<div class="col-7 ">	
 				<textarea type="text" name="descripcion" id="descripcion" class="form-control" placeholder="Descripcion breve" required>{{content.descripcion}}</textarea>	
 				
+			</div>
+		</div>
+		<div class="form-group row mt-4">
+			
+			<label for="titulo" class="col-3 offset-1 col-form-label">Imagen previsulizacion</label>
+			<div class="col-3 ">	
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc" >Seleccionar imagen</button>
+
+				
+			</div>
+			<div class="col-3 ">
+				<img src="{{content.imagenDesc}}" id="imgdesc" alt="Imagen descriptiva" class="img-fluid">
 			</div>
 		</div>		
 		<div class="form-group row">
@@ -314,7 +330,7 @@
 			</div>
 		</div>
 		{{>editorContent}}
-		<div id="summernote" ></div>	
+		
 		
 		
 		
@@ -323,7 +339,31 @@
 			<button type="submit" class="btn btn-primary mx-0 d-block">Guardar</button>
 		</div>
 	</form>
+	
 
+	<!-- Modal para Imagen desc-->
+	<div class="modal fade" id="imagendesc" tabindex="-1" role="dialog" aria-labelledby="imagendescLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	         
+	      <div class="modal-body " >
+	        {{>uploadFormImagesDesc}}
+
+	      </div>
+	      <div class="modal-footer">
+	              	
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	      </div>
+	      
+	    </div>
+	  </div>
+	</div>
 </template>
 
 <template name="newcontentadmin">
@@ -358,7 +398,17 @@
 				
 			</div>
 		</div>
-		
+		<div class="form-group row">
+			<label for="titulo" class="col-3 offset-1 col-form-label">Imagen previsulizacion</label>
+			<div class="col-3 ">	
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc" >Seleccionar imagen</button>
+
+				
+			</div>
+			<div class="col-3 ">
+				<img src="{{content.imagenDesc}}" id="imgdesc" alt="Imagen descriptiva" class="img-fluid">
+			</div>
+		</div>
 		<div class="form-group row">
 			<label class="col-3 offset-1 col-form-label" for="">Comentarios</label>		
 			<div class="col-7 radio">				
@@ -384,4 +434,27 @@
 			<button type="submit" class="btn btn-primary mx-0 d-block">Guardar</button>
 		</div>
 	</form>
+<!-- Modal para Imagen desc-->
+	<div class="modal fade" id="imagendesc" tabindex="-1" role="dialog" aria-labelledby="imagendescLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	         
+	      <div class="modal-body " >
+	        {{>uploadFormImagesDesc}}
+
+	      </div>
+	      <div class="modal-footer">
+	              	
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	      </div>
+	      
+	    </div>
+	  </div>
+	</div>
 </template>

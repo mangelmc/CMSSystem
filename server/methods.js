@@ -91,12 +91,12 @@ Meteor.startup(() => {
                 });
                 NAVBAR.insert({idSitio:result,color:'seablue',fuente:'Arial'});
 
-                MENU.insert({nombre:"INICIO",link:"/",tipo:'normal',idSitio:result,estado:"activo"});
-                MENU.insert({nombre:"EVENTOS",link:"eventos",tipo:'normal',idSitio:result,estado:"activo"});
-                MENU.insert({nombre:"BOLETINES",link:"boletines",tipo:'normal',idSitio:result,estado:"activo"});
+                MENU.insert({nombre:"INICIO",link:"/",tipo:'normal',idSitio:result,estado:"activo",contenido : "Si"});
+                MENU.insert({nombre:"EVENTOS",link:"eventos",tipo:'normal',idSitio:result,estado:"activo",contenido : "Si"});
+                MENU.insert({nombre:"BOLETINES",link:"boletines",tipo:'normal',idSitio:result,estado:"activo",contenido : "Si"});
 
-                CUERPO.insert({idSitio:result,tipoFondo:'color',fondo:'white'});
-                SIDEBARMENU.insert({idSitio:result,tipoFondo:'color',fondo:'skyblue',fuente:'Times New Roman',tipo:'default',html:'<div>Sidebar Personalizado </div>'});
+                CUERPO.insert({idSitio:result,tipoFondo:'color',fondo:'#f5f6f8'});
+                SIDEBARMENU.insert({idSitio:result,tipoFondo:'color',fondo:'seablue',fuente:'Times New Roman',tipo:'default',html:'<div>Sidebar Personalizado </div>'});
                 FOOTER.insert({idSitio:result, fuente:'Arial', texto:obj.carrera+' '+ new Date().getFullYear(),tipo:'default',html:'<div>Footer Personalizado </div>'});
                 BANNER.insert({idSitio:result, tipo:'texto e imagen', texto:obj.carrera,imagen:'/students.jpg',textoPersonalizado:'<div class="bg-primary p-5 m-5" style="height:25vw"><span class="text-white">Texto Personalizado </span></div>'});
                 response = "Se creó el Sitio Web " ;
@@ -301,8 +301,24 @@ Meteor.startup(() => {
     },
     ////////NAVBAR METHODS END//////////
     ////////CONTENT METHODS BEGIN//////////
+    changeColorBody : function (idSitio,color){
+      return  CUERPO.update({idSitio : idSitio}, {$set:{fondo : color}});
+    },
     insContent : function(obj){
-      return CONTENIDO.insert(obj);
+
+      
+      var response= 'error';
+      return CONTENIDO.insert(obj, function(e,r){
+        if (e) {
+          response = e;
+          console.log(e);
+        }if (r) {
+          response = r;
+          MENU.update({_id : obj.idMenu}, {$set : {contenido : 'Si'}});
+          //console.log(r);
+        }
+        return response;
+      });
     },
     editContent : function (idCont,obj){
       return  CONTENIDO.update({_id : idCont}, {$set:obj});
@@ -314,6 +330,7 @@ Meteor.startup(() => {
     insComentario : function(obj){
       return COMENTARIO.insert(obj);
     },
+
     ////////CONTENT METHODS END//////////
     ////////SIDEBAR METHODS BEGIN//////////
     sidebarChange : function (idSitio,obj){      
@@ -383,6 +400,25 @@ Meteor.startup(() => {
     },
     footerChange : function (id,obj){      
       return FOOTER.update({idSitio:id}, {$set:obj});
+    },
+    insLinkFooter : function(obj){
+      var response= 'error';
+      return FOOTERLINKS.insert(obj, function(e,r){
+        if (e) {
+          response = e;
+          console.log(e);
+        }if (r) {
+          response = r;
+          //console.log(r);
+        }
+        return response;
+      });
+    },
+    editLinkFooter : function (idlink,obj){      
+      return FOOTERLINKS.update({_id : idlink}, {$set:obj});
+    },
+    eliLinkFooter : function (idlink){      
+      return FOOTERLINKS.remove({_id : idlink});
     },
     //////// SITE METHODS BEGIN //////////
     insComentario : function(obj){

@@ -71,14 +71,8 @@
 		</table>
 	{{else}}
 		<form id="formsidebarhtml" method="post"> 
-	    <div class="form-group row ">
-			<label for="texto" class="col-2 offset-2 col-form-label">Texto HTML</label>
-			<div class="col-6 ">			
-				<textarea type="text" name="texto" class="form-control" id="texto" placeholder="Codigo HTML" required>{{sidebar.html}}</textarea>
-				<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>
-			</div>
-		</div>
-		
+	   
+		{{>editorContent}}
 
 	  	<div class="d-flex justify-content-center">
 	    	<button type="submit" class="btn btn-primary">Guardar Cambios</button>	      	

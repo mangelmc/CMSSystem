@@ -20,6 +20,11 @@
 	    cursor: inherit;
 	    display: block;
 	}
+	.icono{
+		background-color: silver;
+		padding: .1rem .4rem;color: white;border-radius: .2rem;
+		text-transform: uppercase; 
+	}
 	</style>
   {{#with currentUpload}}
     Uploading <b>{{file.name}}</b>:
@@ -35,10 +40,7 @@
     <div class="col-4 " >
     	<div class="btn btn-primary vergaleria">Ver / Ocultar Archivos</div>
     </div>
-    <!-- rehacer idea 
-    <div class="col-12 d-flex justify-content-center" style="">
-  		<img src="{{currentImage.link}}" class="responsive-img " style="max-height: 100px">
-  	</div>-->
+    
   {{/with}}
 </div> 
 <div class="row  galeria " >	
@@ -46,20 +48,20 @@
 	<ul class="list-group">	
 	{{#each listGaleria}}
 	
-        <li class="list-group-item d-flex justify-content-between align-items-center"><label style="background-color: silver;padding: .1rem .4rem;color: white;border-radius: .2rem;text-transform: uppercase; ">{{ext}}</label>
-          {{name}}
-          <a href="" title="añadir enlace"><span class="badge badge-primary badge-pill"><i class="fa fa-plus"></i></span></a>
+        <li class="list-group-item d-flex justify-content-between align-items-center"><label class="icono">{{ext}}</label>
+          <span>{{name}}</span>
+          <div>
+          <a href="{{itemFile.link}}" target="_blank" title="Ver"><span class="checkfile badge badge-success badge-pill"><i class="fa fa-eye"></i></span></a>
+          <a href="" title="Insertar enlace al contenido" class="checkfile"><span class="badge badge-primary badge-pill"><i class="fa fa-plus"></i></span></a></div>
         </li>
-        
-     
-	
 	{{else}}
 	
 	<div class="col-12  col-sm-4 col-md-6 col-lg-l3 m-2" style="padding:1%">
 		<div class="alert alert-warning" role="alert">
-		    No tienes Archivos subidas... :(
+		    NO SUBISTE NINGUN ARCHIVO... :(
 		</div>
 	</div>
+	
 	{{/each}}
 	</ul>
 	</div>

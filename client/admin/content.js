@@ -73,6 +73,16 @@ Template.contentmenuadmin.helpers({
 		}
 		return false;
 	},
+	cuerpo:function(){
+		var cuerpo = CUERPO.findOne();
+		if (cuerpo != undefined) {
+			
+			$('#fondo option[value="'+cuerpo.fondo+'"]').prop('selected', true);
+			
+
+			return cuerpo;
+		}
+	}
 
 });
 
@@ -88,7 +98,15 @@ Template.contentmenuadmin.events({
 		FlowRouter.go('/admin/:titulo/contenido/:idMenu',{titulo:carrera,idMenu:this._id});
 		
 	},
-
+	'change #fondo': function (e) {
+		Meteor.call('changeColorBody',FlowRouter.getParam('titulo'), e.target.value, function (error, result) {
+			if (result) {
+				console.log(result);
+			}
+		});
+	}
+	/*
+	cambiar tipo fondo
 	'change #tipofondo': function (e) {
 		var tipo = e.target.value;
 		if (tipo == 'color') {
@@ -101,7 +119,8 @@ Template.contentmenuadmin.events({
 				$('#imgfondo').slideDown('slow');
 			});	
 		}
-	}
+	}*/
+
 });
 Template.contentadmin.onCreated(function(){
 	this.linkMenu = new ReactiveVar('');
@@ -192,64 +211,6 @@ Template.contentadmin.events({
 });
 Template.newcontentadmin.onRendered(function(){
 
-	//console.log('rendered');
-	/*var HelloButton = function (context) {
-	  var ui = $.summernote.ui;
-
-	  // create button
-	  var button = ui.button({
-	    contents: '<i class="fa fa-child"/> Hello',
-	    tooltip: 'hello',
-	    click: function () {
-	      // invoke insertText method with 'hello' on editor module.
-	      context.invoke('editor.insertText', 'hello');
-	    }
-	  });
-
-	  return button.render();   // return button as jquery object
-	}
-	var MyButton = function (context) {
-	    var ui = $.summernote.ui;
-	    var button = ui.button({
-	        contents: 'MyButton',
-
-	        click: function () {
-	            var node = document.createElement('span');
-	            node.innerHTML = '{{>myTemplate}}'
-	            context.invoke('editor.insertNode', node);
-	            },
-	        });
-	    return button.render();
-	}*/
-	
-	  
-
-	es = $('#summernote');
-
-	es.summernote({
-
-	  lang : 'es-ES',
-	  //height : 200,
-	  toolbar: [
-	    ['textstyle', ['style']],
-	    //['mybutton', ['hello','buton']],  
-	    ['style', ['bold', 'italic', 'underline', 'clear']],
-	    ['fontstyle', ['fontname','fontsize','color']],		
-	    //['font', ['strikethrough', 'superscript', 'subscript']],
-	    ['para', ['ul', 'ol', 'paragraph']],
-	    ['height', ['height']],
-	    [ 'insert', [ 'link','picture','video','table','hr'] ],
-	    ['misc', ['codeview', 'undo', 'redo','help']],
-	  ],
-	  /*
-	  buttons: {
-	    hello: HelloButton,
-	    buton : MyButton
-	  }*/
-	});
-	$('div.note-group-select-from-files').remove();
-	$('.note-editable').css('background-color', 'skyblue');
-	//console.log($('#summernote').code())
 	
 
 });
@@ -271,7 +232,9 @@ Template.newcontentadmin.events({
 	
 		
 	},*/
-	
+	'click .embed-responsive': function (e) {
+		console.log(e);
+	},
 	'input #titulo': function (e) {
 		var ruta = e.target.value.trim().split(" ").join("-").toLowerCase();
 		var result = validar('dominio',ruta,'#alerttitulo');
@@ -297,6 +260,10 @@ Template.newcontentadmin.events({
 			alert("Debe arreglar los errore en los campos");
 			return;
 		}
+		if (idImagenDesc.get() == 'none') {
+			alert('Debe seleccionar una imagen descriptiva');
+			return;
+		}
 		var html = es.summernote('code');
 		var ruta = e.target.ruta.value;
 		var sitio = FlowRouter.getParam('titulo');
@@ -310,7 +277,7 @@ Template.newcontentadmin.events({
 			contenidoHtml : html,
 			comentarios : e.target.comentable.value,
 			visible : 'visible',
-			//idImagen : idImagen.get()
+			imagenDesc : $('#imgdesc').attr('src'),
 		}
 		console.log(obj);
 		//console.log(idImagen.get());return;
@@ -322,40 +289,14 @@ Template.newcontentadmin.events({
 		FlowRouter.go('/admin/:titulo/contenido/:idMenu',{titulo:sitio,idMenu : idMenu});
 	}
 });
-Template.newcontentadmin.onDestroyed(function(){
-	es.summernote('destroy');
-});
+
 Template.editcontentadmin.onCreated(function(){
 	this.idMenuEdit = new ReactiveVar('');
 })
 Template.editcontentadmin.onRendered(function(){
 	
 	
-	es = $('#summernote');
-
-	es.summernote({
-
-	  lang : 'es-ES',
-	  //height : 200,
-	  toolbar: [
-	    ['textstyle', ['style']],
-	    //['mybutton', ['hello','buton']],  
-	    ['style', ['bold', 'italic', 'underline', 'clear']],
-	    ['fontstyle', ['fontname','fontsize','color']],		
-	    //['font', ['strikethrough', 'superscript', 'subscript']],
-	    ['para', ['ul', 'ol', 'paragraph']],
-	    ['height', ['height']],
-	    [ 'insert', [ 'link','picture','video','table','hr'] ],
-	    ['misc', ['codeview', 'undo', 'redo','help']],
-	  ],
-	  /*
-	  buttons: {
-	    hello: HelloButton,
-	    buton : MyButton
-	  }*/
-	});
-	$('div.note-group-select-from-files').remove();
-	$('.note-editable').css('background-color', 'skyblue');
+	
 	//console.log($('#summernote').code())
 	
 	this.autorun(function(){
@@ -413,6 +354,10 @@ Template.editcontentadmin.events({
 			alert("Debe arreglar los errore en los campos");
 			return;
 		}
+		if (idImagenDesc.get() == 'none') {
+			alert('Debe seleccionar una imagen descriptiva');
+			return;
+		}
 		var obj = {
 			titulo : e.target.titulo.value,
 			descripcion : e.target.descripcion.value,
@@ -420,7 +365,7 @@ Template.editcontentadmin.events({
 			contenidoHtml : es.summernote('code'),
 			comentarios : e.target.comentable.value,
 			
-			//idImagen : idImagen.get()	ver para preview
+			imagenDesc : $('#imgdesc').attr('src'),
 		}
 
 		//console.log(obj);
@@ -433,7 +378,5 @@ Template.editcontentadmin.events({
 		
 	}
 });
-Template.newcontentadmin.onDestroyed(function(){
-	es.summernote('destroy');
-});
+
 
