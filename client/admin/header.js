@@ -60,20 +60,16 @@ Template.headeradmin.events({
 			titulo : e.target.titulo.value,
 			subtitulo: e.target.subtitulo.value,
 			posicion: e.target.posicion.value,
-			//aqui falta de los archivos 
 		}
-     Meteor.call('editHeader', idHeader,obj, function (error, result) {
+    	Meteor.call('editHeader', idHeader,obj, function (error, result) {
 			if (result) {
-
 				if (result == 1) {
-					//console.log(result);
 					sAlert.success('Se ha modificado ', {effect: 'slide',offset: '130',html:true});
 					FlowRouter.go('/admin/:titulo',{titulo:FlowRouter.getParam('titulo')});
 				}
 			}
 			if (error) {
-					sAlert.error(''+error, {effect: 'slide',offset: '130'/*position: 'bottom-right'*/});
-
+					sAlert.error(''+error, {effect: 'slide',offset: '130'});
 			}
 		});
 	},

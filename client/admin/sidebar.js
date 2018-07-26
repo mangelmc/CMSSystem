@@ -17,8 +17,6 @@ Template.sidebaradmin.onRendered(function(){
 		if (SIDEBARMENU.findOne() != undefined) {
 			sidebar = SIDEBARMENU.findOne();			
 			//console.log(contenido.tipo);
-
-			
 			es.summernote('code', sidebar.html);
 
 			//control imagen
@@ -102,7 +100,6 @@ Template.sidebaradmin.events({
 		var obj = {
 			html : es.summernote('code'),
 		}
-
 		var idSitio = FlowRouter.getParam('titulo');
 		Meteor.call('editsidebarHtml', idSitio,obj, function (error, result) {
 			if (result) {				
@@ -111,8 +108,6 @@ Template.sidebaradmin.events({
 
 		});
 	}
-
-
 });
 Template.nuevomenuenlace.events({
 	'input #nombre': function (e) {
@@ -135,19 +130,13 @@ Template.nuevomenuenlace.events({
 			idSitio : FlowRouter.getParam('titulo'),
 			nombre : e.target.nombre.value,
 		}
-		//console.log(nombre);
 		Meteor.call('insMenuEnlace', obj, function (error, result) {
 			if (result) {
-				
-
 				var carrera = FlowRouter.getParam('titulo');
 				FlowRouter.go('/admin/:titulo/sidebar/editarmenuenlace',{titulo:carrera},{idmenuenlace:result});
-				//console.log(carrera+'----'+idSitio);
-
 			}
 		});
 		e.target.nombre.value = '';
-
 	}
 });
 Template.editarmenuenlace.helpers({

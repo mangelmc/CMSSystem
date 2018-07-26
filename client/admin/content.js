@@ -264,6 +264,7 @@ Template.newcontentadmin.events({
 			alert('Debe seleccionar una imagen descriptiva');
 			return;
 		}
+		//revisar reactividad o any de la subida y seleccion de imgdescr
 		var html = es.summernote('code');
 		var ruta = e.target.ruta.value;
 		var sitio = FlowRouter.getParam('titulo');
@@ -279,11 +280,9 @@ Template.newcontentadmin.events({
 			visible : 'visible',
 			imagenDesc : $('#imgdesc').attr('src'),
 		}
-		console.log(obj);
-		//console.log(idImagen.get());return;
 		Meteor.call('insContent', obj, function (error, result) {
 			if (result) {
-				console.log(result);
+				sAlert.info(result, {effect: 'slide',offset: '130'});
 			}		
 		});
 		FlowRouter.go('/admin/:titulo/contenido/:idMenu',{titulo:sitio,idMenu : idMenu});

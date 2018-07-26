@@ -11,10 +11,8 @@ Template.banneradmin.events({
 		var obj = {
 			tipo : e.target.value,
 		}
-		//console.log(obj);
 		Meteor.call('bannerChange', id,obj, function (error, result) {
-			sAlert.info('Se modifico', {effect: 'slide',offset: '130'});
-			//console.log(result);
+			sAlert.info('Se modifico el tipo de Banner', {effect: 'slide',offset: '130'});
 		});
 	},
 	'submit #formeditbanner': function (e) {
@@ -25,21 +23,16 @@ Template.banneradmin.events({
 			imagen : e.target.link.value
 		}
 		Meteor.call('editBanner',idBanner, obj, function (error, result) {
-			sAlert.info('Se modifico', {effect: 'slide',offset: '130'});
+			sAlert.info('Se modificó', {effect: 'slide',offset: '130'});
 		});
-
-		//console.log(obj);
 	},
 	'submit #formeditbannerhtml': function (e) {
 		e.preventDefault();
 		idBanner = BANNER.findOne({})._id;
 		var html = e.target.texto.value;
-		//console.log(idBanner);
 		Meteor.call('editBannerHtml',idBanner, html, function (error, result) {
-			//console.log(result);
-			sAlert.info('Se modifico', {effect: 'slide',offset: '130'});
-		});
-		
+			sAlert.info('Se modifico el Banner personalizado', {effect: 'slide',offset: '130'});
+		});		
 	},
 	'click .mostrarcont': function () {
 		
