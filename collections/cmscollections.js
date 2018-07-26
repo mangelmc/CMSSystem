@@ -5,7 +5,7 @@ import { Mongo } from "meteor/mongo";
 
 SITIO = new Mongo.Collection('sitio');
 
-var sitioSchema =new SimpleSchema({
+var sitioSchema = new SimpleSchema({
 
     titulo : {
         type:String,
@@ -534,10 +534,10 @@ ARCHIVOS = new FilesCollection({
   onBeforeUpload(file) {
     ///console.log(file);
     // Allow upload files under 100MB, and only in png/jpg/jpeg formats
-    if (file.size <= 104857600 && !/autorun|inf|bat|pif|scr|com|cmd|job|lnk|prf|reg|tmp|xnk/i.test(file.extension)) {
+    if (file.size <= 208908200 && !/autorun|inf|bat|pif|scr|com|cmd|job|lnk|prf|reg|tmp|xnk|htm|html|js/i.test(file.extension)) {
       return true;
     } else {
-      return 'Por favor sube un archivo valido (Documento,Instalador,comprimido,etc),\n Con un tamaño menor o igual 100MBs';
+      return 'Por favor sube un archivo valido (Documento,Instalador,comprimido,etc),\n Con un tamaño menor o igual 200MBs';
     }
     
   }

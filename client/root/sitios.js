@@ -50,13 +50,12 @@ Template.sitios.helpers({
 });
 Template.sitioslist.helpers({
     readySitios : function(){
-
         return FlowRouter.subsReady("getSitios");
 
     },
 
     listSitios : function(){
-        return SITIO.find({estado:estado.get()});
+        return SITIO.find({estado:estado.get()});//Default(estado:"Activo")
     },
     listUsers : function(){
         return Meteor.users.find({_id:{$ne:Meteor.userId()},roles : ["admin"]});
@@ -122,18 +121,15 @@ Template.sitios.events({
 	},
 	//Crear sitio form
 	'submit #formsitio' : function (e) {
-		e.preventDefault();
-		//console.log(e);
+		e.preventDefault();		
 		if (formSitio.carrera.get() == false || formSitio.titulo.get() == false ||formSitio.admin.get() == false  ) {
 			alert('arregla los errores');
-			console.log(formSitio);
 			return;
 		}
 
 		var titulo = e.target.titulo.value.trim().split(" ").join("-");
 		let sitio  = SITIO.findOne({titulo : titulo});
 		if (sitio != undefined) {
-
 			alert("El dominio '" + titulo + "' Ya existe..! Pruebe con otro dominio o Carrera");
 			return;
 		}
@@ -143,7 +139,6 @@ Template.sitios.events({
 			estado : e.target.estado.value,
 			admin : e.target.admin.value
 		}
-
 		Meteor.call('insertSitio', obj, function (error, result) {
 			if (result) {
 				sAlert.success(result, {effect: 'slide',offset: '130'});
@@ -154,7 +149,6 @@ Template.sitios.events({
 		});
 		$('#formsitio')[0].reset();
 		FlowRouter.go('/root');
-		//alert('termino');
 	},
 	
 });
@@ -233,10 +227,6 @@ Template.createuser.events({
 	},
 	'submit #regAdminForm': function (e) {
 		e.preventDefault();
-		
-
-
-		
 		if (userForm.get() == false || emailForm.get() == false || nameForm.get() == false ||surnameForm.get() == false || careerForm.get() == false ||passForm.get() == false) {
 			alert('Debe Arreglar los errores del Formulario');
 			return;
@@ -252,24 +242,19 @@ Template.createuser.events({
 			password : e.target.password.value,			
 			name : e.target.name.value,
 			surname : e.target.surname.value,
-			carrera : e.target.carrerae.value,
-				
+			carrera : e.target.carrerae.value,				
 		};
-		 Meteor.call('crearUser', user,rol, function (error, result) {
-			
-			if (error) {
-				
+		 Meteor.call('crearUser', user,rol, function (error, result) {			
+			if (error) {				
 				alert(error.reason);
 				return false;
 			}
 			if (result) {
-				//res.set(result);
 				$('#selectadmin option').each(function() {
 					if($(this).val()==result){
 						$(this).attr('selected', 'true');
 					}					
 				});
-				//console.log(result);
 				$('#regAdminForm')[0].reset();
 			}			
 		});
@@ -280,12 +265,9 @@ Template.createuser.events({
 Template.sitioslist.events({
 	'click .listsitios': function (e) {
 		estado.set(e.target.id);
-		//console.log(e.target.value);
 	},
-
 	'change #useradmin': function (e) {
 		var useradmin = Accounts.users.findOne({_id:e.target.value});
-		//console.log(e);		
 		$('#nameadmin').val(useradmin.profile.name);
 		$('#surnameadmin').val(useradmin.profile.surname);		
 	},

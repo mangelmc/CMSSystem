@@ -5,12 +5,11 @@ Meteor.startup(() => {
   // code to run on server at startup
   //Publicaciones de ROOT
   Meteor.publish("getSitios",function(){
-      // if () {} CONTROLAR PUBLICAION SOLO PARA EL ROOT
     return SITIO.find();
-    });
+  });
   Meteor.publish("getUsers",function(){
     return Meteor.users.find();
-    });
+  });
   //Publicaciones de ADMIN
   Meteor.publish("getSitiosAdmin",function(admin){
     return SITIO.find({admin:admin});

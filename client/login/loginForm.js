@@ -51,53 +51,34 @@ Template.loginForm.events({
 			return;
 		}
 		Meteor.loginWithPassword(user,e.target.password.value,function(err,result){
-			if (err) {
-				//console.log('error : '+err);
-				alert('"Usuario"/"email"  y/o  contraseña incorrectos...!');
-				
+			if (err) {				
+				alert('"Usuario"/"email"  y/o  contraseña incorrectos...!');				
 			}else{
 				Meteor.call('checkBan', 1, function (error, result) {
 					if (result==true) {
 						alert('Oops...Tu cuenta esta bloqueada temporalmente');
-						Meteor.logout();
-						
+						Meteor.logout();						
 					}
 					else{
 						Meteor.call('checkRol', 1, function (error, result) {
-						if (result) {
-							//console.log('ok');
-							$('#exampleModal').modal('hide');
-							if (result.tipo=='normal') {
-															
+							if (result) {							
+								$('#exampleModal').modal('hide');
+								if (result.tipo=='normal') {															
+								}
+								if (result.tipo=='admin') {								
+									FlowRouter.go('/admin');								
+								}
+								if (result.tipo=='root') {								
+									FlowRouter.go('/root');
+								}
 							}
-							if (result.tipo=='admin') {
-								
-								FlowRouter.go('/admin');
-								
-							}
-							if (result.tipo=='root') {
-								
-								FlowRouter.go('/root');
-							}
-							//$('#closemodal1').click();
-													
-						}
-					
-				});
+						});
 					}
-				});
-				
-				
-				
-				
+				});	
 			}
 		});
-		//$('#exampleModal').modal('hide');
 		setForm.set({temp:'loginForm',name:'Formulario de inicio de sesion'});
-		
-		e.target.user.value='';e.target.password.value='';
-		
-		
+		e.target.user.value='';e.target.password.value='';		
 	},
 	'click .modaldes': function () {
 		$('#exampleModal').modal('hide');

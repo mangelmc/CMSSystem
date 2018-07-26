@@ -6,9 +6,8 @@ Meteor.startup(() => {
         privatekey: '6Lch5V0UAAAAAGqdgRz-LfpnUnJWrZ9SRmR6JBOL'
     });
   Meteor.methods({
-    checkBan : function(user){
-      var user = Meteor.users.findOne({_id:this.userId,'profile.bloqueado':true});
-      //console.log(user.username);
+    checkBan : function(){
+      var user = Meteor.users.findOne({_id:this.userId,'profile.bloqueado':true});      
       if (user!=undefined) {
         return true;
       }
@@ -35,7 +34,7 @@ Meteor.startup(() => {
       }
       return false;
     },
-    "checkRol" : function(){      
+    checkRol : function(){      
       if (Roles.userIsInRole(this.userId,'root')) {
         return {tipo:'root'};
       }
@@ -77,37 +76,37 @@ Meteor.startup(() => {
       }
       return false;
     },
-    "insertSitio" : function(obj){
-        //if(Meteor.userId()){ 
-          //var idUs=this.userId;
-          
-          SITIO.insert(obj,function(error,result){
-              var response = 'error en la insercion';
-            	if (result) {
-            		//console.log(result);
-                HEADER.insert({
-                  idSitio:result,titulo:obj.carrera,subtitulo:'Subtitulo del Sitio',tipoFondo:'ninguno',
-                  fondo:'ninguno',fuente:'Arial',logo1:'logo1.jpg',logo2:'logo2.jpg',posicion:'up',tipo : 'default'
-                });
-                NAVBAR.insert({idSitio:result,color:'seablue',fuente:'Arial'});
-
-                MENU.insert({nombre:"INICIO",link:"/",tipo:'normal',idSitio:result,estado:"activo",contenido : "Si"});
-                MENU.insert({nombre:"EVENTOS",link:"eventos",tipo:'normal',idSitio:result,estado:"activo",contenido : "Si"});
-                MENU.insert({nombre:"BOLETINES",link:"boletines",tipo:'normal',idSitio:result,estado:"activo",contenido : "Si"});
-
-                CUERPO.insert({idSitio:result,tipoFondo:'color',fondo:'#f5f6f8'});
-                SIDEBARMENU.insert({idSitio:result,tipoFondo:'color',fondo:'seablue',fuente:'Times New Roman',tipo:'default',html:'<div>Sidebar Personalizado </div>'});
-                FOOTER.insert({idSitio:result, fuente:'Arial', texto:obj.carrera+' '+ new Date().getFullYear(),tipo:'default',html:'<div>Footer Personalizado </div>'});
-                BANNER.insert({idSitio:result, tipo:'texto e imagen', texto:obj.carrera,imagen:'/students.jpg',textoPersonalizado:'<div class="bg-primary p-5 m-5" style="height:25vw"><span class="text-white">Texto Personalizado </span></div>'});
-                response = "Se creó el Sitio Web " ;
-               }
-               if (error) {
-                console.log(error);
-               }
-               return response;
+    insertSitio : function(obj){
+      var response = 'error en la insercion';
+      return SITIO.insert(obj,function(error,result){          
+        	if (result) {
+            HEADER.insert({
+              idSitio:result,titulo:obj.carrera,subtitulo:'Subtitulo del Sitio',tipoFondo:'ninguno',
+              fondo:'ninguno',fuente:'Arial',logo1:'logo1.jpg',logo2:'logo2.jpg',posicion:'up',tipo : 'default'
             });
-                          
-        //}        
+            NAVBAR.insert({idSitio:result,color:'seablue',fuente:'Arial'});
+            MENU.insert({nombre:"INICIO",link:"/",tipo:'normal',idSitio:result,estado:"activo",contenido : "Si"});
+            MENU.insert({nombre:"EVENTOS",link:"eventos",tipo:'normal',idSitio:result,estado:"activo",contenido : "Si"});
+            MENU.insert({nombre:"BOLETINES",link:"boletines",tipo:'normal',idSitio:result,estado:"activo",contenido : "Si"});
+            CUERPO.insert({idSitio:result,tipoFondo:'color',fondo:'#f5f6f8'});
+            SIDEBARMENU.insert({
+              idSitio:result,tipoFondo:'color',fondo:'seablue',fuente:'Times New Roman',tipo:'default',html:'<div>Sidebar Personalizado </div>'
+            });
+            FOOTER.insert({
+              idSitio:result, fuente:'Arial', texto:obj.carrera+' '+ new Date().getFullYear(),tipo:'default',html:'<div>Footer Personalizado </div>'
+            });
+            BANNER.insert({
+              idSitio:result, tipo:'texto e imagen', 
+              texto:obj.carrera,imagen:'/students.jpg',
+              textoPersonalizado:'<div class="bg-primary p-5 m-5" style="height:25vw"><span class="text-white">Texto Personalizado </span></div>'
+            });
+            response = "Se creó el Sitio Web" ;
+          }
+          if (error) {
+            console.log(error);
+          }
+          return response;
+        });    
     },
     checkSiteRoute : function (idSitio){
 
@@ -170,8 +169,7 @@ Meteor.startup(() => {
       var ipLocal = this.connection.clientAddress;
     },
 
-    crearUser : function (user,rol){
-      
+    crearUser : function (user,rol){      
       var newUser = {
         username : user.username,
         password : user.password,
@@ -184,15 +182,11 @@ Meteor.startup(() => {
           bloqueado : false,
           img : 'none'
         }
-      };
-       
+      };       
       var account = Accounts.createUser(newUser);
-
-      if (account) {
-     
-        Roles.addUsersToRoles(account, [rol]);//user.rol
-      }
-      //console.log(account);
+      if (account) {     
+        Roles.addUsersToRoles(account, [rol]);
+      }     
       return account;
     },
     darEstado : function(id,estado){
@@ -226,11 +220,13 @@ Meteor.startup(() => {
       if (obj.tipo == 'carrusel') {
           var carrusel = CARROUSEL.findOne({idSitio : id});
           if (carrusel == undefined) {
-            console.log(carrusel);
-            CARROUSEL.insert({idSitio:id,titulo:'Titulo',texto:'Algun texto',imagen:'/students.jpg',link:''});
-            CARROUSEL.insert({idSitio:id,titulo:'Titulo',texto:'Algun texto',imagen:'/graduacion.jpg',link:''});
+            CARROUSEL.insert({
+              idSitio:id,titulo:'Titulo',texto:'Algun texto',imagen:'/students.jpg',link:''
+            });
+            CARROUSEL.insert({
+              idSitio:id,titulo:'Titulo',texto:'Algun texto',imagen:'/graduacion.jpg',link:''
+            });
           }
-          //console.log('carrusel');
       }
       return BANNER.update({idSitio:id}, {$set:obj});
     },
@@ -263,13 +259,13 @@ Meteor.startup(() => {
       return NAVBAR.update({idSitio:id}, {$set:obj});
     },
     insertMenu : function(obj){
-      MENU.insert(obj,function(error,result){
-        var res = 'error';
+      var res = 'error';
+      return MENU.insert(obj,function(error,result){        
         if (result) {
-          res = 'se inserto';
+          res = 'se inserto el menu';
         }
         return res;
-      } );
+      });
     },
     editMenu : function(id,obj){
       return MENU.update({_id:id}, {$set:obj});
@@ -283,14 +279,11 @@ Meteor.startup(() => {
     insSubmenu : function (obj){
       
       var response = 'error';
-      //console.log(contador);
       return SUBMENU.insert(obj, function(e,r){
         if (e) {
           response = e;
-          //console.log(e);
         }if (r) {
           response = r;
-          //console.log(r);
         }
         return response;
       });    
@@ -304,18 +297,15 @@ Meteor.startup(() => {
     changeColorBody : function (idSitio,color){
       return  CUERPO.update({idSitio : idSitio}, {$set:{fondo : color}});
     },
-    insContent : function(obj){
-
-      
+    insContent : function(obj){      
       var response= 'error';
       return CONTENIDO.insert(obj, function(e,r){
         if (e) {
           response = e;
           console.log(e);
         }if (r) {
-          response = r;
+          response = "Se inserto el contenido";
           MENU.update({_id : obj.idMenu}, {$set : {contenido : 'Si'}});
-          //console.log(r);
         }
         return response;
       });
@@ -336,25 +326,22 @@ Meteor.startup(() => {
     sidebarChange : function (idSitio,obj){      
       return SIDEBARMENU.update({idSitio:idSitio}, {$set:obj});
     },
-    editsidebarHtml  : function(idSitio,obj){
-    
+    editsidebarHtml  : function(idSitio,obj){    
       return SIDEBARMENU.update({idSitio:idSitio},{$set:obj});
     },
     insMenuEnlace : function (obj){
       var contador = MENUENLACE.find({idSitio:obj.idSitio}).count();
       var response = 'error';
-      //console.log(contador);
-      return MENUENLACE.insert({idSitio:obj.idSitio,nombre:obj.nombre,posicion:contador+1,estado:'Activo'}, function(e,r){
+      return MENUENLACE.insert({
+        idSitio:obj.idSitio,nombre:obj.nombre,posicion:contador+1,estado:'Activo'
+      }, function(e,r){
         if (e) {
-          response = e;
           console.log(e);
         }if (r) {
           response = r;
-          //console.log('menuenlace inserted with _id '+r);
         }
         return response;
-      });
-      
+      });      
     },
     darEstadoSidebar : function (id,estado){
       return MENUENLACE.update({_id:id},{$set:{estado:estado}});      
