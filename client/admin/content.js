@@ -260,7 +260,8 @@ Template.newcontentadmin.events({
 			alert("Debe arreglar los errore en los campos");
 			return;
 		}
-		if (idImagenDesc.get() == 'none') {
+		
+		if ($('#imgdesc').attr('src') == undefined) {
 			alert('Debe seleccionar una imagen descriptiva');
 			return;
 		}
@@ -280,8 +281,10 @@ Template.newcontentadmin.events({
 			visible : 'visible',
 			imagenDesc : $('#imgdesc').attr('src'),
 		}
+
 		Meteor.call('insContent', obj, function (error, result) {
 			if (result) {
+				console.log(result);
 				sAlert.info(result, {effect: 'slide',offset: '130'});
 			}		
 		});

@@ -108,71 +108,58 @@ Template.uploadFormImages.events({
 
 
 idImagenDesc = new ReactiveVar('none');
+
 Template.uploadFormImagesDesc.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
   idImagenDesc.set('none');
 });
 Template.uploadFormImagesDesc.onRendered(function(){
   this.autorun(function(){
-    if (idImagenDesc.get() == 'none') {
-      $('#currentImage').slideUp('fast');
-    }else{
-      $('#'+idImagenDesc.get()+'desc').click();
+    if (idImagenDesc.get() != 'none') {
+
+      //$('#'+idImagenDesc.get()+'desc').click();
+      //console.log($('#'+idImagenDesc.get()+'desc'));
+      var img = $('#'+idImagenDesc.get()+'desc').children('img').attr('src');
+      //console.log(img);
+      if (img == undefined) {
+        //alert("error");
+        return;
+      }
+      $('#imgdesc').attr('src', img);
+     
+      $('.checkdesc i').each(function(index, el) {
+          if ($(this).hasClass('fa-check-circle-o')) {
+            //console.log('tiene');
+            $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
+            $(this).parent().parent().removeClass().addClass('bg-secondary');
+          }
+      });
+      $('#'+idImagenDesc.get()+'desc i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
+      $('#'+idImagenDesc.get()+'desc i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
+      $('#currentImage').slideDown(); 
     }
     
-  })
+  });
+  
 })
 Template.uploadFormImagesDesc.helpers({
   currentUpload() {
     return Template.instance().currentUpload.get();
   },
-  currentImage : function(){
-    if (idImagenDesc.get() != 'none') {
-      var image = IMAGES.findOne({_id:idImagenDesc.get()});
-      return image;
-    }
-    return false;
-  },
+  
   listGaleria: function(){
-    //CAMBIAR PERMISOS A SITIO Y NO ASI A USER
     return IMAGES.collection.find({}).fetch();
   },
   itemImg: function(){
-    //console.log(IMAGES.findOne({_id:this._id}));
     return IMAGES.findOne({_id:this._id});
   }
 });
 
 Template.uploadFormImagesDesc.events({
-  'click .vergaleriadesc': function () {
-    $('.galeriadesc').slideToggle('fast');
-  },
-  /*'click .selimg': function (e) {
-    idImagenDesc.set(this._id);
-  },*/
+  
   'click .checkdesc': function (e) {
-    var img = e.target.querySelector('img');
-    if ( img!= null) {
-      //console.log(img);
-    $('#imgdesc').attr('src', img.src);
-
-      
-    }
-    $('.checkdesc i').each(function(index, el) {
-        if ($(this).hasClass('fa-check-circle-o')) {
-          //console.log('tiene');
-          $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
-          $(this).parent().parent().removeClass().addClass('bg-secondary');
-        }
-    });
-    $('#'+this._id+'desc i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
-    $('#'+this._id+'desc i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
-    
     idImagenDesc.set(this._id);
-    $('#currentImage').slideDown();
     $('#imagendesc').modal('hide');
-    
-
   },
   'change #fileInput'(e, template) {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
@@ -195,9 +182,8 @@ Template.uploadFormImagesDesc.events({
         if (error) {
           alert('error al subir la imagen: ' + error);
         } else {
-          idImagenDesc.set(fileObj._id);
+          //idImagenDesc.set(fileObj._id);
           
-          //console.log(idImagenDesc);
           alert('La imagen "' + fileObj.name + '" Se ha subido correctamente');
         }
         template.currentUpload.set(false);

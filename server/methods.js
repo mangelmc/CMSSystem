@@ -304,6 +304,7 @@ Meteor.startup(() => {
           response = e;
           console.log(e);
         }if (r) {
+          console.log(r);
           response = "Se inserto el contenido";
           MENU.update({_id : obj.idMenu}, {$set : {contenido : 'Si'}});
         }
@@ -319,6 +320,9 @@ Meteor.startup(() => {
 
     insComentario : function(obj){
       return COMENTARIO.insert(obj);
+    },
+    banComentUser : function(){
+      Accounts.users.update({_id : this.userId}, {$set : {'profile.bloqueado' : true}});
     },
 
     ////////CONTENT METHODS END//////////
@@ -409,10 +413,9 @@ Meteor.startup(() => {
     },
     //////// SITE METHODS BEGIN //////////
     insComentario : function(obj){
-      var response= 'error';
+      var response = 'error';
       return COMENTARIO.insert(obj, function(e,r){
         if (e) {
-          response = e;
           console.log(e);
         }if (r) {
           response = r;

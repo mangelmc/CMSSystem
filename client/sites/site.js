@@ -391,29 +391,35 @@ Template.contenido.onRendered(function(){
 });
 Template.contenido.events({
 	'submit #comentForm': function (e,t) {
-
+		e.preventDefault();
 		var txt = e.target.texto.value;
 		var res = badWordsFilter(txt);
-		
-
 		//var regExp = new RegExp(/*badWords.join("|")*/badWords[0],"gi");
 		//console.log(regExp);
 		//console.log(txt.match(regExp));
-		//
-		if (res == false) {
-			//aumentar confirm para coment 
-			return false;
+		//=
+		var estado ='visible';
+		if (res.result == false) {
+			var conf = confirm(res.msj+'\n Si continua podria ser baneado.. \n ¿Esta seguro de enviar el comentario.?');
+			if (conf == false) {
+				return false;
+			}
+			estado = 'oculto';
+			Meteor.call('banComentUser', 1, function (error, result) {});
+			console.log(conf);
+			Meteor.logout();
 		}
 		
-		e.preventDefault();
+		
 		var idCont = CONTENIDO.findOne()._id;
+
 		var obj = {
 			idContenido : idCont,
 			texto : e.target.texto.value,
 			idUsuario : Meteor.userId(),
-			estado : 'visible'
+			estado : estado
 		}
-		console.log(obj);
+		//console.log(obj);
 		Meteor.call('insComentario', obj, function (error, result) {
 			if (result) {
 				console.log(result);

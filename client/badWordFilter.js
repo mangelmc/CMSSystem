@@ -153,6 +153,8 @@ export default function badWordsFilter(texto) {
                     "mariquis",
                     "mierda",
                     "m1erda",
+                    "mierdas",
+                    "m1erdas",
                     "mierdero",
                     "orto",
                     "ojete",
@@ -162,7 +164,7 @@ export default function badWordsFilter(texto) {
                     "puta",
                     "pollas",
                     "polla",
-                    "perra",
+                    "perras",
                     "Pajero ",
                     "Panocha ",
                     "papallona",
@@ -203,7 +205,7 @@ export default function badWordsFilter(texto) {
                     "prostituta",
                     "prostituto",
                     "proxeneta",
-                    "pt",
+                    "putas",
                     "Puñeta",
                     "Pussy",
                     "puta",
@@ -281,9 +283,9 @@ export default function badWordsFilter(texto) {
   }
   //console.log(badWordsFound);
   if (badWordsFound.length > 0 ) {
-    alert('Se encontraron palabras ofensivas en su comnetario :\n' + msj );
-    return false;
+    return {msj:'Se encontraron palabras ofensivas en su comentario :\n' + msj, result:false };
+    
   }
-  return true;
+  return {result : true};
 }
 

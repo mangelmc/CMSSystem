@@ -205,26 +205,18 @@ var contenidoSchema =new SimpleSchema({
     idMenu : {
         type:String,
     },
-    /*tipo : {
-        type : String reconstruir
-    },*/
-    
     titulo : {
         type : String
     },
     ruta : {
         type : String
     },
-    descripcion : {type : String},//
+    descripcion : {type : String},
     
     contenidoHtml : {type : String},
-    //ya da la opcion de poner multiples imgs o files
+    
     imagenDesc : {
         type : String,//src de la imagen desc
-    },
-    idArchivo : {
-       type : String,
-       optional : true 
     },
     comentarios : {
         type : String
@@ -248,10 +240,11 @@ CONTENIDO.attachSchema(contenidoSchema);
 COMENTARIO = new Mongo.Collection('comentario')
 
 var comentarioSchema =new SimpleSchema({
-    
-    /*idSitio : {
+    /*
+    idSitio : {
         type:String,
     },
+    
     idMenu : {
         type:String,
     },*/
@@ -471,7 +464,7 @@ IMAGES = new FilesCollection({
   downloadRoute : '/home/mike/data/downloads',
   allowClient : false,
   onBeforeUpload(file) {
-    console.log(file);
+    //console.log(file);
     // Allow upload files under 10MB, and only in png/jpg/jpeg formats
     if (file.size <= 10485760 && /png|jpg|jpeg|bmp|gif|tif/i.test(file.extension)) {
       return true;

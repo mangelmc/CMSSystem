@@ -87,21 +87,14 @@
 	}
 	</style>
   {{#with currentUpload}}
-    Uploading <b>{{file.name}}</b>:
-    <span id="progress" class=" skyblue-text">{{progress.get}}%</span>
+    SUBIENDO <b> {{file.name}} </b> : 
+    <span id="progress" class="skyblue-text">{{progress.get}}%</span>
   {{else}}
-  	
-  	<div class="col-4  offset-2">
-        
+  	<div class="col-4  offset-2">        
 		<label class="btn btn-primary btn-file">
 		    Subir Imagen <input type="file" id="fileInput" >
 		</label> 
 	</div>
-   
-    <!-- rehacer idea 
-    <div class="col-12 d-flex justify-content-center" style="">
-  		<img src="{{currentImage.link}}" class="responsive-img " style="max-height: 100px">
-  	</div>-->
   {{/with}}
 </div> 
 <div class="row text-white galeriadesc " >	

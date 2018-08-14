@@ -237,14 +237,29 @@ Meteor.startup(() => {
       return CONTENIDO.find({idSitio:sitio._id,idMenu : submenu._id, ruta : contenido});
     }
   });
-  publishComposite("getComentsClient",function(ruta){
-    var content = CONTENIDO.findOne({ruta:ruta});
-    console.log(CONTENIDO.find({ruta:ruta}).fetch());
-    //aumentar id sitio y si es mejor id menu
-    if (content!=undefined) {
+  publishComposite("getComentsClient",function(titulo,link,ruta,tipoMenu){
+    
+    var sitio = SITIO.findOne({titulo : titulo});
+    
+    var menu ;
+
+    var content = undefined;
+    //console.log(sitio._id +' sitio --'+ tipoMenu);
+
+    if (tipoMenu == 'menu') {      
+      menu = MENU.findOne({link : link,idSitio : sitio._id});   
+    }
+    else if (tipoMenu == 'submenu') {      
+      menu = SUBMENU.findOne({link : link,idSitio : sitio._id});
+    }
+    //console.log(menu.idSitio +' res');
+    
+    if (sitio != undefined && menu != undefined) {      
+      content = CONTENIDO.findOne({ruta:ruta,idMenu : menu._id,idSitio : sitio._id});
+    }
+    if (content!=undefined && sitio != undefined && menu != undefined) {
       return {
-        find() {
-            
+        find() {            
             return COMENTARIO.find({idContenido : content._id,estado : 'visible'});
         },
         children: [{
@@ -257,10 +272,10 @@ Meteor.startup(() => {
                     { fields: { profile: 1 ,username:1} });
             }
         }]
-    }
+      }
       
     }else{
-      console.log(content);
+      console.log('eroor');
     }
     
   });

@@ -399,14 +399,14 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="titulo" class="col-3 offset-1 col-form-label">Imagen previsulizacion</label>
+			<label for="titulo" class="col-3 offset-1 col-form-label">Imagen descriptiva</label>
 			<div class="col-3 ">	
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc" >Seleccionar imagen</button>
 
 				
 			</div>
 			<div class="col-3 ">
-				<img src="{{content.imagenDesc}}" id="imgdesc" alt="Imagen descriptiva" class="img-fluid">
+				<img id="imgdesc" alt="Imagen descriptiva" class="img-fluid">
 			</div>
 		</div>
 		<div class="form-group row">
@@ -436,7 +436,7 @@
 	</form>
 <!-- Modal para Imagen desc-->
 	<div class="modal fade" id="imagendesc" tabindex="-1" role="dialog" aria-labelledby="imagendescLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
+	  <div class="modal-dialog modal-lg" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
