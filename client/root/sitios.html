@@ -313,13 +313,18 @@
 				
 				<div class="d-flex p-2 align-items-center">
 				
-					{{#if Activo}}
+					
 					<a href="" class="btn btn-primary administrar mx-auto d-block">administrar</a>
+				{{#if Activo}}
 					<a href="" class="btn btn-success visitar mx-auto d-block">Visitar</a>
-					<a href="#" class="btn btn-danger darbaja mx-auto d-block">Dar baja</a>
-					{{else}}
-					<a href="#" class="btn btn-success daralta mx-auto d-block">Dar Alta</a>
+					{{#if isInRole "root"}}
+						<a href="#" class="btn btn-danger darbaja mx-auto d-block">Dar baja</a>
 					{{/if}}
+				{{else}}
+					{{#if isInRole "root"}}
+						<a href="#" class="btn btn-success daralta mx-auto d-block">Dar Alta</a>
+					{{/if}}
+				{{/if}}
 				</div>
 
 			</div>

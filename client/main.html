@@ -1,108 +1,124 @@
 <template name="maintemplate">
-<head>
+
+	<head>
 
 		<link href="https://fonts.googleapis.com/css?family=Bellefair" rel="stylesheet">
-  
-</head>
+
+	</head>
 
 
 </template>
 <template name="raiz">
+
 	<head>
 		<link href="https://fonts.googleapis.com/css?family=Rammetto+One" rel="stylesheet">
 	</head>
+	{{#if currentUser}}
 	<style type="text/css">
-		{{#if currentUser}}
-			body{
-			background: url('/light-wave.png');background-repeat: no-repeat;background-size:cover;min-height: 1vh;
-			}
-		{{else}}
-			body{
-			background: url('/vector-azul.png');background-repeat: no-repeat;background-size:cover;min-height: 1vh;
-			}
-		{{/if}}
-
+		body {
+			background: url('/light-wave.png');
+			background-repeat: no-repeat;
+			background-size: cover;
+			min-height: 1vh;
+		}
 	</style>
+	{{else}}
+	<style>
+		body {
+				background: url('/vector-azul.png');
+				background-repeat: no-repeat;
+				background-size: cover;
+				min-height: 1vh;
+			}
+		</style>
+	{{/if}}
+
+
+
+
 	<body>
-		
-	<div style="background-color: #b73630;padding: 1rem;min-height: 14vh">
-		<div class="d-flex justify-content-center align-items-center text-white mt-3" style="font-family: 'Rammetto One', cursive;text-shadow: 5px 5px 4px black;">
-			<h3>SEA USTED BIENVENIDO ... !</h3>			
+
+		<div style="background-color: #b73630;padding: 1rem;min-height: 14vh">
+			<div class="d-flex justify-content-center align-items-center text-white mt-3" style="font-family: 'Rammetto One', cursive;text-shadow: 5px 5px 4px black;">
+				<h3>SEA USTED BIENVENIDO ... !</h3>
+			</div>
 		</div>
-	</div >
-	<div style="background-color: white;padding: 0.1rem;">
-		
-	</div>
-	<div class="d-flex flex-column p-1" style="min-height: 64vh">
-		<div class=" d-flex justify-content-center mt-3" style="font-family: 'Rammetto One', cursive;text-shadow: 2px 6px 4px black;color: white;">
-			<h2>SISTEMA DE GESTION DE CONTENIDOS</h2>			
+		<div style="background-color: white;padding: 0.1rem;">
+
 		</div>
-		
-		{{#if currentUser}}
-			{{#if isInRole "root"}}
-				<a href="/root"></a>				
-			{{/if}}
-			
-			<div class="d-flex justify-content-center" style="">
+		<div class="d-flex flex-column p-1" style="min-height: 64vh">
+			<div class=" d-flex justify-content-center mt-3" style="font-family: 'Rammetto One', cursive;text-shadow: 2px 6px 4px black;color: white;">
+				<h2>SISTEMA DE GESTION DE CONTENIDOS</h2>
+			</div>
+
+			{{#if currentUser}}
+
+			<div class="d-flex justify-content-center">
 				<div class=" d-flex flex-column align-items-center bg-secondary p-4 " style="border-radius: 50%;box-shadow: 4px 4px 5px black;min-height: 28vw;min-width: 28vw;">
-					<h2 class="my-auto d-block" style=""><i class="girar fa fa-user fa-5x"></i></h2>
-					<h6 class="text-white">No hay nada por aqui para un usuario normal</h6 >
-				    			      
-				    <div class="align-items-center p-2 mb-1">
-				    	
-				    	<button type="button" id="cerrarsesion" class="btn btn-warning">Cerrar Sesion </button>
-				    </div>
+					<h2 class="my-auto d-block"><i class="girar fa fa-user fa-5x"></i></h2>
+					<h6 class="text-white text-uppercase">{{currentUser.username}}</h6>
+					{{#if isInRole "root"}}
+					<a href="/root" class="btn btn-success">IR A LA PAGINA DE ADMINITRACIÓN</a>
+					{{/if}}
+					{{#if isInRole "admin"}}
+					<a href="/admin" class="btn btn-success">IR A LA PAGINA DE ADMINITRACIÓN</a>
+					{{/if}}
+					<div class="align-items-center p-2 mb-1">
+						<button type="button" id="cerrarsesion" class="btn btn-warning" href="">CERRAR SESIÓN</button>
+					</div>
 				</div>
 			</div>
-		{{else}}
-		<div class="d-flex justify-content-center " style="">
-			<div class=" d-flex flex-column align-items-center bg-secondary p-4 " 
-			style="border-radius: 50%;box-shadow: 4px 4px 5px black;min-height: 28vw;min-width: 28vw;">
-		    	<h2 class="my-auto d-block"><i class="girar fa fa-user fa-5x"></i></h2>
-			    <div class="align-items-center p-2 mb-1">{{>mainLogin}}</div>
 
+
+
+
+			{{else}}
+			<div class="d-flex justify-content-center ">
+				<div class=" d-flex flex-column align-items-center bg-secondary p-4 " style="border-radius: 50%;box-shadow: 4px 4px 5px black;min-height: 28vw;min-width: 28vw;">
+					<h2 class="my-auto d-block"><i class="girar fa fa-user fa-5x"></i></h2>
+					<div class="align-items-center p-2 mb-1">{{>mainLogin}}</div>
+
+				</div>
 			</div>
+
+			{{/if}}
+
+			<script type="text/javascript">
+				var cont = 0;
+				var contc = 0;
+				var color1 = ['#007bff', '#6c757d', '#28a745', '#dc3545', '#ffc107', '#17a2b8', '#f8f9fa', '#343a40', '#ffffff'];
+				var color = ['white', 'black'];
+				//console.log(color[0]);
+
+				var rotar = function () {
+					if (cont == 180) {
+						cont = 0;
+					}
+
+					cont++;
+					$('.girar').css({
+						transform: 'rotateY(' + cont + 'deg)'
+					});
+				}
+				var ccolor = function () {
+					if (contc == 2) { //cant de colores
+						contc = 0;
+					}
+					$('.girar').css({
+						color: color[contc]
+					});
+					contc++;
+
+				}
+				setInterval(rotar, 15);
+				setInterval(ccolor, 1000);
+			</script>
 		</div>
-
-		{{/if}}
-		
-	<script type="text/javascript">			
-			var cont = 0;
-			var contc = 0;
-			var color1 = ['#007bff','#6c757d','#28a745','#dc3545','#ffc107','#17a2b8','#f8f9fa','#343a40','#ffffff'];
-			var color = ['white','black'];
-			//console.log(color[0]);
-
-			var rotar = function(){
-				if (cont == 180) {
-					cont=0;
-				}
-				
-				cont++;
-				$('.girar').css({
-					transform: 'rotateY('+cont+'deg)'});						
-			}
-			var ccolor = function(){				
-				if (contc == 2) { //cant de colores
-					contc=0;
-				}
-				$('.girar').css({					
-					color: color[contc]
-				});
-				contc++;
-				
-			}
-			setInterval(rotar, 15);
-			setInterval(ccolor, 1000);  
-
-	</script>
-	</div>
 		<div style="background-color: white;padding: 0.1rem;margin-top: 2rem; ">
-		
+
 		</div>
 		<div style="background-color: #b73630;padding: 2.3rem;min-height: 15vh">
-		
-		</div >
+
+		</div>
 	</body>
 </template>
-

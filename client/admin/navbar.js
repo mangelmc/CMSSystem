@@ -298,7 +298,7 @@ Template.nuevomenu.events({
 			return;
 		}
 		var link = e.target.link.value;
-		var menu = MENU.findOne({link : link});
+		var menu = MENU.findOne({link : link});		
 		if (menu != undefined || link == 'inicio') {
 			alert('el link " ' + link +' " ; Ya existe cambie el nombre de menu');
 			return;

@@ -161,6 +161,7 @@ Template.uploadFormImagesDesc.events({
     idImagenDesc.set(this._id);
     $('#imagendesc').modal('hide');
   },
+  
   'change #fileInput'(e, template) {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
       // We upload only one file, in case

@@ -56,3 +56,6 @@ ostrio:files
 ejson
 altapp:recaptcha
 reywood:publish-composite
+http
+
+#cleandersonlobo:sweetalert2

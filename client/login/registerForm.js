@@ -115,9 +115,8 @@ Template.registerForm.events({
 
 		async function main() {
 		    let result = await callMeteorMethod('checkCaptcha',captchaData)
-		    console.log(result)
+		    //console.log(result)
 		}
-
 		var res = main();
 		
 		if (res == false) {
@@ -160,9 +159,8 @@ Template.registerForm.events({
 		Accounts.createUser(user, function(e){
 			if(e == undefined){
 				Meteor.loginWithPassword(user.username,user.password);
-							
-				//$(".panelForm").fadeOut('slow');
-				Meteor.call('setRol', 'normal', Meteor.userId());
+				
+				Meteor.call('setRolNormal', Meteor.userId());
 				setForm.set({temp:'loginForm',name:'Formulario de inicio de sesion'});
 				
 				Meteor.call('checkLoginRoot', 1,function(error,result){

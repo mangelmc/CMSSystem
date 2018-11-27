@@ -76,7 +76,6 @@ Template.contentmenuadmin.helpers({
 	cuerpo:function(){
 		var cuerpo = CUERPO.findOne();
 		if (cuerpo != undefined) {
-			
 			$('#fondo option[value="'+cuerpo.fondo+'"]').prop('selected', true);
 			
 
@@ -87,7 +86,7 @@ Template.contentmenuadmin.helpers({
 });
 
 Template.contentmenuadmin.events({
-	//agregar evento para agragar submenu desde content
+	//agregar evento para agregar submenu desde content
 	'click .listmenu': function (e) {
 		//console.log(e.target.id);
 		estadoMenu.set(e.target.id);
@@ -257,7 +256,7 @@ Template.newcontentadmin.events({
 		e.preventDefault();
 
 		if (formContent.get() == false) {
-			alert("Debe arreglar los errore en los campos");
+			alert("Debe arreglar los errores en los campos");
 			return;
 		}
 		
@@ -353,13 +352,10 @@ Template.editcontentadmin.events({
 		var idCont = FlowRouter.getParam('idCont');
 		var idMenu = e.target.idmenu.value;
 		if (formContentEdit.get() == false) {
-			alert("Debe arreglar los errore en los campos");
+			alert("Debe arreglar los errores en los campos");
 			return;
 		}
-		if (idImagenDesc.get() == 'none') {
-			alert('Debe seleccionar una imagen descriptiva');
-			return;
-		}
+		
 		var obj = {
 			titulo : e.target.titulo.value,
 			descripcion : e.target.descripcion.value,
