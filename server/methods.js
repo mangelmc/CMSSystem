@@ -1,42 +1,74 @@
 import {
   Meteor
 } from 'meteor/meteor';
-
+/* import {
+  BANNER
+} from '../collections/cmscollections';
+ */
 Meteor.startup(() => {
   // code to run on server at startup
   reCAPTCHA.config({
-    privatekey: '6Lch5V0UAAAAAGqdgRz-LfpnUnJWrZ9SRmR6JBOL'
+    privatekey: '6Lch5V0UAAAAAGqdgRz-LfpnUnJWrZ9SRmR6JBOL' //la clave de permiso de google developers
   });
 
 
   Meteor.methods({
-
-    loginFileServer: function () {
-      console.log('ok method');
+    // Handle Files Methods Begin
+    uploadFile: function (parameters) {
+      //console.log('ok method');
+      return {
+        url: 'http://archivos.uatf.edu.bo/images/Comunicado6-3.png'
+        //
+        //
+        //http://archivos.uatf.edu.bo/images/Comunicado6-3.png
+      };
       try {
 
-        let request = HTTP.call(
+        let client = HTTP.call(
           'post',
-          'http://10.10.165.173:4300/serviceauth/api/signin', {
+          'http://10.10.166.130:9092/serviceauth/api/signin', {
             params: {
               username: '8597212',
               password: '07051989',
               movil: false
             }
           });
-        console.log(request);
-        return request;
+        console.log(client);
+
+        try {
+
+          let request = HTTP.call(
+            'post',
+            'http://10.10.166.130:9092/serviceupload/api/upload-file', {
+              data: {
+                parameters: {
+                  files: parameters
+                }
+              },
+              headers: {
+                'x-access-token': client.data.token,
+                'content-type': 'application/json',
+                'Accept': 'application/json',
+              }
+            });
+          console.log(request);
+          return request;
+        } catch (e) {
+          console.log(e);
+          throw new Meteor.Error(401, e.response.data.message);
+        }
+
       } catch (e) {
         console.log(e);
         throw new Meteor.Error(401, e.response.data.message);
       }
     },
-    uploadFiles: function (parameters, client) {
+    /*uploadFiles: function (parameters, client) {
       try {
 
         let request = HTTP.call(
           'post',
-          'http://10.10.165.173:4300/serviceupload/api/upload-file', {
+          'http://10.10.166.130:9092/serviceupload/api/upload-file', {
             data: {
               parameters: {
                 files: parameters
@@ -54,7 +86,56 @@ Meteor.startup(() => {
         console.log(e);
         //throw new Meteor.Error(401, e.response.data.message);
       }
+    },*/
+    insImagen(obj) {
+      if (Roles.userIsInRole(this.userId, ['admin', 'root'])) {
+        var response = 'error';
+        return IMAGES.insert(obj, function (e, r) {
+          if (e) {
+            response = e;
+            console.log(e);
+          }
+          if (r) {
+            response = r;
+            //console.log(r);
+          }
+          return response;
+        });
+      }
     },
+    insVideo(obj) {
+      if (Roles.userIsInRole(this.userId, ['admin', 'root'])) {
+        var response = 'error';
+        return VIDEOS.insert(obj, function (e, r) {
+          if (e) {
+            response = e;
+            console.log(e);
+          }
+          if (r) {
+            response = r;
+            //console.log(r);
+          }
+          return response;
+        });
+      }
+    },
+    insArchivo(obj) {
+      if (Roles.userIsInRole(this.userId, ['admin', 'root'])) {
+        var response = 'error';
+        return ARCHIVOS.insert(obj, function (e, r) {
+          if (e) {
+            response = e;
+            console.log(e);
+          }
+          if (r) {
+            response = r;
+            //console.log(r);
+          }
+          return response;
+        });
+      }
+    },
+    //Handle Files Methods End
     getServerTime: () => {
       return Date.now().toString();
     },
@@ -152,7 +233,7 @@ Meteor.startup(() => {
             });
             MENU.insert({
               nombre: "INICIO",
-              link: "/",
+              link: "inicio",
               tipo: 'normal',
               idSitio: result,
               estado: "activo",
@@ -491,6 +572,8 @@ Meteor.startup(() => {
     },
     insContent: function (obj) {
       var response = 'error';
+
+
       return CONTENIDO.insert(obj, function (e, r) {
         if (e) {
           response = e;

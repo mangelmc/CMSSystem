@@ -67,31 +67,31 @@ Template.loginForm.events({
 			//console.log('Realserver', +time);
 
 			let localTime = +localStorage.getItem("userTime");
-			
+
 			let limitTime = +time - 60000 * 10; //10min
 			let userCount = +localStorage.getItem("userCount");
 
-			console.log(+localTime <= +time - 60000 * 10);
+			//console.log(+localTime <= +time - 60000 * 10);
 
 			if (userCount == 0 || +localTime <= limitTime) {
-				console.log('clean');
+				//console.log('clean');
 				localStorage.removeItem("userCount");
 				localStorage.setItem("userTime", +time);
 			}
 
 			if (userCount > 2) {
-				console.log('local', new Date(localTime));
+				/* console.log('local', new Date(localTime));
 
 				console.log('server', new Date(+time));
-				console.log('limit', new Date(limitTime));
+				console.log('limit', new Date(limitTime)); */
 
 				if (limitTime >= localTime) {
-					console.log('ok time lapsed');
+					//console.log('ok time lapsed');
 					localStorage.removeItem("userTime");
 					localStorage.removeItem("userCount");
 				} else {
 					let intent = localTime - limitTime;
-					console.log('mmmmm buggy', intent);
+					//console.log('mmmmm buggy', intent);
 					if (intent <= 60000) {
 						alert('vuelva a intentarlo en ' + Math.floor(intent / 1000) + ' Segundos');
 					} else {
@@ -100,24 +100,24 @@ Template.loginForm.events({
 					return;
 				}
 			}
-			console.log(user, password);
+			//console.log(user, password);
 			/////lgin
 			Meteor.loginWithPassword(user, password, function (err, result) {
 				if (err) {
 					alert('"Usuario"/"email"  y/o  contraseña incorrectos...!');
 
 					let count = localStorage.getItem("userCount");
-					console.log(count);
+					//console.log(count);
 					if (count == null) {
 						localStorage.setItem("userCount", 1);
-						console.log('added');
+						//console.log('added');
 					} else {
 						if (+count >= 3) {
 							localStorage.setItem("userTime", +time);
-							console.log('setTime', +time);
+							//console.log('setTime', +time);
 						} else {
 							localStorage.setItem("userCount", +count + 1);
-							console.log('increased', +count + 1);
+							//console.log('increased', +count + 1);
 						}
 					}
 				} else {

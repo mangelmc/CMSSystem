@@ -1,41 +1,32 @@
-import { Template }    from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+import {
+  Template
+} from 'meteor/templating';
+import {
+  ReactiveVar
+} from 'meteor/reactive-var';
 
 import './uploadImages.html';
 
 idImagen = new ReactiveVar('none');
 Template.uploadFormImages.onCreated(function () {
-  this.currentUpload = new ReactiveVar(false);
+
   idImagen.set('none');
 });
-Template.uploadFormImages.onRendered(function(){
-  this.autorun(function(){
+Template.uploadFormImages.onRendered(function () {
+  this.autorun(function () {
     if (idImagen.get() == 'none') {
       $('#currentImage').slideUp('fast');
-    }else{
-      $('#'+idImagen.get()+'c').click();
+    } else {
+      $('#' + idImagen.get() + 'c').click();
     }
-    
+
   })
 })
 Template.uploadFormImages.helpers({
-  currentUpload() {
-    return Template.instance().currentUpload.get();
-  },
-  currentImage : function(){
-    if (idImagen.get() != 'none') {
-      var image = IMAGES.findOne({_id:idImagen.get()});
-      return image;
-    }
-    return false;
-  },
-  listGaleria: function(){
+
+  listGaleria: function () {
     //CAMBIAR PERMISOS A SITIO Y NO ASI A USER
-    return IMAGES.collection.find({}).fetch();
-  },
-  itemImg: function(){
-    //console.log(IMAGES.findOne({_id:this._id}));
-    return IMAGES.findOne({_id:this._id});
+    return IMAGES.find({});
   }
 });
 
@@ -48,59 +39,34 @@ Template.uploadFormImages.events({
   },*/
   'click .check': function (e) {
     var img = e.target.querySelector('img');
-    if ( img!= null) {
+    if (img != null) {
       //console.log(img);
-    
+
 
       es.summernote('focus');
       es.summernote('editor.insertImage', img.src);
     }
-    $('.check i').each(function(index, el) {
-        if ($(this).hasClass('fa-check-circle-o')) {
-          //console.log('tiene');
-          $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
-          $(this).parent().parent().removeClass().addClass('bg-secondary');
-        }
+    $('.check i').each(function (index, el) {
+      if ($(this).hasClass('fa-check-circle-o')) {
+        //console.log('tiene');
+        $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
+        $(this).parent().parent().removeClass().addClass('bg-secondary');
+      }
     });
-    $('#'+this._id+'c i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
-    $('#'+this._id+'c i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
-    
+    $('#' + this._id + 'c i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
+    $('#' + this._id + 'c i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
+
     idImagen.set(this._id);
     $('#currentImage').slideDown();
     $('.galeria').slideUp('fast');
 
   },
   'change #fileInput'(e, template) {
-    if (e.currentTarget.files && e.currentTarget.files[0]) {
-      // We upload only one file, in case
-      // multiple files were selected
-      const upload = IMAGES.insert({
-        file: e.currentTarget.files[0],
-        meta : {
-          idSitio :FlowRouter.getParam("titulo"),
-        },
-        streams: 'dynamic',
-        chunkSize: 'dynamic'
-      }, false);
+    var file = $(e.currentTarget).get(0).files[0];
+    //console.log(file);
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
+    handleFileSelect(file); //reemplazar por esto en produccion
 
-      upload.on('end', function (error, fileObj) {
-        if (error) {
-          alert('error al subir la imagen: ' + error);
-        } else {
-          idImagen.set(fileObj._id);
-          
-          //console.log(idImagen);
-          alert('La imagen "' + fileObj.name + '" Se ha subido correctamente');
-        }
-        template.currentUpload.set(false);
-      });
-
-      upload.start();
-    }
   }
 });
 
@@ -110,87 +76,128 @@ Template.uploadFormImages.events({
 idImagenDesc = new ReactiveVar('none');
 
 Template.uploadFormImagesDesc.onCreated(function () {
-  this.currentUpload = new ReactiveVar(false);
+
   idImagenDesc.set('none');
 });
-Template.uploadFormImagesDesc.onRendered(function(){
-  this.autorun(function(){
+Template.uploadFormImagesDesc.onRendered(function () {
+  this.autorun(function () {
     if (idImagenDesc.get() != 'none') {
 
       //$('#'+idImagenDesc.get()+'desc').click();
       //console.log($('#'+idImagenDesc.get()+'desc'));
-      var img = $('#'+idImagenDesc.get()+'desc').children('img').attr('src');
+      var img = $('#' + idImagenDesc.get() + 'desc').children('img').attr('src');
       //console.log(img);
       if (img == undefined) {
         //alert("error");
         return;
       }
       $('#imgdesc').attr('src', img);
-     
-      $('.checkdesc i').each(function(index, el) {
-          if ($(this).hasClass('fa-check-circle-o')) {
-            //console.log('tiene');
-            $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
-            $(this).parent().parent().removeClass().addClass('bg-secondary');
-          }
+
+      $('.checkdesc i').each(function (index, el) {
+        if ($(this).hasClass('fa-check-circle-o')) {
+          //console.log('tiene');
+          $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
+          $(this).parent().parent().removeClass().addClass('bg-secondary');
+        }
       });
-      $('#'+idImagenDesc.get()+'desc i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
-      $('#'+idImagenDesc.get()+'desc i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
-      $('#currentImage').slideDown(); 
+      $('#' + idImagenDesc.get() + 'desc i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
+      $('#' + idImagenDesc.get() + 'desc i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
+      $('#currentImage').slideDown();
     }
-    
+
   });
-  
+
 })
 Template.uploadFormImagesDesc.helpers({
-  currentUpload() {
-    return Template.instance().currentUpload.get();
-  },
-  
-  listGaleria: function(){
-    return IMAGES.collection.find({}).fetch();
-  },
-  itemImg: function(){
-    return IMAGES.findOne({_id:this._id});
+
+  listGaleria: function () {
+    return IMAGES.find({});
   }
 });
 
 Template.uploadFormImagesDesc.events({
-  
+
   'click .checkdesc': function (e) {
     idImagenDesc.set(this._id);
     $('#imagendesc').modal('hide');
   },
-  
+
   'change #fileInput'(e, template) {
-    if (e.currentTarget.files && e.currentTarget.files[0]) {
-      // We upload only one file, in case
-      // multiple files were selected
-      const upload = IMAGES.insert({
-        file: e.currentTarget.files[0],
-        meta : {
-          idSitio :FlowRouter.getParam("titulo"),
-        },
-        streams: 'dynamic',
-        chunkSize: 'dynamic'
-      }, false);
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
+    var file = $(e.currentTarget).get(0).files[0];
+    //console.log(file);
 
-      upload.on('end', function (error, fileObj) {
-        if (error) {
-          alert('error al subir la imagen: ' + error);
-        } else {
-          //idImagenDesc.set(fileObj._id);
-          
-          alert('La imagen "' + fileObj.name + '" Se ha subido correctamente');
-        }
-        template.currentUpload.set(false);
-      });
-
-      upload.start();
-    }
+    handleFileSelect(file); //reemplazar por esto en produccion
+    return false;
   }
 });
+
+
+class FileUpload {
+  static get ChunkByteSize() {
+    return 45000
+  }
+}
+
+function handleFileSelect(files) {
+  //for (let i = 0, f; f = files[i]; i++) {
+  let f = files;
+  let reader = new FileReader();
+  reader.f = f;
+  reader.onload = function () {
+    let fileName = this.f.name;
+    let fileExtention = this.f.name;
+    let data = reader.result;
+    let array = new Int8Array(data);
+    let chunks = array.length / FileUpload.ChunkByteSize;
+    datos = {
+      chunks: chunks,
+      fileName: fileName
+    };
+    parameters = {
+      a: array,
+      d: datos
+    }
+    Meteor.call('uploadFile', parameters, function (error, result) {
+      console.log(error || result);
+      //recupera result.url
+
+      if (result) {
+        var carrera = FlowRouter.getParam('titulo');
+        let splited = files.name.split('.');
+        let ext = splited[splited.length - 1];
+        let splited1 = files.name.split('/');
+        let name = splited1[splited1.length - 1];
+        console.log(ext, name);
+
+        var obj = {
+          idSitio: carrera,
+          userId: Meteor.userId(),
+          originalName: name,
+          ext: ext,
+          url: result.url
+        };
+        console.log(obj);
+
+        Meteor.call('insImagen', obj, function (error, result) {
+          if (error) {
+            alert('hubo un erroe al intentar guardar en la base de datos');
+          }
+          if (result) {
+            alert('Se guardo en la base de datos  b');
+          }
+        });
+      }
+
+
+      //http://archivos.uatf.edu.bo/7f96d760-81ff-44f7-acb1-d86f38d54871.34338.svg
+      //http://archivos.uatf.edu.bo/images/Comunicado6-3.png
+      //http://www.uatf.edu.bo/archivos/2018/1ra.%20CONVOCATORIA%20AUXILIAR%20DE%20INVESTIGACI%C3%93N%202018.pdf
+    });
+
+
+    //console.log(parameters);
+  };
+  reader.readAsArrayBuffer(f);
+  //}
+}

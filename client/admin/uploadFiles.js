@@ -7,25 +7,16 @@ import {
 
 idFile = new ReactiveVar('none');
 Template.uploadFormFiles.onCreated(function () {
-  this.currentUpload = new ReactiveVar(false);
+
   idFile.set('none');
 });
-Template.uploadFormFiles.onRendered(function () {
 
-})
 Template.uploadFormFiles.helpers({
-  currentUpload() {
-    return Template.instance().currentUpload.get();
+
+  listGaleria() {
+    return ARCHIVOS.find({}); //rev
   },
-  listGaleria: function () {
-    return ARCHIVOS.collection.find({}).fetch(); //rev
-  },
-  itemFile: function () {
-    //console.log(ARCHIVOS.findOne({_id:this._id}));
-    return ARCHIVOS.findOne({
-      _id: this._id
-    });
-  }
+
 });
 
 Template.uploadFormFiles.events({
@@ -49,37 +40,12 @@ Template.uploadFormFiles.events({
 
   },
   'change #fileInput'(e, template) {
-    if (e.currentTarget.files && e.currentTarget.files[0]) {
-      // We upload only one file, in case
-      // multiple files were selected
-      const upload = ARCHIVOS.insert({
-        file: e.currentTarget.files[0],
-        meta: {
-          idSitio: FlowRouter.getParam("titulo"),
-        },
-        streams: 'dynamic',
-        chunkSize: 'dynamic',
-      }, false);
+    var file = $(e.currentTarget).get(0).files[0];
+    //console.log(file);
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
-
-      upload.on('end', function (error, fileObj) {
-        if (error) {
-          alert('error al subir el Archivo: ' + error);
-        } else {
-          idFile.set(fileObj._id);
-          //console.log(idFile);aca umentamos e id para los sitios
-          alert('El archivo "' + fileObj.name + '" Se ha subido correctamente');
-        }
-        template.currentUpload.set(false);
-      });
-
-      upload.start();
-    }
+    handleFileSelect(file); //reemplazar por esto en produccion
+    return false;
   }
-
 });
 
 
@@ -108,39 +74,46 @@ function handleFileSelect(files) {
       a: array,
       d: datos
     }
+    Meteor.call('uploadFile', parameters, function (error, result) {
+      console.log(error || result);
+      //recupera result.url
 
+      if (result) {
+        var carrera = FlowRouter.getParam('titulo');
+        let splited = files.name.split('.');
+        let ext = splited[splited.length - 1];
+        let splited1 = files.name.split('/');
+        let name = splited1[splited1.length - 1];
+        console.log(ext, name);
 
-    /*Meteor.call('loginFileServer', function (error, result) {
-      if (error) {
-        alert(error);
-      }else{
-        Meteor.call('uploadFiles',parameters,result, function (error, result) {
-          console.log(error || result);
-          //recupera result.url
-          //http://archivos.uatf.edu.bo/7f96d760-81ff-44f7-acb1-d86f38d54871.34338.svg
+        var obj = {
+          idSitio: carrera,
+          userId: Meteor.userId(),
+          originalName: name,
+          ext: ext,
+          url: result.url
+        };
+        console.log(obj);
+
+        Meteor.call('insArchivo', obj, function (error, result) {
+          if (error) {
+            alert('hubo un erroe al intentar guardar en la base de datos');
+          }
+          if (result) {
+            alert('Se guardo en la base de datos  b');
+          }
         });
       }
-    });*/
+
+
+      //http://archivos.uatf.edu.bo/7f96d760-81ff-44f7-acb1-d86f38d54871.34338.svg
+      //http://archivos.uatf.edu.bo/images/Comunicado6-3.png
+      //http://www.uatf.edu.bo/archivos/2018/1ra.%20CONVOCATORIA%20AUXILIAR%20DE%20INVESTIGACI%C3%93N%202018.pdf
+    });
+
 
     //console.log(parameters);
   };
   reader.readAsArrayBuffer(f);
   //}
 }
-Template.uploadExterno.events({
-  'change #fileInput': function (e) {
-
-    var file = $('#fileInput').get(0).files[0];
-    console.log(file);
-    if (true) {
-      console.log(e.currentTarget.files[0]);
-    }
-    handleFileSelect(file);
-    //console.log(e.currentTarget.files[0]);
-    return false;
-  },
-  'click #loginserver': function (e) {
-    console.log('click');
-  }
-
-});

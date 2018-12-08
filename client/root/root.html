@@ -1,69 +1,70 @@
 <template name="root">
-{{#if isInRole "root"}}
+	{{#if isInRole "root"}}
+
 	<head>
 		<link href="https://fonts.googleapis.com/css?family=Bellefair" rel="stylesheet">
 
 	</head>
 	<div class="row mx-0">
 		{{ > sAlert}}
-	<div class=" col-12 px-0" style="">
-    <div style="">
-		
-		<nav class="navbar navbar-expand-md navbar-dark bg-dark px-0 mx-0" style="border: solid 1px red">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse " id="navbarCollapse">
-				<ul class="navbar-nav text-md-center ">
-					
-					<li class="nav-item">
-						<a class="nav-link " href="/root"><i class="fa fa-arrow-right"></i>LISTAR SITIOS</a>
-					</li>
-					<li class="nav-item ">
-						<a class="nav-link" href="/root/sitios"><i class="fa fa-home"></i>CREAR SITIO WEB </a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/root/usuarios"><i class="fa fa-user"></i> USUARIOS</a>
-					</li>
-					<li class="nav-item">
+		<div class=" col-12 px-0" style="">
+			<div style="">
+
+				<nav class="navbar navbar-expand-md navbar-dark bg-dark px-0 mx-0" style="border: solid 1px red">
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+					 aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse " id="navbarCollapse">
+						<ul class="navbar-nav text-md-center ">
+
+							<li class="nav-item">
+								<a class="nav-link " href="/root"><i class="fa fa-arrow-right"></i> LISTAR SITIOS</a>
+							</li>
+							<li class="nav-item ">
+								<a class="nav-link" href="/root/sitios"><i class="fa fa-home"></i> CREAR SITIO WEB </a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/root/usuarios"><i class="fa fa-user"></i> USUARIOS</a>
+							</li>
+							<!-- <li class="nav-item">
 						<a class="nav-link " href="/root/reportes"><i class="fa fa-arrow-right"></i>REPORTES</a>
-					</li>
-					
-				</ul>
-				<ul class="navbar-nav d-block ml-auto">
-					<li class="nav-item dropdown pr-4">
-						<a class="nav-link dropdown-toggle " style="text-transform: uppercase;" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">usuario {{currentUser.username}}</a>
-						<div class="dropdown-menu" aria-labelledby="dropdown01 ">
-							<a class="dropdown-item" href="/perfil">Mi Perfil</a>
-							
-							<a class="dropdown-item" href="" id="logout">Cerrar Sesion </a>
-						</div>
-					</li>
-				</ul>
+					</li> -->
+
+						</ul>
+						<ul class="navbar-nav d-block ml-auto">
+							<li class="nav-item dropdown pr-4">
+								<a class="nav-link dropdown-toggle " style="text-transform: uppercase;" href="" id="dropdown01" data-toggle="dropdown"
+								 aria-haspopup="false" aria-expanded="true">usuario {{currentUser.username}}</a>
+								<div class="dropdown-menu" aria-labelledby="dropdown01 ">
+									<a class="dropdown-item" href="/perfil">Mi Perfil</a>
+
+									<a class="dropdown-item" href="" id="logout">Cerrar Sesion </a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</nav>
 			</div>
-		</nav>
+
+
+			{{> Template.dynamic template=contentroot}}
+
+
+
+
+
+		</div>
 	</div>
-
-
-    {{> Template.dynamic template=contentroot}}
-
-		
-			
-
-
+	{{else}}
+	<div class="m-4">
+		<div class="alert alert-warning">
+			VISTA DISPONIBLE SOLO PARA EL USUARIO "ROOT"
+			{{>mainLogin}}
+		</div>
 	</div>
-</div>
-{{else}}
-<div class="m-4">
-	<div class="alert alert-warning">
-		VISTA DISPONIBLE SOLO PARA EL USUARIO "ROOT" 
-		{{>mainLogin}}
-	</div>	
-</div>
-{{/if}}
+	{{/if}}
 
 
-	
+
 </template>
-
-

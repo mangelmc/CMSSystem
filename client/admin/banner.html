@@ -1,193 +1,197 @@
 <template name="banneradmin">
-	
+
 	<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="d-flex justify-content-center  p-1 mb-3">
-			<h3 class="">EDITAR BANNER</h3>
+		<h3 class="">EDITAR BANNER</h3>
 	</div>
 	{{>sAlert}}
-			<div class="form-group row">
-				<label class="col-3 offset-1 col-form-label h5">Tipo de Banner</label>
+	<div class="form-group row">
+		<label class="col-3 offset-1 col-form-label h5">Tipo de Banner</label>
+		<div class="col-6">
+			<select class="form-control" id="tipo">
+				<option value="texto e imagen">Texto e Imagen</option>
+				<option value="carrusel">Carrusel de Imagenes</option>
+				<option value="personalizado">Personalizado</option>
+			</select>
+		</div>
+	</div>
+
+	{{#if tipoBanner.texto }}
+	<form id="formeditbanner" method="post">
+		<div class="form-group row ">
+			<label for="texto" class="col-2 offset-2 col-form-label">Texto</label>
+			<div class="col-6 ">
+				<input type="text" name="texto" maxlength="40" class="form-control" id="texto" placeholder="Texto que va en el banner"
+				 value="{{banner.texto}}" required>
+				<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>
+			</div>
+		</div>
+		<div class="form-group row ">
+
+			<label for="link" class="col-2 offset-2 col-form-label">Link Imagen</label>
+			<div class="col-6 ">
+				<input type="text" name="link" value="{{banner.imagen}}" class="form-control" id="link" placeholder="link" required>
+				<div class="alert alert-danger" id="alertlink" style="display: none;"> </div>
+			</div>
+		</div>
+		<div class="d-flex justify-content-center">
+			<button type="submit" class="btn btn-primary ">Guardar Cambios</button>
+		</div>
+	</form>
+
+	{{else}}
+
+	{{#if tipoBanner.personal }}
+	<form id="formeditbannerhtml" method="post">
+		{{>editorContent}}
+
+
+		<div class="d-flex justify-content-center">
+			<button type="submit" class="btn btn-primary">Guardar Cambios</button>
+
+		</div>
+	</form>
+
+
+
+	{{else}}
+	{{#if tipoBanner.carrusel }}
+	<div id="contforcarrusel" style="display: none;">
+		<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-between  p-1 bg-secondary">
+			<h3>NUEVO ITEM CARRUSEL</h3>
+			<button class="btn btn-primary cerrarcont"><i class="fa fa-remove"></i></button>
+		</div>
+		<form method="post" id="formcarrusel">
+
+			<div class="form-group row mt-2">
+				<label class="col-2 offset-2 col-form-label"> Titulo</label>
 				<div class="col-6">
-				<select class="form-control" id="tipo">
-					<option value="texto e imagen">Texto e Imagen</option>
-					<option value="carrusel">Carrusel de Imagenes</option>
-					<option value="personalizado">Personalizado</option>
-				</select>
+					<input type="text" name="titulo" id="titulo" class="form-control" placeholder="Titulo" required>
+					<div class="alert alert-danger" id="alerttitulo" style="display: none;"> </div>
 				</div>
 			</div>
-	
-		{{#if tipoBanner.texto }}
-		<form id="formeditbanner" method="post"> 
-	        <div class="form-group row ">			
-				<label for="texto" class="col-2 offset-2 col-form-label">Texto</label>
-				<div class="col-6 ">			
-					<input type="text" name="texto" maxlength="40" class="form-control" id="texto" placeholder="Texto que va en el banner" value="{{banner.texto}}" required>
+			<div class="form-group row mt-2">
+				<label class="col-2 offset-2 col-form-label"> Texto</label>
+				<div class="col-6">
+					<input type="text" name="texto" id="texto" class="form-control" placeholder="texto" required>
 					<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>
 				</div>
 			</div>
-			<div class="form-group row ">
-			
-				<label for="link" class="col-2 offset-2 col-form-label">Link Imagen</label>
-				<div class="col-6 ">			
-					<input type="text" name="link" value="{{banner.imagen}}" class="form-control" id="link" placeholder="link" required>
-					<div class="alert alert-danger" id="alertlink" style="display: none;"> </div>
+			<div class="form-group row">
+
+				<label class="col-2 offset-2 col-form-label"> Url Imagen</label>
+				<div class="col-6">
+					<input type="text" name="imagen" id="imagen" class="form-control" placeholder="Url de imagen" required>
+					<div class="alert alert-danger" id="alertimagen" style="display: none;"> </div>
 				</div>
-			</div>
-			<div class="d-flex justify-content-center">
-				<button type="submit" class="btn btn-primary ">Guardar Cambios</button>	
-			</div>	         
-	     </form>
 
-		{{else}}
-		{{#if tipoBanner.carrusel }}
-			<div id="contforcarrusel" style="display: none;">
-				<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-between  p-1 bg-secondary">
-					<h3>NUEVO ITEM CARRUSEL</h3>
-					<button class="btn btn-primary cerrarcont"><i class="fa fa-remove"></i></button>
-				</div> 
-				<form method="post" id="formcarrusel">
-					
-					<div class="form-group row mt-2">						
-						<label class="col-2 offset-2 col-form-label"> Titulo</label>
-						<div class="col-6">
-							<input type="text" name="titulo" id="titulo" class="form-control" placeholder="Titulo" required>
-							<div class="alert alert-danger" id="alerttitulo" style="display: none;"> </div>		
-						</div>
-					</div>
-					<div class="form-group row mt-2">						
-						<label class="col-2 offset-2 col-form-label"> Texto</label>
-						<div class="col-6">
-							<input type="text" name="texto" id="texto" class="form-control" placeholder="texto" required>
-							<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>		
-						</div>
-					</div>
-					<div class="form-group row">
-
-						<label class="col-2 offset-2 col-form-label"> Url Imagen</label>
-						<div class="col-6">
-							<input type="text" name="imagen" id="imagen" class="form-control" placeholder="Url de imagen" required>
-							<div class="alert alert-danger" id="alertimagen" style="display: none;"> </div>
-						</div>
-
-						<!--boton pegar
+				<!--boton pegar
 						<div class="col-1">
 							<button type="button" class="btn btn-secondary pegar" title="pegar"><i class="fa fa-paste"></i></button>
 						</div>-->
-					</div>
-					<div class="form-group row mt-2">						
-						<label class="col-2 offset-2 col-form-label">Link</label>
-						<div class="col-6">
-							<input type="text" name="link" id="link" class="form-control" placeholder="link" 	>
-							<div class="alert alert-danger" id="alertlink" style="display: none;"> </div>		
-						</div>
-					</div>
-					
-					<div class="d-flex justify-content-center mb-2">
-						<button class="btn btn-primary btn-sm" type="submit">GUARDAR</button>
-					</div>
-				</form>
 			</div>
-			<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-between  p-1 ">
-				<h3>LISTA DE ITEMS DEL CARRUSEL</h3>
-				<button class="btn btn-primary mostrarcont "><i class="fa fa-plus"></i> NUEVO</button>
-			</div>
-			<table class="table table-inverse table-bordered">
-				<thead>
-					<tr>
-						<th>TITULO</th>
-						<th>TEXTO</th>
-						<th>IMAGEN</th>
-						<th>LINK</th>
-						<th>ACCIONES</th>
-					</tr>
-				</thead>
-				<tbody>
-					{{#each listItemsCarrusel}}
-					<tr>
-						<td>{{titulo}}</td>
-						<td>{{texto}}</td>
-						<td>{{imagen}}</td>
-						<td>{{link}}</td>
-
-						<td><button class="btn btn btn-outline-dark btn-sm editcarrusel"><i class="fa fa-edit"></i></button> <button class="btn btn btn-outline-danger btn-sm elicarrusel"><i class="fa fa-trash"></i></button></td>
-
-					</tr>
-					{{else}}
-					<tr>
-						<td colspan="5">
-							<div class="alert alert-warning" role="alert">
-							    <strong>No hay items agregados</strong>
-							</div>
-							
-						</td>
-					</tr>
-					{{/each}}
-				</tbody>
-			</table>
-		{{else}}
-		{{#if tipoBanner.personal }}
-			<form id="formeditbannerhtml" method="post"> 
-	        <div class="form-group row ">
-				<label for="texto" class="col-2 offset-2 col-form-label">Texto HTML</label>
-				<div class="col-6 ">			
-					<textarea type="text" name="texto" class="form-control" id="texto" placeholder="Codigo HTML" required>{{banner.textoPersonalizado}}</textarea>
-					<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>
+			<div class="form-group row mt-2">
+				<label class="col-2 offset-2 col-form-label">Link</label>
+				<div class="col-6">
+					<input type="text" name="link" id="link" class="form-control" placeholder="link">
+					<div class="alert alert-danger" id="alertlink" style="display: none;"> </div>
 				</div>
 			</div>
-			
 
-	      	<div class="d-flex justify-content-center">
-	        	<button type="submit" class="btn btn-primary">Guardar Cambios</button>	      	
-	        
-	      	</div>
-	      </form>
-	      {{/if}}
-		{{/if}}
+			<div class="d-flex justify-content-center mb-2">
+				<button class="btn btn-primary btn-sm" type="submit">GUARDAR</button>
+			</div>
+		</form>
+	</div>
+	<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-between  p-1 ">
+		<h3>LISTA DE ITEMS DEL CAROUSEL</h3>
+		<button class="btn btn-primary mostrarcont "><i class="fa fa-plus"></i> NUEVO</button>
+	</div>
+	<table class="table table-inverse table-bordered">
+		<thead>
+			<tr>
+				<th>TITULO</th>
+				<th>TEXTO</th>
+				<th>IMAGEN</th>
+				<th>LINK</th>
+				<th>ACCIONES</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each listItemsCarrusel}}
+			<tr>
+				<td>{{titulo}}</td>
+				<td>{{texto}}</td>
+				<td>{{imagen}}</td>
+				<td>{{link}}</td>
+
+				<td><button class="btn btn btn-outline-dark btn-sm editcarrusel"><i class="fa fa-edit"></i></button> <button class="btn btn btn-outline-danger btn-sm elicarrusel"><i
+						 class="fa fa-trash"></i></button></td>
+
+			</tr>
+			{{else}}
+			<tr>
+				<td colspan="5">
+					<div class="alert alert-warning" role="alert">
+						<strong>No hay items agregados</strong>
+					</div>
+
+				</td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+	{{/if}}
+	{{/if}}
 	{{/if}}
 
 	<div>
-		
+
 	</div>
-	
+
 
 </template>
 <template name="editcarrusel">
-	<div style="background-color: #bf3744;border-radius: .3rem;border:solid .1rem white;color:white;text-shadow: 0.2rem .2rem .3rem black;box-shadow: 0 0 .2rem .3rem silver" class="d-flex justify-content-center align-items-end p-1">
-		<h3>EDICION ITEM CARRUSEL</h3>		
-	</div> 
+	<div style="background-color: #bf3744;border-radius: .3rem;border:solid .1rem white;color:white;text-shadow: 0.2rem .2rem .3rem black;box-shadow: 0 0 .2rem .3rem silver"
+	 class="d-flex justify-content-center align-items-end p-1">
+		<h3>EDICION ITEM CARRUSEL</h3>
+	</div>
 	<form method="post" id="formeditcarrusel">
-		
-		<div class="form-group row mt-2">						
+
+		<div class="form-group row mt-2">
 			<label class="col-2 offset-2 col-form-label"> Titulo</label>
 			<div class="col-6">
-				<input type="text" name="titulo" id="titulo" value="{{carrusel.titulo}}" class="form-control" placeholder="Titulo" required>
-				<div class="alert alert-danger" id="alerttitulo" style="display: none;"> </div>		
+				<input type="text" name="titulo" id="titulo" value="{{carrusel.titulo}}" class="form-control" placeholder="Titulo"
+				 required>
+				<div class="alert alert-danger" id="alerttitulo" style="display: none;"> </div>
 			</div>
 		</div>
-		<div class="form-group row mt-2">						
+		<div class="form-group row mt-2">
 			<label class="col-2 offset-2 col-form-label"> Texto</label>
 			<div class="col-6">
-				<input type="text" name="texto" id="texto" value="{{carrusel.texto}}" class="form-control" placeholder="texto" required>
-				<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>		
+				<input type="text" name="texto" id="texto" value="{{carrusel.texto}}" class="form-control" placeholder="texto"
+				 required>
+				<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>
 			</div>
 		</div>
 		<div class="form-group row">
 
 			<label class="col-2 offset-2 col-form-label"> Url Imagen</label>
 			<div class="col-6">
-				<input type="text" name="imagen" id="imagen" value="{{carrusel.imagen}}" class="form-control" placeholder="url de imagen" required>
+				<input type="text" name="imagen" id="imagen" value="{{carrusel.imagen}}" class="form-control" placeholder="url de imagen"
+				 required>
 				<div class="alert alert-danger" id="alertimagen" style="display: none;"> </div>
 			</div>
 
-			
+
 		</div>
-		<div class="form-group row mt-2">						
+		<div class="form-group row mt-2">
 			<label class="col-2 offset-2 col-form-label">Link(opcional)</label>
 			<div class="col-6">
-				<input type="text" name="link" id="link" value="{{carrusel.link}}" class="form-control" placeholder="link" >
-				<div class="alert alert-danger" id="alertlink" style="display: none;"> </div>		
+				<input type="text" name="link" id="link" value="{{carrusel.link}}" class="form-control" placeholder="link">
+				<div class="alert alert-danger" id="alertlink" style="display: none;"> </div>
 			</div>
 		</div>
-		
+
 		<div class="d-flex justify-content-around mb-2 px-4">
 			<button class="btn btn-primary " type="submit">GUARDAR</button>
 			<button class="btn btn-danger " id="cancelaredit" type="submit">CANCELAR</button>

@@ -30,10 +30,7 @@
 				text-transform: uppercase;
 			}
 		</style>
-		{{#with currentUpload}}
-		Uploading <b>{{file.name}}</b>:
-		<span id="progress" class=" skyblue-text">{{progress.get}}%</span>
-		{{else}}
+
 
 		<div class="col-4  offset-2">
 
@@ -45,7 +42,6 @@
 			<div class="btn btn-primary vergaleria">Ver / Ocultar Archivos</div>
 		</div>
 
-		{{/with}}
 	</div>
 	<div class="row  galeria ">
 		<div class="col-12">
@@ -53,10 +49,9 @@
 				{{#each listGaleria}}
 
 				<li class="list-group-item d-flex justify-content-between align-items-center"><label class="icono">{{ext}}</label>
-					<span>{{name}}</span>
+					<span>{{originalName}}</span>
 					<div>
-						<a href="{{itemFile.link}}" target="_blank" title="Ver"><span class="checkfile badge badge-success badge-pill"><i
-								 class="fa fa-eye"></i></span></a>
+						<a href="{{url}}" target="_blank" title="Ver"><span class="checkfile badge badge-success badge-pill"><i class="fa fa-eye"></i></span></a>
 						<a href="" title="Insertar enlace al contenido" class="checkfile"><span class="badge badge-primary badge-pill"><i
 								 class="fa fa-plus"></i></span></a></div>
 				</li>

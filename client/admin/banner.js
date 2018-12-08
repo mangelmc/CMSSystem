@@ -1,114 +1,174 @@
 import './banner.html';
-import { ReactiveVar } from 'meteor/reactive-var';
+import {
+	ReactiveVar
+} from 'meteor/reactive-var';
+/* import {
+	BANNER
+} from '../../collections/cmscollections'; */
 import validar from '../validations.js'
 
 var loadTipo = new ReactiveVar();
 
+Template.banneradmin.onRendered(function () {
+	this.autorun(function () {
+		if (BANNER.findOne() != undefined) {
+			var banner = BANNER.findOne();
+			//console.log(banner.textoPersonalizado);
+			setTimeout(function () {
+				es.summernote('code', banner.textoPersonalizado);
+			}, 500);
 
+
+
+
+		}
+
+	});
+})
 Template.banneradmin.events({
-	'change #tipo': function (e) {
+	'change #tipo'(e) {
 		var id = FlowRouter.getParam("titulo");
 		var obj = {
-			tipo : e.target.value,
+			tipo: e.target.value,
 		}
-		Meteor.call('bannerChange', id,obj, function (error, result) {
-			sAlert.info('Se modifico el tipo de Banner', {effect: 'slide',offset: '130'});
+		Meteor.call('bannerChange', id, obj, function (error, result) {
+			sAlert.info('Se modifico el tipo de Banner', {
+				effect: 'slide',
+				offset: '130'
+			});
 		});
 	},
-	'submit #formeditbanner': function (e) {
+	'submit #formeditbanner'(e) {
 		e.preventDefault();
 		idBanner = BANNER.findOne({})._id;
 		obj = {
-			texto : e.target.texto.value,
-			imagen : e.target.link.value
+			texto: e.target.texto.value,
+			imagen: e.target.link.value
 		}
-		Meteor.call('editBanner',idBanner, obj, function (error, result) {
-			sAlert.info('Se modificó', {effect: 'slide',offset: '130'});
+		Meteor.call('editBanner', idBanner, obj, function (error, result) {
+			sAlert.info('Se modificó', {
+				effect: 'slide',
+				offset: '130'
+			});
 		});
 	},
-	'submit #formeditbannerhtml': function (e) {
+
+	'submit #formeditbannerhtml'(e) {
 		e.preventDefault();
 		idBanner = BANNER.findOne({})._id;
-		var html = e.target.texto.value;
-		Meteor.call('editBannerHtml',idBanner, html, function (error, result) {
-			sAlert.info('Se modifico el Banner personalizado', {effect: 'slide',offset: '130'});
-		});		
-	},
-	'click .mostrarcont': function () {
-		
-		$('#contforcarrusel').slideToggle('slow');
-	},
-	'click .cerrarcont': function () {
-		$('#contforcarrusel').slideUp('slow');
-	},
-	'submit #formcarrusel': function (e) {
-		e.preventDefault();
-		var obj ={
-			idSitio : FlowRouter.getParam('titulo'),
-			titulo : e.target.titulo.value,
-			texto : e.target.texto.value,
-			imagen : e.target.imagen.value,
-			link : e.target.link.value,
-		}
-		Meteor.call('insertCarrusel', obj, function (error, result) {
-			sAlert.success(result, {effect: 'slide',offset: '130'});
+		var html = es.summernote('code');
+		Meteor.call('editBannerHtml', idBanner, html, function (error, result) {
+			if (result) {
+				sAlert.info('Se modifico el Banner personalizado', {
+					effect: 'slide',
+					offset: '130'
+				});
+			}
 		});
 	},
-	'click .editcarrusel': function () {
-		FlowRouter.go('/admin/:titulo/banner/editcarrusel/:id',{titulo:FlowRouter.getParam('titulo'),id:this._id})
+	'click .mostrarcont'() {
+
+		$('#contforcarrusel').slideToggle('slow');
+	},
+	'click .cerrarcont'() {
+		$('#contforcarrusel').slideUp('slow');
+	},
+	'submit #formcarrusel'(e) {
+		e.preventDefault();
+		var obj = {
+			idSitio: FlowRouter.getParam('titulo'),
+			titulo: e.target.titulo.value,
+			texto: e.target.texto.value,
+			imagen: e.target.imagen.value,
+			link: e.target.link.value,
+		}
+		Meteor.call('insertCarrusel', obj, function (error, result) {
+			sAlert.success(result, {
+				effect: 'slide',
+				offset: '130'
+			});
+		});
+	},
+	'click .editcarrusel'() {
+		FlowRouter.go('/admin/:titulo/banner/editcarrusel/:id', {
+			titulo: FlowRouter.getParam('titulo'),
+			id: this._id
+		})
 	}
 });
 Template.banneradmin.helpers({
-	tipoBanner : function(){
+	tipoBanner() {
 		var id = FlowRouter.getParam('titulo');
 		var tipo = '';
-		if (BANNER.findOne({idSitio:id})!=undefined) {
-			tipo = BANNER.findOne({idSitio:id});			
-			$('#tipo option[value="'+tipo.tipo+'"]').prop('selected', true);
+		if (BANNER.findOne({
+				idSitio: id
+			}) != undefined) {
+			tipo = BANNER.findOne({
+				idSitio: id
+			});
+			$('#tipo option[value="' + tipo.tipo + '"]').prop('selected', true);
 			// cargar el tipo
 			//alert('load');
 		}
 		//console.log(tipo.tipo);
+		if (tipo.tipo == 'personalizado') {
+			return {
+				personal: 'personalizado'
+			};
+		}
 		if (tipo.tipo == 'texto e imagen') {
-			return {texto:'texto e imagen'};
+			return {
+				texto: 'texto e imagen'
+			};
 		}
 		if (tipo.tipo == 'carrusel') {
-			return {carrusel : 'carrusel'};
+			return {
+				carrusel: 'carrusel'
+			};
 		}
-		if (tipo.tipo == 'personalizado') {
-			return {personal : 'personalizado'};
-		}			
-		
+
+
 	},
-	listItemsCarrusel : function(){
+	listItemsCarrusel() {
 		return CARROUSEL.find();
 	},
-	banner : function(){
+	banner() {
 		return BANNER.findOne();
 	},
 });
+
 Template.editcarrusel.helpers({
-	carrusel: function () {
-		return CARROUSEL.findOne({_id:FlowRouter.getParam('id')});
+	carrusel() {
+		return CARROUSEL.findOne({
+			_id: FlowRouter.getParam('id')
+		});
 	}
 });
+
 Template.editcarrusel.events({
-	'click #cancelaredit': function () {
-		FlowRouter.go('/admin/:titulo/banner',{titulo:FlowRouter.getParam('titulo')},1);
+	'click #cancelaredit'() {
+		FlowRouter.go('/admin/:titulo/banner', {
+			titulo: FlowRouter.getParam('titulo')
+		}, 1);
 	},
-	'submit #formeditcarrusel': function (e) {
+	'submit #formeditcarrusel'(e) {
 		e.preventDefault();
 		var idSitio = FlowRouter.getParam('titulo');
 		var id = FlowRouter.getParam('id');
 		var obj = {
-			titulo : e.target.titulo.value,
-			texto : e.target.texto.value,
-			imagen : e.target.imagen.value,
-			link : e.target.link.value,
+			titulo: e.target.titulo.value,
+			texto: e.target.texto.value,
+			imagen: e.target.imagen.value,
+			link: e.target.link.value,
 		}
 		Meteor.call('editCarrusel', id, obj, function (error, result) {
-			sAlert.info('Se modifico', {effect: 'slide',offset: '130'});
+			sAlert.info('Se modifico', {
+				effect: 'slide',
+				offset: '130'
+			});
 		});
-		FlowRouter.go('/admin/:titulo/banner',{titulo : idSitio});
+		FlowRouter.go('/admin/:titulo/banner', {
+			titulo: idSitio
+		});
 	}
 });

@@ -1,5 +1,7 @@
 import './content.html';
-import { ReactiveVar } from 'meteor/reactive-var';
+import {
+	ReactiveVar
+} from 'meteor/reactive-var';
 import validar from '../validations.js';
 import '../summernote/summernote-bs4.js';
 import '../summernote/summernote-bs4.css';
@@ -11,9 +13,10 @@ var menu = new ReactiveVar();
 
 var formContent = new ReactiveVar(false);
 var formContentEdit = new ReactiveVar(true);
+var urlCont = new ReactiveVar("");
 
 var globalHelpers = {
-	sitio : function(){
+	sitio: function () {
 		return sitioId.get();
 	}
 }
@@ -22,31 +25,39 @@ Template.contentmenuadmin.helpers(globalHelpers);
 
 Template.contentmenuadmin.helpers({
 
-	listBanner : function(){
+	listBanner: function () {
 		var id = FlowRouter.getQueryParam('id');
-		return	CUERPO.find({idSitio:id});	
-	
+		return CUERPO.find({
+			idSitio: id
+		});
+
 	},
-	estado : function(){
-		if (estadoMenu.get()=='activo') {
-			return {texto:'ACTIVOS'};
+	estado: function () {
+		if (estadoMenu.get() == 'activo') {
+			return {
+				texto: 'ACTIVOS'
+			};
 		}
-		return {texto:'INACTIVOS'};
+		return {
+			texto: 'INACTIVOS'
+		};
 	},
-	listMenu : function(){
-		return MENU.find({estado:estadoMenu.get()});
+	listMenu: function () {
+		return MENU.find({
+			estado: estadoMenu.get()
+		});
 	},
-	nombreMenu :function(){
+	nombreMenu: function () {
 		console.log(this.nombre);
 	},
-	submenu : function(){
+	submenu: function () {
 		//console.log(this);
-		if (this.tipo=='con submenu') {
-			return	true;
+		if (this.tipo == 'con submenu') {
+			return true;
 		}
 		return false;
 	},
-	menuNormal : function(){
+	menuNormal: function () {
 		//console.log(this.tipo);
 		if (this.tipo == 'normal' || this.link == '/') {
 			return true;
@@ -54,31 +65,31 @@ Template.contentmenuadmin.helpers({
 		return false;
 	},
 
-	activo : function(){
+	activo: function () {
 		//console.log();
-		if (this.estado=='activo') {
-			return	true;
+		if (this.estado == 'activo') {
+			return true;
 		}
 		return false;
 	},
 
-	listSubmenu : function(){
+	listSubmenu: function () {
 		//console.log(this);
-		return SUBMENU.find({idMenu : this._id});
+		return SUBMENU.find({
+			idMenu: this._id
+		});
 	},
-	subActivo : function(){
+	subActivo: function () {
 		//console.log();
-		if (this.estado=='Activo') {
-			return	true;
+		if (this.estado == 'Activo') {
+			return true;
 		}
 		return false;
 	},
-	cuerpo:function(){
+	cuerpo: function () {
 		var cuerpo = CUERPO.findOne();
 		if (cuerpo != undefined) {
-			$('#fondo option[value="'+cuerpo.fondo+'"]').prop('selected', true);
-			
-
+			$('#fondo option[value="' + cuerpo.fondo + '"]').prop('selected', true);
 			return cuerpo;
 		}
 	}
@@ -91,14 +102,18 @@ Template.contentmenuadmin.events({
 		//console.log(e.target.id);
 		estadoMenu.set(e.target.id);
 	},
-	'click .contenidomenu': function () {
-		
+	'click .contenidomenu': function (e) {
+		console.log($(e.currentTarget).closest('tr').children("td").eq(1).text().trim(" "));
+		urlCont.set($(e.currentTarget).closest('tr').children("td").eq(1).text().trim(" "));
 		var carrera = FlowRouter.getParam('titulo');
-		FlowRouter.go('/admin/:titulo/contenido/:idMenu',{titulo:carrera,idMenu:this._id});
-		
+		FlowRouter.go('/admin/:titulo/contenido/:idMenu', {
+			titulo: carrera,
+			idMenu: this._id
+		});
+
 	},
 	'change #fondo': function (e) {
-		Meteor.call('changeColorBody',FlowRouter.getParam('titulo'), e.target.value, function (error, result) {
+		Meteor.call('changeColorBody', FlowRouter.getParam('titulo'), e.target.value, function (error, result) {
 			if (result) {
 				console.log(result);
 			}
@@ -121,52 +136,55 @@ Template.contentmenuadmin.events({
 	}*/
 
 });
-Template.contentadmin.onCreated(function(){
+Template.contentadmin.onCreated(function () {
 	this.linkMenu = new ReactiveVar('');
 })
 Template.contentadmin.helpers(globalHelpers);
 
 Template.contentadmin.helpers({
-	inicio : function(){
-		if (Template.instance().linkMenu.get() == 'INICIO' ) {
+	inicio: function () {
+		if (Template.instance().linkMenu.get() == 'INICIO') {
 			//console.log(Template.instance().linkMenu.get());
 			return true;
 		}
-		return	false;
+		return false;
 	},
-	listContenidos : function(){
-		return CONTENIDO.find({idMenu : FlowRouter.getParam('idMenu'),visible : estadoContenido.get()});
+	listContenidos: function () {
+		return CONTENIDO.find({
+			idMenu: FlowRouter.getParam('idMenu'),
+			visible: estadoContenido.get()
+		});
 	},
-	
-	estado : function(){
+
+	estado: function () {
 		if (estadoContenido.get() == 'visible') {
 			return 'Visibles';
 		}
 		return 'Ocultos';
 	},
-	visible : function(){
+	visible: function () {
 		if (this.visible == 'visible') {
-			return	true;
+			return true;
 		}
 		return false;
 	},
-	nombreMenuContenido : function(){
+	nombreMenuContenido: function () {
 		var menu = MENU.findOne();
 		var submenu = SUBMENU.findOne({});
 
-		if (menu != undefined ) {
+		if (menu != undefined) {
 			Template.instance().linkMenu.set(menu.nombre);
-			return	menu.nombre;
+			return menu.nombre;
 		}
-		if (submenu != undefined) {	
-			Template.instance().linkMenu.set('');		
-			return	submenu.nombre;
+		if (submenu != undefined) {
+			Template.instance().linkMenu.set('');
+			return submenu.nombre;
 		}
 		return 'Menu Actual';
 	},
-	descripcionCut (){
-		if (this.descripcion.length > 45 ) {
-			return this.descripcion.substr(0,45) + '...';
+	descripcionCut() {
+		if (this.descripcion.length > 45) {
+			return this.descripcion.substr(0, 45) + '...';
 		}
 		return this.descripcion;
 	}
@@ -175,48 +193,58 @@ Template.contentadmin.events({
 	'click .editcontenido': function () {
 		//console.log(this._id);
 		//return;
-		
+
 		var carrera = FlowRouter.getParam('titulo');
-		FlowRouter.go('/admin/:titulo/editcontenido/:idCont',{titulo:carrera,idCont:this._id});
+		FlowRouter.go('/admin/:titulo/editcontenido/:idCont', {
+			titulo: carrera,
+			idCont: this._id
+		});
 	},
-	'click .listmenu': function (e) {	
-			estadoContenido.set(e.target.id);
+	'click .listmenu': function (e) {
+		estadoContenido.set(e.target.id);
 	},
 	'click #nuevocontenido': function () {
 		var carrera = FlowRouter.getParam('titulo');
 		var menu = FlowRouter.getParam('idMenu');
-		FlowRouter.go('/admin/:titulo/newcontenido/:idMenu',{titulo:carrera,idMenu : menu});
+		FlowRouter.go('/admin/:titulo/newcontenido/:idMenu', {
+			titulo: carrera,
+			idMenu: menu
+		});
 	},
 	'click .ocultarcont': function () {
 		var obj = {
-			visible : 'oculto'
+			visible: 'oculto'
 		}
-		Meteor.call('visibilityContent', this._id,obj, function (error, result) {
+		Meteor.call('visibilityContent', this._id, obj, function (error, result) {
 			if (result) {
 				console.log(result);
-			}		
+			}
 		});
 	},
 	'click .mostrarcont': function () {
 		var obj = {
-			visible : 'visible'
+			visible: 'visible'
 		}
-		Meteor.call('visibilityContent', this._id,obj, function (error, result) {
+		Meteor.call('visibilityContent', this._id, obj, function (error, result) {
 			if (result) {
 				console.log(result);
-			}		
+			}
 		});
 	}
 });
-Template.newcontentadmin.onRendered(function(){
+Template.newcontentadmin.onRendered(function () {
+	if (urlCont.get() == "") {
+		FlowRouter.go("/admin/:titulo/menucontenido", {
+			titulo: FlowRouter.getParam('titulo')
+		})
+	}
 
-	
 
 });
 
 Template.newcontentadmin.helpers(globalHelpers);
 Template.newcontentadmin.helpers({
-	idMenu : function(){
+	idMenu: function () {
 		return FlowRouter.getParam('idMenu');
 	}
 });
@@ -236,30 +264,42 @@ Template.newcontentadmin.events({
 	},
 	'input #titulo': function (e) {
 		var ruta = e.target.value.trim().split(" ").join("-").toLowerCase();
-		var result = validar('dominio',ruta,'#alerttitulo');
-		
+		var result = validar('dominio', ruta, '#alerttitulo');
+
 		//console.log(result);
-		if (result==false) {
+		if (result == false) {
 			formContent.set(false);
 			//sAlert.success('Your message', {effect: 'slide'});	
 			return;
-		}else {
+		} else {
 			formContent.set(true);
 		}
 
-		$('#ruta').val(ruta);
-		
-		
+		if (urlCont.get().includes("/") && urlCont.get() != "/") {
+			$('#ruta').val(urlCont.get() + "/" + ruta);
+
+		} else {
+			if (urlCont.get() != "/") {
+				$('#ruta').val(urlCont.get() + "/m/" + ruta);
+
+			} else {
+				$('#ruta').val("inicio/m/" + ruta);
+
+			}
+		}
+
+
+
 	},
 	'submit #formnuevocontenido': function (e) {
-		
+
 		e.preventDefault();
 
 		if (formContent.get() == false) {
 			alert("Debe arreglar los errores en los campos");
 			return;
 		}
-		
+
 		if ($('#imgdesc').attr('src') == undefined) {
 			alert('Debe seleccionar una imagen descriptiva');
 			return;
@@ -270,43 +310,54 @@ Template.newcontentadmin.events({
 		var sitio = FlowRouter.getParam('titulo');
 		var idMenu = FlowRouter.getParam('idMenu');
 		var obj = {
-			idSitio : sitio,
-			idMenu : idMenu,
-			titulo : e.target.titulo.value,
-			ruta : e.target.ruta.value,
-			descripcion : e.target.descripcion.value,
-			contenidoHtml : html,
-			comentarios : e.target.comentable.value,
-			visible : 'visible',
-			imagenDesc : $('#imgdesc').attr('src'),
+			idSitio: sitio,
+			idMenu: idMenu, //
+			titulo: e.target.titulo.value,
+			ruta: e.target.ruta.value,
+			descripcion: e.target.descripcion.value,
+			contenidoHtml: html,
+			comentarios: e.target.comentable.value,
+			visible: 'visible',
+			imagenDesc: $('#imgdesc').attr('src'),
 		}
 
 		Meteor.call('insContent', obj, function (error, result) {
 			if (result) {
-				console.log(result);
-				sAlert.info(result, {effect: 'slide',offset: '130'});
-			}		
+				//console.log(result);
+				sAlert.info(result, {
+					effect: 'slide',
+					offset: '130'
+				});
+			}
 		});
-		FlowRouter.go('/admin/:titulo/contenido/:idMenu',{titulo:sitio,idMenu : idMenu});
+		FlowRouter.go('/admin/:titulo/contenido/:idMenu', {
+			titulo: sitio,
+			idMenu: idMenu
+		});
 	}
 });
 
-Template.editcontentadmin.onCreated(function(){
+Template.editcontentadmin.onCreated(function () {
 	this.idMenuEdit = new ReactiveVar('');
+
 })
-Template.editcontentadmin.onRendered(function(){
-	
-	
-	
+Template.editcontentadmin.onRendered(function () {
+	if (urlCont.get() == "") {
+		FlowRouter.go("/admin/:titulo/menucontenido", {
+			titulo: FlowRouter.getParam('titulo')
+		})
+	}
+
+
 	//console.log($('#summernote').code())
-	
-	this.autorun(function(){
+
+	this.autorun(function () {
 		if (CONTENIDO.findOne() != undefined) {
-			contenido = CONTENIDO.findOne();			
+			contenido = CONTENIDO.findOne();
 			//console.log(contenido.tipo);
 
 			Template.instance().idMenuEdit.set(contenido.idMenu);
-			$('input[value="'+contenido.comentarios+'"]').prop('checked', true);
+			$('input[value="' + contenido.comentarios + '"]').prop('checked', true);
 			es.summernote('code', contenido.contenidoHtml);
 
 			//control imagen
@@ -314,7 +365,7 @@ Template.editcontentadmin.onRendered(function(){
 			//idImagen.set(contenido.idImagen); podria servir para el preview de contenido
 		}
 	});
-	
+
 
 })
 Template.editcontentadmin.helpers(globalHelpers);
@@ -323,7 +374,7 @@ Template.editcontentadmin.helpers({
 	content: function () {
 		return CONTENIDO.findOne();
 	},
-	idMenu : function(){
+	idMenu: function () {
 		return Template.instance().idMenuEdit.get();
 	}
 });
@@ -331,20 +382,33 @@ Template.editcontentadmin.helpers({
 Template.editcontentadmin.events({
 	'input #titulo': function (e) {
 		var ruta = e.target.value.trim().split(" ").join("-").toLowerCase();
-		var result = validar('dominio',ruta,'#alerttitulo');
-		
+		var result = validar('dominio', ruta, '#alerttitulo');
+
 		//console.log(result);
-		if (result==false) {
+		if (result == false) {
 			formContentEdit.set(false);
 			//sAlert.success('Your message', {effect: 'slide'});	
 			return;
-		}else {
+		} else {
 			formContentEdit.set(true);
 		}
 
-		$('#ruta').val(ruta);
-		
-		
+		if (urlCont.get().includes("/") && urlCont.get() != "/") {
+			$('#ruta').val(urlCont.get() + ruta);
+
+		} else {
+			if (urlCont.get() != "/") {
+				$('#ruta').val(urlCont.get() + "/m/" + ruta);
+
+			} else {
+				$('#ruta').val("inicio/m/" + ruta);
+
+			}
+
+		}
+
+
+
 	},
 	'submit #formeditcontenido': function (e) {
 		e.preventDefault();
@@ -355,26 +419,27 @@ Template.editcontentadmin.events({
 			alert("Debe arreglar los errores en los campos");
 			return;
 		}
-		
+
 		var obj = {
-			titulo : e.target.titulo.value,
-			descripcion : e.target.descripcion.value,
-			ruta : e.target.ruta.value,
-			contenidoHtml : es.summernote('code'),
-			comentarios : e.target.comentable.value,
-			
-			imagenDesc : $('#imgdesc').attr('src'),
+			titulo: e.target.titulo.value,
+			descripcion: e.target.descripcion.value,
+			ruta: e.target.ruta.value,
+			contenidoHtml: es.summernote('code'),
+			comentarios: e.target.comentable.value,
+
+			imagenDesc: $('#imgdesc').attr('src'),
 		}
 
 		//console.log(obj);
-		Meteor.call('editContent',idCont, obj, function (error, result) {
+		Meteor.call('editContent', idCont, obj, function (error, result) {
 			if (result) {
 				console.log(result);
-			}		
+			}
 		});
-		FlowRouter.go('/admin/:titulo/contenido/:idMenu',{titulo:sitio,idMenu : idMenu});
-		
+		FlowRouter.go('/admin/:titulo/contenido/:idMenu', {
+			titulo: sitio,
+			idMenu: idMenu
+		});
+
 	}
 });
-
-

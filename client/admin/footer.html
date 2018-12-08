@@ -2,38 +2,39 @@
 	<div class="d-flex justify-content-center m-1" style="background-color: #464892e0;border-radius: .5rem;color: white">
 		<h3>EDICION DE FOOTER</h3>
 	</div>
-		{{>sAlert}}
+	{{>sAlert}}
 	<div class="form-group row">
 		<label class="col-3 offset-1 col-form-label h5">Tipo de Footer</label>
 		<div class="col-7">
-		<select class="form-control" id="tipofooter">
-			<option value="default">Footer por defecto</option>
-			<option value="personalizado">Personalizado</option>
-		</select>
+			<select class="form-control" id="tipofooter">
+				<option value="default">Footer por defecto</option>
+				<option value="personalizado">Personalizado</option>
+			</select>
 		</div>
 	</div>
 
 
 	{{#if footerDefault }}
 	<div>
-	
+
 		<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-center  p-1 ">
 			<h3>FOOTER</h3>
 
 		</div>
 		<form method="post" id="formedit">
 			<div class="form-group row mt-4">
-				
+
 				<label for="footeradmin" class="col-2 offset-2 col-form-label">Nombre</label>
-				<div class="col-6 ">			
-					<input type="text" name="texto" class="form-control" id="footer" placeholder="Texto que se vera en el footer" value="{{footer.texto}}" required>
+				<div class="col-6 ">
+					<input type="text" name="texto" class="form-control" id="footer" placeholder="Texto que se vera en el footer"
+					 value="{{footer.texto}}" required>
 					<input type="hidden" name="idfooter" class="form-control" value="{{footer._id}}" required>
 					<div class="alert alert-danger" id="alertfooter" style="display: none;"> </div>
 
 
 				</div>
 			</div>
-		
+
 			<div class="d-flex justify-content-center ">
 				<button type="submit" class="btn btn-primary mx-0 d-block">Guardar Cambios</button>
 			</div>
@@ -42,41 +43,41 @@
 			<h3>ENLACES</h3>
 		</div>
 		<table class="table  table-striped table-hovered table-bordered table-responsive-sm">
-		<thead>
-			<tr>
-				<th>Icono</th>
-				
-				<th>Link</th>
-				<th>Acciones</th>
-
-			</tr>
-		</thead>
-		<tbody>
-			{{#each listLinks}}
-			<tr>
-				
-				<td><i class="{{icono}}"></i></td>
-				<td>{{link}}</td>
-								
-				
-				<td>
-					<a href="" class="btn btn-outline-success btn-sm editlink"><i class="fa fa-edit"></i></a>
-					<a class="btn btn-outline-danger btn-sm elilink"><i class="fa fa-trash"></i></a>
-			
-				</td>
-			</tr>
-			{{else}}
+			<thead>
 				<tr>
-					<td colspan="4">
-					<div class="alert alert-primary" role="alert">
-						 NO HAY ENLACES AÑADIDOS
-					</div>
+					<th>Icono</th>
+
+					<th>Link</th>
+					<th>Acciones</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{{#each listLinks}}
+				<tr>
+
+					<td><i class="{{icono}}"></i></td>
+					<td>{{link}}</td>
+
+
+					<td>
+						<a href="" class="btn btn-outline-success btn-sm editlink"><i class="fa fa-edit"></i></a>
+						<a class="btn btn-outline-danger btn-sm elilink"><i class="fa fa-trash"></i></a>
+
 					</td>
 				</tr>
-			{{/each}}			
-		</tbody>
+				{{else}}
+				<tr>
+					<td colspan="4">
+						<div class="alert alert-primary" role="alert">
+							NO HAY ENLACES AÑADIDOS
+						</div>
+					</td>
+				</tr>
+				{{/each}}
+			</tbody>
 		</table>
-		
+
 	</div>
 	<div>
 		<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-center  p-1 mt-4">
@@ -85,37 +86,38 @@
 		</div>
 		<form method="post" id="formenlace">
 			<div class="form-group row mt-4">
-				
+
 				<label for="link" class="col-2 offset-2 col-form-label">Link</label>
-				<div class="col-6 ">			
+				<div class="col-6 ">
 					<input type="text" name="link" class="form-control" id="link" placeholder="link de enlace" required>
 					<div class="alert alert-warning" role="alert" id="alertlink" style="display: none;">
-					    
+
 					</div>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="Icono" class="col-2 offset-2 col-form-label">Icono</label>
 				<div class="col-4">
-				<div class="dropdown open">
-					<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Seleccionar icono
-					</button>
-					<div class="dropdown-menu link" aria-labelledby="dropdownMenu1">
-						<a class="dropdown-item" href="">Facebook <i class="fa fa-facebook float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Twitter <i class="fa fa-twitter float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Youtube <i class="fa fa-youtube float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Instagram <i class="fa fa-instagram float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Google <i class="fa fa-google float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Google Plus <i class="fa fa-google-plus float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Reddit <i class="fa fa-reddit float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Slack <i class="fa fa-slack float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Pinterest <i class="fa fa-pinterest float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Wathsapp <i class="fa fa-whatsapp float-right" aria-hidden="true" ></i></a>
-						<!-- Aqui se pueden aumentar los iconos de fontawesome -->
+					<div class="dropdown open">
+						<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+						 aria-haspopup="true" aria-expanded="false">
+							Seleccionar icono
+						</button>
+						<div class="dropdown-menu link" aria-labelledby="dropdownMenu1">
+							<a class="dropdown-item" href="">Facebook <i class="fa fa-facebook float-right" aria-hidden="true"></i></a>
+							<a class="dropdown-item" href="">Twitter <i class="fa fa-twitter float-right" aria-hidden="true"></i></a>
+							<a class="dropdown-item" href="">Youtube <i class="fa fa-youtube float-right" aria-hidden="true"></i></a>
+							<a class="dropdown-item" href="">Instagram <i class="fa fa-instagram float-right" aria-hidden="true"></i></a>
+							<a class="dropdown-item" href="">Google <i class="fa fa-google float-right" aria-hidden="true"></i></a>
+							<a class="dropdown-item" href="">Google Plus <i class="fa fa-google-plus float-right" aria-hidden="true"></i></a>
+							<a class="dropdown-item" href="">Reddit <i class="fa fa-reddit float-right" aria-hidden="true"></i></a>
+							<a class="dropdown-item" href="">Slack <i class="fa fa-slack float-right" aria-hidden="true"></i></a>
+							<a class="dropdown-item" href="">Pinterest <i class="fa fa-pinterest float-right" aria-hidden="true"></i></a>
+							<a class="dropdown-item" href="">Wathsapp <i class="fa fa-whatsapp float-right" aria-hidden="true"></i></a>
+							<!-- Aqui se pueden aumentar los iconos de fontawesome -->
+						</div>
 					</div>
-				</div>
-				
+
 				</div>
 				<div class="col-2 d-flex align-items-center justify-content-start">
 					<span style="padding: .2rem .3rem;border-radius: 0.5rem;border :solid .05rem black;"><i id="currentIcon" class="fa fa-facebook"></i></span>
@@ -127,83 +129,79 @@
 		</form>
 	</div>
 	<!-- Modal para editar footerlink-->
-	<div class="modal fade" id="linkModalEdit" tabindex="-1" role="dialog" aria-labelledby="submenuModalEditLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="submenuModalEditLabel">EDICION DE ENLACE</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <form id="editlinkfooter" method="post">      
-	      <div class="modal-body " id="subconte">
-	        <div class="form-group row ">
-			
-				<label for="linkedit" class="col-2  col-form-label">link</label>
-				<div class="col-10 ">			
-					<input type="text" name="linkedit" class="form-control" id="linkedit" placeholder="link de enlace" required>
-					<input type="hidden" name="idlink" id="idlinkedit">
-					<div class="alert alert-warning" role="alert" id="alertlinkedit" style="display: none;">
-					    
-					</div>
-				</div>
-			</div>
-	        
-			<div class="form-group row ">
-			
-				<label for="link" class="col-2  col-form-label">Icono</label>
-				<div class="col-6 ">			
-					<div class="dropdown open">
-					<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Seleccionar icono
+	<div class="modal fade" id="linkModalEdit" tabindex="-1" role="dialog" aria-labelledby="submenuModalEditLabel"
+	 aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="submenuModalEditLabel">EDICION DE ENLACE</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
 					</button>
-					<div class="dropdown-menu linkedit" aria-labelledby="dropdownMenu1">
-						<a class="dropdown-item" href="">Facebook <i class="fa fa-facebook float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Twitter <i class="fa fa-twitter float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Youtube <i class="fa fa-youtube float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Instagram <i class="fa fa-instagram float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Google <i class="fa fa-google float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Google Plus <i class="fa fa-google-plus float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Reddit <i class="fa fa-reddit float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Slack <i class="fa fa-slack float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Pinterest <i class="fa fa-pinterest float-right" aria-hidden="true" ></i></a>
-						<a class="dropdown-item" href="">Wathsapp <i class="fa fa-whatsapp float-right" aria-hidden="true" ></i></a>
-						<!-- Aqui se pueden aumentar los iconos de fontawesome -->
-					</div>
 				</div>
-				</div>
-				<div class="col-2 d-flex align-items-center justify-content-start">
-					<span style="padding: .2rem .3rem;border-radius: 0.5rem;border :solid .05rem black;"><i id="currentIconEdit" class=""></i></span>
-				</div>
-			</div>
+				<form id="editlinkfooter" method="post">
+					<div class="modal-body " id="subconte">
+						<div class="form-group row ">
 
-	      </div>
-	      <div class="modal-footer">
-	        <button type="submit" class="btn btn-primary">Guardar</button>	      	
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-	      </div>
-	      </form>
-	    </div>
-	  </div>
+							<label for="linkedit" class="col-2  col-form-label">link</label>
+							<div class="col-10 ">
+								<input type="text" name="linkedit" class="form-control" id="linkedit" placeholder="link de enlace" required>
+								<input type="hidden" name="idlink" id="idlinkedit">
+								<div class="alert alert-warning" role="alert" id="alertlinkedit" style="display: none;">
+
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group row ">
+
+							<label for="link" class="col-2  col-form-label">Icono</label>
+							<div class="col-6 ">
+								<div class="dropdown open">
+									<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+									 aria-haspopup="true" aria-expanded="false">
+										Seleccionar icono
+									</button>
+									<div class="dropdown-menu linkedit" aria-labelledby="dropdownMenu1">
+										<a class="dropdown-item" href="">Facebook <i class="fa fa-facebook float-right" aria-hidden="true"></i></a>
+										<a class="dropdown-item" href="">Twitter <i class="fa fa-twitter float-right" aria-hidden="true"></i></a>
+										<a class="dropdown-item" href="">Youtube <i class="fa fa-youtube float-right" aria-hidden="true"></i></a>
+										<a class="dropdown-item" href="">Instagram <i class="fa fa-instagram float-right" aria-hidden="true"></i></a>
+										<a class="dropdown-item" href="">Google <i class="fa fa-google float-right" aria-hidden="true"></i></a>
+										<a class="dropdown-item" href="">Google Plus <i class="fa fa-google-plus float-right" aria-hidden="true"></i></a>
+										<a class="dropdown-item" href="">Reddit <i class="fa fa-reddit float-right" aria-hidden="true"></i></a>
+										<a class="dropdown-item" href="">Slack <i class="fa fa-slack float-right" aria-hidden="true"></i></a>
+										<a class="dropdown-item" href="">Pinterest <i class="fa fa-pinterest float-right" aria-hidden="true"></i></a>
+										<a class="dropdown-item" href="">Wathsapp <i class="fa fa-whatsapp float-right" aria-hidden="true"></i></a>
+										<!-- Aqui se pueden aumentar los iconos de fontawesome -->
+									</div>
+								</div>
+							</div>
+							<div class="col-2 d-flex align-items-center justify-content-start">
+								<span style="padding: .2rem .3rem;border-radius: 0.5rem;border :solid .05rem black;"><i id="currentIconEdit"
+									 class=""></i></span>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">Guardar</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 
 	{{else}}
-	<form id="formeditfooterhtml" method="post"> 
-	    <div class="form-group row ">
-			<label for="texto" class="col-2 offset-2 col-form-label">Texto HTML</label>
-			<div class="col-6 ">			
-				<textarea type="text" name="texto" class="form-control" id="texto" placeholder="Codigo HTML" required>{{footer.html}}</textarea>
-				<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>
-			</div>
-		</div>
-		
+	<form id="formeditfooterhtml" method="post">
+		{{>editorContent}}
 
-	  	<div class="d-flex justify-content-center">
-	    	<button type="submit" class="btn btn-primary">Guardar Cambios</button>	      	
-	    
-	  	</div>
-	 </form>
-	 {{/if}}
+		<div class="d-flex justify-content-center">
+			<button type="submit" class="btn btn-primary">Guardar Cambios</button>
+
+		</div>
+	</form>
+	{{/if}}
 
 </template>

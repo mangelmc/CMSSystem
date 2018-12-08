@@ -1,25 +1,40 @@
-import { ReactiveVar } from 'meteor/reactive-var';
+import {
+	ReactiveVar
+} from 'meteor/reactive-var';
 import './footer.html';
 import validar from '../validations.js'
 
-var footerForm = new ReactiveVar(false)	;
+var footerForm = new ReactiveVar(false);
 var footerLinkForm = new ReactiveVar(false);
 var footerLinkEditForm = new ReactiveVar(true);
+Template.footeradmin.onRendered(function () {
+	this.autorun(function () {
+		if (FOOTER.findOne() != undefined) {
+			var footer = FOOTER.findOne();
+			//console.log(contenido.tipo);
+			es.summernote('code', footer.html);
+
+			//control imagen
+			//if (contenido.tipo == 'Con imagen') {}
+			//idImagen.set(contenido.idImagen); podria servir para el preview de contenido
+		}
+	});
+})
 Template.footeradmin.helpers({
 	footer: function () {
 		return FOOTER.findOne();
 	},
-	footerDefault : function(){
+	footerDefault: function () {
 		var footer = FOOTER.findOne({});
 		//console.log(tipo);
 		if (footer != undefined && footer.tipo == "default") {
-			$('#tipofooter option[value="'+footer.tipo+'"]').prop('selected', true);
+			$('#tipofooter option[value="' + footer.tipo + '"]').prop('selected', true);
 			return true;
 		}
 		$('#tipofooter option[value="personalizado"]').prop('selected', true);
 		return false;
 	},
-	listLinks :  function () {
+	listLinks: function () {
 		return FOOTERLINKS.find();
 	},
 
@@ -28,11 +43,14 @@ Template.footeradmin.events({
 	'change #tipofooter': function (e) {
 		var id = FlowRouter.getParam("titulo");
 		var obj = {
-			tipo : e.target.value,
+			tipo: e.target.value,
 		}
 		//console.log(obj);
-		Meteor.call('footerChange', id,obj, function (error, result) {
-			sAlert.info('Se modifico ', {effect: 'slide',offset: '130'});
+		Meteor.call('footerChange', id, obj, function (error, result) {
+			sAlert.info('Se modifico ', {
+				effect: 'slide',
+				offset: '130'
+			});
 			//console.log(result);
 		});
 	},
@@ -40,11 +58,10 @@ Template.footeradmin.events({
 
 	'input #footer': function (e) {
 		//console.log(e.target.value);	
-		var result = validar('carrera',e.target.value,'#alertfooter');
+		var result = validar('carrera', e.target.value, '#alertfooter');
 		if (result == false) {
 			footerForm.set(false);
-		}
-		else{
+		} else {
 			footerForm.set(true);
 		}
 	},
@@ -56,39 +73,62 @@ Template.footeradmin.events({
 		}
 		var texto = e.target.texto.value;
 		var idFooter = e.target.idfooter.value;
-		Meteor.call('editFooter', texto,idFooter, function (error, result) {
-			if (result) {				
-					sAlert.success('Se ha modificado ', {effect: 'slide',offset: '130',html:true});
+		Meteor.call('editFooter', texto, idFooter, function (error, result) {
+			if (result) {
+				sAlert.success('Se ha modificado ', {
+					effect: 'slide',
+					offset: '130',
+					html: true
+				});
 			}
 
 		});
-		
+
+	},
+	'submit #formsidebarhtml': function (e) {
+		e.preventDefault();
+		var obj = {
+			html: es.summernote('code'),
+		}
+		var idSitio = FlowRouter.getParam('titulo');
+		Meteor.call('editsidebarHtml', idSitio, obj, function (error, result) {
+			if (result) {
+				sAlert.success('Se ha modificado', {
+					effect: 'slide',
+					offset: '130',
+					html: true
+				});
+			}
+		});
 	},
 	'submit #formeditfooterhtml': function (e) {
 		e.preventDefault();
 		var obj = {
-			html : e.target.texto.value
+			html: es.summernote('code'),
 		}
 		var idSitio = FlowRouter.getParam('titulo');
-		Meteor.call('editFooterHtml', idSitio,obj, function (error, result) {
-			if (result) {				
-				sAlert.success('Se ha modificado', {effect: 'slide',offset: '130',html:true});
+		Meteor.call('editFooterHtml', idSitio, obj, function (error, result) {
+			if (result) {
+				sAlert.success('Se ha modificado', {
+					effect: 'slide',
+					offset: '130',
+					html: true
+				});
 			}
 
 		});
-		
+
 	},
 	'input #link': function (e) {
 		//console.log(e.target.value);	
-		var result = validar('url',e.target.value,'#alertlink');
+		var result = validar('url', e.target.value, '#alertlink');
 		if (result == false) {
 			footerLinkForm.set(false);
-		}
-		else{
+		} else {
 			footerLinkForm.set(true);
 		}
 	},
-	'click .link .dropdown-item': function (e,template) {
+	'click .link .dropdown-item': function (e, template) {
 		var ic = $(e.currentTarget).children('i').attr('class');
 		//console.log(ic);
 		$('#currentIcon').removeClass().addClass(ic).removeClass('float-right');
@@ -100,13 +140,17 @@ Template.footeradmin.events({
 			return;
 		}
 		var obj = {
-			idSitio : FlowRouter.getParam('titulo'),
-			icono : $('#currentIcon').attr('class'),
-			link : e.target.link.value
+			idSitio: FlowRouter.getParam('titulo'),
+			icono: $('#currentIcon').attr('class'),
+			link: e.target.link.value
 		}
 		Meteor.call('insLinkFooter', obj, function (error, result) {
 			if (result != 'error') {
-				sAlert.success('Se ha insertado un nuevo link', {effect: 'slide',offset: '130',html:true});
+				sAlert.success('Se ha insertado un nuevo link', {
+					effect: 'slide',
+					offset: '130',
+					html: true
+				});
 			}
 		});
 		e.target.link.value = '';
@@ -116,8 +160,12 @@ Template.footeradmin.events({
 		if (res) {
 			Meteor.call('eliLinkFooter', this._id, function (error, result) {
 				if (result == 1) {
-						
-				sAlert.info('Se ha eliminado el Enlace', {effect: 'slide',offset: '130',html:true});
+
+					sAlert.info('Se ha eliminado el Enlace', {
+						effect: 'slide',
+						offset: '130',
+						html: true
+					});
 				}
 			});
 		}
@@ -131,20 +179,19 @@ Template.footeradmin.events({
 	},
 	'input #linkedit': function (e) {
 		//console.log(e.target.value);	
-		var result = validar('url',e.target.value,'#alertlinkedit');
+		var result = validar('url', e.target.value, '#alertlinkedit');
 		if (result == false) {
 			footerLinkEditForm.set(false);
-		}
-		else{
+		} else {
 			footerLinkEditForm.set(true);
 		}
 	},
-	'click .linkedit .dropdown-item': function (e,template) {
+	'click .linkedit .dropdown-item': function (e, template) {
 		var ic = $(e.currentTarget).children('i').attr('class');
 		//console.log(ic);
 		$('#currentIconEdit').removeClass().addClass(ic).removeClass('float-right');
 	},
-	
+
 	'submit #editlinkfooter': function (e) {
 		e.preventDefault();
 		if (footerLinkEditForm.get() == false) {
@@ -153,16 +200,19 @@ Template.footeradmin.events({
 		}
 		var idLink = e.target.idlink.value;
 		var obj = {
-			
-			icono : $('#currentIconEdit').attr('class'),
-			link : e.target.linkedit.value
+
+			icono: $('#currentIconEdit').attr('class'),
+			link: e.target.linkedit.value
 		}
-		Meteor.call('editLinkFooter',idLink, obj, function (error, result) {
+		Meteor.call('editLinkFooter', idLink, obj, function (error, result) {
 			if (result == 1) {
-				sAlert.info('Se ha modificado el Enlace', {effect: 'slide',offset: '130',html:true});
+				sAlert.info('Se ha modificado el Enlace', {
+					effect: 'slide',
+					offset: '130',
+					html: true
+				});
 			}
 		});
 		$('#linkModalEdit').modal('hide');
 	},
 });
-

@@ -38,7 +38,7 @@
       </div>
 
       {{else}}
-      <p>cargando ...</p><i class="fa fa-spinner fa-4x"></i>
+      <div class="m-4"> <i class="fa fa-spinner fa-4x"></i></div>
       {{/if}}
       {{else}}
       <div class="col-12 m-3">
@@ -77,8 +77,8 @@
 
             <div class="animated bounceIn col-md-6 col-sm-12 col-xs-12 d-flex align-items-center justify-content-md-end justify-content-md-end justify-content-sm-center p-sm-0">
 
-              <form class="d-flex  justify-content-sm-center m-1">
-                <input class="form-control " type="text" placeholder="Que buscas?" aria-label="Search">
+              <form class="d-flex  justify-content-sm-center m-1" id="searchform">
+                <input class="form-control " type="text" name="search" placeholder="Buscar contenido" aria-label="Search">
                 <button class="btn btn-outline-danger " type="submit"><i class="fa fa-search"></i></button>
               </form>
             </div>
@@ -160,19 +160,19 @@
       aria-haspopup="true" aria-expanded="false">
       <!--id="dropdownMenuButton"-->
       {{nombre}}
-      <span class="float-right d-md-none d-sm-block "><i class="fa fa-2x fa-plus-square"></i></span>
+      <span class="float-right d-md-none d-sm-block "><i class="fa fa-plus-square"></i></span>
     </a>
     <div class="l-nav {{themeColor}} p-2" id="{{_id}}1">
       <!--class="dropdown- menu l-nav" aria-labelledby="dropdownMenuButton" -->
       {{#each listSubmenu}}
       <!-- tal vez otro template para mostrar-->
-      <a class="tosubmenu dropdown-item subir cargar nav-link text-white text-uppercase " href="/{{enlace.t}}/{{../link}}/{{enlace.sub}}">{{nombre}}</a>
+      <a class="tosubmenu dropdown-item subir cargar nav-link text-white text-uppercase togg " href="/{{enlace.t}}/{{../link}}/{{enlace.sub}}">{{nombre}}</a>
       {{/each}}
 
     </div>
   </li>
   {{else}}
-  <li class=" nav-item d-block">
+  <li class=" nav-item d-block togg">
     <a class=" l-nav-s bajar nav-link text-uppercase text-expanded py-3 " href="/{{enlace}}">
       {{nombre}}
 
@@ -307,7 +307,7 @@
 
       </div>
       <div class="col-12 d-flex justify-content-center">
-        <a class="btn btn-outline-info " id="goCont1" href="">VER MAS....</a>
+        <a class="btn btn-outline-info " id="goCont1" href="/{{sitio}}/{{ruta}}">VER MAS....</a>
       </div>
     </div>
     {{/if}}
@@ -323,7 +323,7 @@
       <!--<div id="aparecer" class="p-5 appear" >
         algo
       </div>-->
-      <div id="eventos" class="row d-flex justify-content-center mx-0 px-sm-4">
+      <div id="eventos" class="row d-flex justify-content-center mx-0 px-sm-4 animatedParent">
         {{#each eventos}}
         <div class="col-md-6 col-sm-6 d-flex align-items-stretch mb-1 animatedParent ">
           <div class="item-event card  p-1 animated rotateInUpLeft animateOnce">
@@ -336,7 +336,7 @@
 
             </div>
             <div>
-              <a href="#" class="btn btn-primary mx-auto d-block">Ver mas ... </a>
+              <a href="/{{sitio}}/{{ruta}}" class="btn btn-primary mx-auto d-block">Ver mas ... </a>
             </div>
           </div>
         </div>
@@ -365,8 +365,26 @@
     {{/if}}
 
 
-    <div class="col-sm-12 col-md-8 p-1 ">
+    <div class="col-sm-12 col-md-8 p-1 animatedParent">
       {{#each listContInicio}}
+      <div class="col-12 my-2 d-flex align-content-stretch pb-1 animated bounceInLeft slowest">
+
+        <div class="row p-2 bol m-1">
+          <div class="col-10 col-md-6 col-lg-6 col mx-auto">
+            <img class="img-fluid  mx-auto" src="{{imagenDesc}}" alt="Card image cap">
+
+          </div>
+          <div class="col-10 col-md-6 col-lg-6 col d-flex align-items-center ">
+            <div class="mx-auto">
+              <h2 class="">{{titulo}}</h2>
+              <p class="">{{descripcion}} </p>
+            </div>
+          </div>
+          <div class="col-12 d-flex justify-content-end">
+            <a class="btn btn-primary todetails" href="/{{sitio}}/{{ruta}}">VER MAS ...</a>
+          </div>
+        </div>
+      </div>
 
       {{else}}
       <div class="alert alert-info" role="alert">
@@ -410,7 +428,7 @@
               </div>
             </div>
             <div class="col-12 d-flex justify-content-end">
-              <a class="btn btn-primary todetails" href="">VER MAS ...</a>
+              <a class="btn btn-primary todetails" href="{{allRuta}}">VER MAS ...</a>
             </div>
           </div>
         </div>
@@ -418,7 +436,7 @@
         {{else}}
 
         <div class="alert alert-warning animated bounceInLeft " data-id='2' role="alert">
-          <strong>No Hay Contenido para Mostrar... :V</strong>
+          <strong>AUN NO AGREGO CONTENIDO AQUI... </strong>
         </div>
         {{/each}}
 
@@ -483,6 +501,53 @@
 
   </div>
 </template>
+<template name="contentsearch">
+  <div class="row mx-0 ">
+
+    <div class="col-sm-11 col-md-8 p-1">
+      <div id="t-boletines" class="d-flex justify-content-center mb-2 p-2 " style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;">
+        <h2 class="text-uppercase">RESULTADOS DE BUSQUEDA</h2><!-- NOMBRE DE LINK -->
+      </div>
+      <div class="row mx-0 text-center d-flex justify-content-around my-2">
+        {{#each listContentSearch}}
+
+        <div class="col-11   my-2 d-flex align-content-stretch pb-1 ">
+          <div class="row p-2 bol m-1 ">
+            <div class="col-10 col-md-6 col-lg-6 col mx-auto">
+              <img class="img-fluid  mx-auto" src="{{imagenDesc}}" alt="Card image cap">
+            </div>
+            <div class="col-10 col-md-6 col-lg-6 col d-flex align-items-center">
+              <div class=" mx-auto">
+                <h2 class="">{{titulo}}</h2>
+                <p class="">{{descripcion}}.</p>
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-end">
+              <a class="btn btn-primary" href="{{allRuta}}">VER MAS ...</a>
+            </div>
+
+
+          </div>
+
+        </div>
+
+        {{else}}
+
+        <div class="alert alert-warning" role="alert">
+          <strong>NO SE ENCONTRO CONTENIDO CON EL TEXTO : {{texto}}</strong>
+        </div>
+        {{/each}}
+      </div>
+
+    </div>
+
+    <div class="col-12 col-md-4 p-1">
+      {{> sidebar}}
+    </div>
+
+  </div>
+</template>
+
 <template name="contenido">
   <div class="col-12 col-sm-12 col-md-10 p-1 offset-md-1 animatedParent" data-sequence='500'>
     <div id="t-boletines" class="animated fadeInDown d-flex justify-content-center mb-2 p-2 " style="background-color:#416fad;color: white;box-shadow: 0rem 0.3rem 0.3rem 0.2rem #494471;text-shadow: 0.1rem 0.3rem 0.3rem black;border-radius: 0.2rem/0.3rem;"
@@ -609,9 +674,9 @@
         <p class="animated bounceInLeft slower  m-0 text-white h5 text-uppercase">
           &copy; {{titulo}} {{footer.texto}}</p>
         <!--{{idSitio}} {{fuente}} {{texto}}-->
-
+        {{#if listExists}}
         <span class="animated bounceInRight slower text-white h5 d-block">Siguenos : </span>
-
+        {{/if}}
 
         <div class="animated growIn slowest l-foot mt-3 ">
           {{#each listLinks}}

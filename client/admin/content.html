@@ -1,18 +1,18 @@
-<template name="contentmenuadmin">	
-<div>
-	<nav aria-label="breadcrumb">
-	  <ol class="breadcrumb">
-	    <li class="breadcrumb-item"><a href="/admin/{{sitio}}">Inicio</a></li>
-	    
-	    <li class="breadcrumb-item active" aria-current="page">Paginas del Sitio</li>
-	  </ol>
-	</nav>
-	<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="d-flex justify-content-center  p-1 ">
-		<h3 class="">ESTILO DE CONTENIDO</h3>
-	</div>
-	<form >
-	<div class="row">
-		<!-- <div class="form-group col">
+<template name="contentmenuadmin">
+	<div>
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/admin/{{sitio}}">Inicio</a></li>
+
+				<li class="breadcrumb-item active" aria-current="page">Paginas del Sitio</li>
+			</ol>
+		</nav>
+		<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="d-flex justify-content-center  p-1 ">
+			<h3 class="">ESTILO DE CONTENIDO</h3>
+		</div>
+		<form>
+			<div class="row">
+				<!-- <div class="form-group col">
 			<label>Color de fondo</label>
 			<label>Tipo de fondo</label>
 			
@@ -23,147 +23,148 @@
 			</select> 	
 		</div>-->
 
-		<div class="form-group col " id="colorfondo">
-			<label>COLOR DE FONDO</label>
-			<select class="form-control" id="fondo">
-				<option value="#f5f6f8">Default</option>
-				<option value="black">Negro</option>
-				<option value="white">Blanco</option>
-				<option value="blue">blue</option>
-				<option value="orange">orange</option>
-			</select>
-		</div>
-		<div class="col m-4" style="background-color: {{cuerpo.fondo}};box-shadow: 0 0 .2rem .2rem silver" >
-			
-		</div>
-		
-		<div class="form-group col " id="imgfondo" style="display: none;">
-			<label>Imagen</label>
-			<input type="file" name="imagen" class="form-control-file">
-		</div>
-	</div>
-	</form>
+				<div class="form-group col " id="colorfondo">
+					<label>COLOR DE FONDO</label>
+					<select class="form-control" id="fondo">
+						<option value="#f5f6f8">Default</option>
+						<option value="black">Negro</option>
+						<option value="white">Blanco</option>
+						<option value="blue">blue</option>
+						<option value="orange">orange</option>
+					</select>
+				</div>
+				<div class="col m-4" style="background-color: {{cuerpo.fondo}};box-shadow: 0 0 .2rem .2rem silver">
 
-	<div class="row mx-0 mb-2">
-		<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="col-12 d-flex   p-1 align-items-center justify-content-between">
-			<div class="p-2">
-				<h3 class="">PAGINAS DEL SITIO</h3>
+				</div>
+
+				<div class="form-group col " id="imgfondo" style="display: none;">
+					<label>Imagen</label>
+					<input type="file" name="imagen" class="form-control-file">
+				</div>
 			</div>
-			<div class="dropdown mr-2">
-			  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    {{estado.texto}}
-			  </button>
-			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-			    <a class="dropdown-item listmenu" id="activo" href="">Activos</a>
-			    <a class="dropdown-item listmenu" id="inactivo" href="">Inactivos</a>
-			    
-			  </div>
-			</div>	
-						
-		</div>			
-	</div>
-	<table class="table table-striped table-hovered table-bordered table-responsive-sm t-contenido" style="">
-		<thead>
-			<tr class="text-uppercase text-center bg-primary">
-				<th>Nombre</th>				
-				<th>Link</th>
-				<th>Acciones</th>
+		</form>
 
-			</tr>
-		</thead>
-		<tbody >
-			{{#each listMenu}}
-			<tr class="font-weight-bold" >
-				
-				<td> {{nombre}} </td>
-				<td>
-					{{link}}					
-				</td>
-				<td>					 
-					{{#if activo}}
+		<div class="row mx-0 mb-2">
+			<div style="background-color: #464892e0;border-radius: .5rem;color: white" class="col-12 d-flex   p-1 align-items-center justify-content-between">
+				<div class="p-2">
+					<h3 class="">PAGINAS DEL SITIO</h3>
+				</div>
+				<div class="dropdown mr-2">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+					 aria-haspopup="true" aria-expanded="false">
+						{{estado.texto}}
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item listmenu" id="activo" href="">Activos</a>
+						<a class="dropdown-item listmenu" id="inactivo" href="">Inactivos</a>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<table class="table table-striped table-hovered table-bordered table-responsive-sm t-contenido" style="">
+			<thead>
+				<tr class="text-uppercase text-center bg-primary">
+					<th>Nombre</th>
+					<th>Link</th>
+					<th>Acciones</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{{#each listMenu}}
+				<tr class="font-weight-bold">
+
+					<td> {{nombre}} </td>
+					<td>
+						{{link}}
+					</td>
+					<td>
+						{{#if activo}}
 						{{#if menuNormal}}
 
 						<a href="" class="btn btn-outline-dark btn-sm contenidomenu"><i class="fa fa-edit" title="Editar Contenidos"></i></a>
 						{{/if}}
 
-					<!-- <a class="btn btn-outline-danger btn-sm elimenu"><i class="fa fa-trash"></i></a> -->
-					{{else}}
-					<a class="btn btn-outline-danger btn-sm restmenu"><i class="fa fa-rotate-left"></i></a>
-					{{/if}}
-				</td>
-			</tr>
-			{{#if submenu }}
-			<tr class=" bg-dark" >
-				<td colspan="3" class="p-1 ">
-					<div  class="ml-3">
-					<table class="table table-bordered  table-striped mb-0">
-					<tbody class="">	
-						{{#each	listSubmenu}}	
-						<tr>
-
-							<td><i class="fa fa-chevron-right "></i> {{nombre}}</td>
-							<td>{{../link}}/{{link}}</td>
-
-							<td>
-								 
-								{{#if subActivo}}
-								<a href="" class="btn btn-outline-success btn-sm contenidomenu"><i class="fa fa-edit"></i></a>
-								<!-- <a class="btn btn-outline-danger btn-sm elisubmenu"><i class="fa fa-trash"></i></a> -->
-								{{else}}
-								<a class="btn btn-outline-danger btn-sm restsubmenu"><i class="fa fa-rotate-left"></i></a>
-								{{/if}}
-							</td>
-										
-						</tr>
+						<!-- <a class="btn btn-outline-danger btn-sm elimenu"><i class="fa fa-trash"></i></a> -->
 						{{else}}
-						<tr>
-							<td colspan="4">
-								<div class="alert alert-dark" role="alert">
-									No tiene submenus Agregados a este menu									
-								</div>
-							</td>	
-						</tr>
-						{{/each}}						
-					</tbody>
-					</table>
-					</div>
-				</td>	
-			</tr>
-
-			{{/if}}
-
-			{{else}}
-				<tr>
-					<td colspan="4">
-					<div class="alert alert-primary" role="alert">
-						 No hay datos para mostrar
-					</div>
+						<a class="btn btn-outline-danger btn-sm restmenu"><i class="fa fa-rotate-left"></i></a>
+						{{/if}}
 					</td>
 				</tr>
-			{{/each}}
-			
-		</tbody>
-	</table>
-</div>
-	
+				{{#if submenu }}
+				<tr class=" bg-dark">
+					<td colspan="3" class="p-1 ">
+						<div class="ml-3">
+							<table class="table table-bordered  table-striped mb-0">
+								<tbody class="">
+									{{#each listSubmenu}}
+									<tr>
 
-	
+										<td><i class="fa fa-chevron-right "></i> {{nombre}}</td>
+										<td>{{../link}}/{{link}}</td>
+
+										<td>
+
+											{{#if subActivo}}
+											<a href="" class="btn btn-outline-success btn-sm contenidomenu"><i class="fa fa-edit"></i></a>
+											<!-- <a class="btn btn-outline-danger btn-sm elisubmenu"><i class="fa fa-trash"></i></a> -->
+											{{else}}
+											<a class="btn btn-outline-danger btn-sm restsubmenu"><i class="fa fa-rotate-left"></i></a>
+											{{/if}}
+										</td>
+
+									</tr>
+									{{else}}
+									<tr>
+										<td colspan="4">
+											<div class="alert alert-dark" role="alert">
+												No tiene submenus Agregados a este menu
+											</div>
+										</td>
+									</tr>
+									{{/each}}
+								</tbody>
+							</table>
+						</div>
+					</td>
+				</tr>
+
+				{{/if}}
+
+				{{else}}
+				<tr>
+					<td colspan="4">
+						<div class="alert alert-primary" role="alert">
+							No hay datos para mostrar
+						</div>
+					</td>
+				</tr>
+				{{/each}}
+
+			</tbody>
+		</table>
+	</div>
+
+
+
 </template>
 <template name="contentadmin">
 	<div class="row mx-0">
 		<nav aria-label="breadcrumb">
-		  <ol class="breadcrumb">
-		    <li class="breadcrumb-item"><a href="/admin/{{sitio}}">Inicio</a></li>
-		    <li class="breadcrumb-item"><a href="/admin/{{sitio}}/menucontenido">Paginas del Sitio</a></li>
-		    
-		    <li class="breadcrumb-item active" aria-current="page">Lista de contenidos :  {{nombreMenuContenido}}</li>
-		  </ol>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/admin/{{sitio}}">Inicio</a></li>
+				<li class="breadcrumb-item"><a href="/admin/{{sitio}}/menucontenido">Paginas del Sitio</a></li>
+
+				<li class="breadcrumb-item active" aria-current="page">Lista de contenidos : {{nombreMenuContenido}}</li>
+			</ol>
 		</nav>
 		{{#if inicio}}
-		
+
 		<div class="col-12 p-0">
 			<div class="d-flex justify-content-center m-1" style="background-color: #464892e0;border-radius: .5rem;color: white">
-			<h3>Vista Previa de paginas en "INICIO"</h3>
+				<h3>Vista Previa de paginas en "INICIO"</h3>
 			</div>
 			<form style="border:solid 1px black;">
 				<div class="form-group row">
@@ -206,55 +207,56 @@
 				<h3 class="">LISTA DE CONTENIDOS DE PAGINA : {{nombreMenuContenido}}</h3>
 			</div>
 			<div class="dropdown mr-2">
-			  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    {{estado}}
-			  </button>
-			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-			    <a class="dropdown-item listmenu" id="visible" href="">Visibles</a>
-			    <a class="dropdown-item listmenu" id="oculto" href="">Ocultos</a>			    
-			  </div>
-			</div>	
-						
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+				 aria-haspopup="true" aria-expanded="false">
+					{{estado}}
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item listmenu" id="visible" href="">Visibles</a>
+					<a class="dropdown-item listmenu" id="oculto" href="">Ocultos</a>
+				</div>
+			</div>
+
 		</div>
 		<div class="col-2 d-flex justify-content-center align-items-strech ">
 			<button type="button" id="nuevocontenido" class=" btn btn-primary "> NUEVO </button>
 		</div>
 	</div>
 
-	
+
 	<table class="table  table-striped table-hovered table-bordered table-responsive-sm">
 		<thead>
 			<tr>
 				<th>TITULO</th>
 				<th>DESCRIPCION</th>
-				
+
 				<th>COMENTARIOS</th>
 				<th>ACCIONES</th>
 			</tr>
 		</thead>
 		<tbody>
-			
+
 			{{#each listContenidos}}
-				<tr>
-					<td>{{titulo}}</td>
-					<td>{{descripcionCut}}</td>
-					<td>{{comentarios}}</td>
-					<td>
-						<button class="btn btn btn-outline-dark btn-sm editcontenido" title="editar">
-							<i class="fa fa-edit"></i>
-						</button>
-						{{#if visible }}
-						 	<button class="btn btn btn-outline-danger btn-sm ocultarcont" title="ocultar">
-							<i class="fa fa-eye-slash"></i>
-							</button>
-						{{else}}
-							<button class="btn btn btn-outline-success btn-sm mostrarcont" title="hacer visible">
-							<i class="fa fa-eye"></i>
-							</button>
-						{{/if}} 
-						
-					</td>
-				</tr>	
+			<tr>
+				<td>{{titulo}}</td>
+				<td>{{descripcionCut}}</td>
+				<td>{{comentarios}}</td>
+				<td>
+					<button class="btn btn btn-outline-dark btn-sm editcontenido" title="editar">
+						<i class="fa fa-edit"></i>
+					</button>
+					{{#if visible }}
+					<button class="btn btn btn-outline-danger btn-sm ocultarcont" title="ocultar">
+						<i class="fa fa-eye-slash"></i>
+					</button>
+					{{else}}
+					<button class="btn btn btn-outline-success btn-sm mostrarcont" title="hacer visible">
+						<i class="fa fa-eye"></i>
+					</button>
+					{{/if}}
+
+				</td>
+			</tr>
 			<!-- {{else}}
 			
 				<tr>
@@ -264,19 +266,19 @@
 					</div>
 					</td>
 				</tr> -->
-			{{/each}}			
+			{{/each}}
 		</tbody>
 	</table>
 </template>
 
 <template name="editcontentadmin">
 	<nav aria-label="breadcrumb">
-	  <ol class="breadcrumb">
-	    <li class="breadcrumb-item"><a href="/admin/{{sitio}}">Inicio</a></li>
-	    <li class="breadcrumb-item"><a href="/admin/{{sitio}}/menucontenido">Listado Menus de contenido</a></li>
-	    <li class="breadcrumb-item"><a href="/admin/{{sitio}}/contenido/{{idMenu}}">Listado contenidos</a></li>
-	    <li class="breadcrumb-item active" aria-current="page">Edicion de Contenido</li>
-	  </ol>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/admin/{{sitio}}">Inicio</a></li>
+			<li class="breadcrumb-item"><a href="/admin/{{sitio}}/menucontenido">Listado Menus de contenido</a></li>
+			<li class="breadcrumb-item"><a href="/admin/{{sitio}}/contenido/{{idMenu}}">Listado contenidos</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Edicion de Contenido</li>
+		</ol>
 	</nav>
 
 	<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-center  p-1 ">
@@ -285,40 +287,42 @@
 	</div>
 
 	<form method="post" id="formeditcontenido">
-		
+
 		<div class="form-group row mt-4">
-			
+
 			<label for="titulo" class="col-3 offset-1 col-form-label">Titulo de Referencia</label>
-			<div class="col-7 ">			
-				<input type="text" name="titulo" maxlength="30" class="form-control" id="titulo"  placeholder="Titulo del Contenido" value="{{content.titulo}}" required >
+			<div class="col-7 ">
+				<input type="text" name="titulo" maxlength="30" class="form-control" id="titulo" placeholder="Titulo del Contenido"
+				 value="{{content.titulo}}" required>
 				<input type="hidden" name="idmenu" value="{{content.idMenu}}">
-				<input type="hidden" name="ruta" id="ruta" value="{{content.ruta}}">				
+				<input type="hidden" name="ruta" id="ruta" value="{{content.ruta}}">
 				<div class="alert alert-danger" id="alerttitulo" style="display: none;"> </div>
 			</div>
 		</div>
 		<div class="form-group row mt-4">
-			
+
 			<label for="titulo" class="col-3 offset-1 col-form-label">Breve Descripcion</label>
-			<div class="col-7 ">	
-				<textarea type="text" name="descripcion" id="descripcion" class="form-control" placeholder="Descripcion breve" required>{{content.descripcion}}</textarea>	
-				
+			<div class="col-7 ">
+				<textarea type="text" name="descripcion" id="descripcion" class="form-control" placeholder="Descripcion breve"
+				 required>{{content.descripcion}}</textarea>
+
 			</div>
 		</div>
 		<div class="form-group row mt-4">
-			
-			<label for="titulo" class="col-3 offset-1 col-form-label">Imagen previsulizacion</label>
-			<div class="col-3 ">	
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc" >Seleccionar imagen</button>
 
-				
+			<label for="titulo" class="col-3 offset-1 col-form-label">Imagen previsulizacion</label>
+			<div class="col-3 ">
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc">Seleccionar imagen</button>
+
+
 			</div>
 			<div class="col-3 ">
 				<img src="{{content.imagenDesc}}" id="imgdesc" alt="Imagen descriptiva" class="img-fluid">
 			</div>
-		</div>		
+		</div>
 		<div class="form-group row">
-			<label class="col-3 offset-1 col-form-label" for="">Comentarios</label>		
-			<div class="col-7 radio">				
+			<label class="col-3 offset-1 col-form-label" for="">Comentarios</label>
+			<div class="col-7 radio">
 				<label>
 					<input type="radio" name="comentable" id="comentable1" value="Si" checked>
 					SI
@@ -326,92 +330,94 @@
 				<label>
 					<input type="radio" name="comentable" id="comentable2" value="No">
 					NO
-				</label>				
+				</label>
 			</div>
 		</div>
 		{{>editorContent}}
-		
-		
-		
-		
-			
+
+
+
+
+
 		<div class="d-flex justify-content-center mt-3">
 			<button type="submit" class="btn btn-primary mx-0 d-block">Guardar</button>
 		</div>
 	</form>
-	
+
 
 	<!-- Modal para Imagen desc-->
 	<div class="modal fade" id="imagendesc" tabindex="-1" role="dialog" aria-labelledby="imagendescLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	         
-	      <div class="modal-body " >
-	        {{>uploadFormImagesDesc}}
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
 
-	      </div>
-	      <div class="modal-footer">
-	              	
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-	      </div>
-	      
-	    </div>
-	  </div>
+				<div class="modal-body ">
+					{{>uploadFormImagesDesc}}
+
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				</div>
+
+			</div>
+		</div>
 	</div>
 </template>
 
 <template name="newcontentadmin">
 	<nav aria-label="breadcrumb">
-	  <ol class="breadcrumb">
-	    <li class="breadcrumb-item"><a href="/admin/{{sitio}}">Inicio</a></li>
-	    <li class="breadcrumb-item"><a href="/admin/{{sitio}}/menucontenido">Listado menus de Contenidos</a></li>
-	    <li class="breadcrumb-item"><a href="/admin/{{sitio}}/contenido/{{idMenu}}">Lista de Contenidos</a></li>
-	    <li class="breadcrumb-item active" aria-current="page">Nuevo Contenido</li>
-	  </ol>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/admin/{{sitio}}">Inicio</a></li>
+			<li class="breadcrumb-item"><a href="/admin/{{sitio}}/menucontenido">Listado menus de Contenidos</a></li>
+			<li class="breadcrumb-item"><a href="/admin/{{sitio}}/contenido/{{idMenu}}">Lista de Contenidos</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Nuevo Contenido</li>
+		</ol>
 	</nav>
 	<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-center  p-1 ">
 		<h3>NUEVO CONTENIDO</h3>
 
 	</div>
-	
+
 	<form method="post" id="formnuevocontenido">
 		<div class="form-group row mt-4">
-			
+
 			<label for="titulo" class="col-3 offset-1 col-form-label">Titulo de Referencia</label>
-			<div class="col-7 ">			
-				<input type="text" name="titulo" maxlength="30" class="form-control" id="titulo"  placeholder="Titulo del Contenido" required>				
+			<div class="col-7 ">
+				<input type="text" name="titulo" maxlength="30" class="form-control" id="titulo" placeholder="Titulo del Contenido"
+				 required>
 				<div class="alert alert-danger" id="alerttitulo" style="display: none;"> </div>
 				<input type="hidden" name="ruta" id="ruta">
 			</div>
 		</div>
 		<div class="form-group row mt-4">
-			
+
 			<label for="titulo" class="col-3 offset-1 col-form-label">Breve Descripcion</label>
-			<div class="col-7 ">	
-				<textarea type="text" name="descripcion" id="descripcion" class="form-control" placeholder="Descripcion breve" required></textarea>	
-				
+			<div class="col-7 ">
+				<textarea type="text" name="descripcion" id="descripcion" class="form-control" placeholder="Descripcion breve"
+				 required></textarea>
+
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="titulo" class="col-3 offset-1 col-form-label">Imagen descriptiva</label>
-			<div class="col-3 ">	
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc" >Seleccionar imagen</button>
+			<div class="col-3 ">
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc">Seleccionar imagen</button>
 
-				
+
 			</div>
 			<div class="col-3 ">
 				<img id="imgdesc" alt="Imagen descriptiva" class="img-fluid">
 			</div>
 		</div>
 		<div class="form-group row">
-			<label class="col-3 offset-1 col-form-label" for="">Comentarios</label>		
-			<div class="col-7 radio">				
+			<label class="col-3 offset-1 col-form-label" for="">Comentarios</label>
+			<div class="col-7 radio">
 				<label>
 					<input type="radio" name="comentable" id="comentable1" value="Si" checked>
 					SI
@@ -419,42 +425,42 @@
 				<label>
 					<input type="radio" name="comentable" id="comentable2" value="No">
 					NO
-				</label>				
+				</label>
 			</div>
 		</div>
 		{{> editorContent}}
-		
-		
-		<div id="summernote" ></div>	
-		
-		
-		
-			
+
+
+		<div id="summernote"></div>
+
+
+
+
 		<div class="d-flex justify-content-center mt-3">
 			<button type="submit" class="btn btn-primary mx-0 d-block">Guardar</button>
 		</div>
 	</form>
-<!-- Modal para Imagen desc-->
+	<!-- Modal para Imagen desc-->
 	<div class="modal fade" id="imagendesc" tabindex="-1" role="dialog" aria-labelledby="imagendescLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-lg" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	         
-	      <div class="modal-body " >
-	        {{>uploadFormImagesDesc}}
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
 
-	      </div>
-	      <div class="modal-footer">
-	              	
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-	      </div>
-	      
-	    </div>
-	  </div>
+				<div class="modal-body ">
+					{{>uploadFormImagesDesc}}
+
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				</div>
+
+			</div>
+		</div>
 	</div>
 </template>

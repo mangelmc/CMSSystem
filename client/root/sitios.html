@@ -1,49 +1,51 @@
 <template name="sitios">
-{{>sAlert}}
-		<div class=" m-1 d-flex justify-content-center py-2  mb-3 bg-primary" style="background-color: purple;">
+	{{>sAlert}}
+	<div class=" m-1 d-flex justify-content-center py-2  mb-3 bg-primary" style="background-color: purple;">
 
 		<div class="text-white">
-				<h3 class="mx-auto d-block">CREAR SITIO</h3>
+			<h3 class="mx-auto d-block">CREAR SITIO</h3>
 		</div>
 	</div>
-		
 
-		 
-		<div class="row mx-0 py-2 mb-5"  style="">
-			<div class="col-8 offset-2 d-flex flex-column mb-4">
-				
-				<h4 class="mx-auto d-block bellefair " style="font-weight: bold;">Formulario de creacion de Sitio web</h4>
-				<form id="formsitio">
+
+
+	<div class="row mx-0 py-2 mb-5" style="">
+		<div class="col-8 offset-2 d-flex flex-column mb-4">
+
+			<h4 class="mx-auto d-block bellefair " style="font-weight: bold;">Formulario de creacion de Sitio web</h4>
+			<form id="formsitio">
 				<div class="form-group row mt-3">
 					<label for="carrera" class="col-4 offset-1 col-form-label ">Carrera</label>
 					<div class="col-7">
-						<input type="text" maxlength="30" class="form-control mb-1" id="carrera" name="carrera" placeholder="Carrera" required>
-						<div id="alertcarrera" class="alert alert-danger" role="alert" style="display: none;">		    
+						<input type="text" maxlength="30" class="form-control mb-1" id="carrera" name="carrera" placeholder="Carrera"
+						 required>
+						<div id="alertcarrera" class="alert alert-danger" role="alert" style="display: none;">
 						</div>
 					</div>
-					
+
 				</div>
 
 				<div class="form-group row">
 					<label for="titulo" class="col-4 offset-1 col-form-label ">Dominio</label>
 					<div class="col-7">
 						<input type="text" class="form-control" maxlength="30" id="titulo" name="titulo" placeholder="Dominio" required>
-						<div id="alerttitulo" class="alert alert-danger" role="alert" style="display: none;">		    
+						<div id="alerttitulo" class="alert alert-danger" role="alert" style="display: none;">
 						</div>
 					</div>
-					
+
 					<!-- titulo alias dominio-->
 				</div>
 
 				<div class="form-group row">
 					<label for="link" class="col-4 offset-1 col-form-label ">Url de acceso </label>
 					<div class="col-7">
-						<input type="text" class="form-control" id="link" name="link" placeholder="link" value="htttp://uatf.edu.bo/" required readonly>
-					</div>					
+						<input type="text" class="form-control" id="link" name="link" placeholder="link" value="htttp://uatf.edu.bo/"
+						 required readonly>
+					</div>
 					<!--<small class="text-muted">We'll never share your email with anyone else.</small>-->
 				</div>
-				
-				<div class="form-group row">								
+
+				<div class="form-group row">
 					<label class="col-4 offset-1 col-form-label">Estado</label>
 					<div class="radio col-7">
 						<label>
@@ -58,231 +60,235 @@
 				</div>
 
 				<div class="form-group row">
-					<label for="selectadmin" class="col-4 offset-1 col-form-label">Administrador</label>							
-					
-						<div class="form-group col-4">
+					<label for="selectadmin" class="col-4 offset-1 col-form-label">Administrador</label>
+
+					<div class="form-group col-4">
 						{{#if existListUsers}}
-				    		<select class="form-control" id="selectadmin" name="admin" required>
-						      {{#each listUsers}}
-						      	{{>listusers}}
-						      	
-						      {{/each}}						      
-						    </select>
-				    	{{else}}
-				    	<div class="alert alert-warning" role="alert">
-				    	    Debe crear un usuario
-				    	</div>
-				    	{{/if}}
-						   	
+						<select class="form-control" id="selectadmin" name="admin" required>
+							{{#each listUsers}}
+							{{>listusers}}
+
+							{{/each}}
+						</select>
+						{{else}}
+						<div class="alert alert-warning" role="alert">
+							Debe crear un usuario
 						</div>
-						<div class="form-group col-3">
-						   	<!-- Button trigger modal -->
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#regnew">Crear Usuario</button>
-						</div>
-					
+						{{/if}}
+
+					</div>
+					<div class="form-group col-3">
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#regnew">Crear Usuario</button>
+					</div>
+
 				</div>
-				
+
 				<div class="d-flex align-items-center mt-4">
 					<button type="submit" class="btn btn-primary mx-auto d-block">Crear Sitio</button>
-					<button type="reset" class="btn btn-danger mx-auto d-block">  Cancelar</button>	
+					<button type="reset" class="btn btn-danger mx-auto d-block"> Cancelar</button>
 				</div>
 			</form>
-			</div>
 		</div>
-		<div class=" p-3 d-flex justify-content-center mt-4  mx-1 bg-primary" style="background-color: purple;">
-			<hr>
-		
-		</div>
+	</div>
+	<div class=" p-3 d-flex justify-content-center mt-4  mx-1 bg-primary" style="background-color: purple;">
+		<hr>
+
+	</div>
 	<!-- Modal para nuevo administrador -->
 	<div class="modal fade" id="regnew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Registro de nuevo Administrador</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      
-	      <div class="modal-body">
-			{{>createuser}}
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Registro de nuevo Administrador</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					{{>createuser}}
+				</div>
+
+
 			</div>
-	      
-	     
-	    </div>
-	  </div>
+		</div>
 	</div>
 </template>
 
 <template name="createuser">
-	
-	
-			<form method="post" id="regAdminForm">
-				<div class="form-group row">
-				    <label for="username" class="col-sm-3 col-form-label">Usuario :</label>
-				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
-				      <div class="alert alert-danger" id="alertusername" style="display:none;"> </div>
-				    </div>
-				</div>
-				<div class="form-group row">
-				    <label for="password" class="col-sm-3 col-form-label">Password :</label>
-				    <div class="col-sm-9">
-				      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-				      <div class="alert alert-danger" id="alertpassword" style="display:none;"> </div>
-				    </div>
-				</div>
-				<div class="form-group row">
-				    <label for="repassword" class="col-sm-3 col-form-label">Re-Password :</label>
-				    <div class="col-sm-9">
-				      <input type="password" class="form-control" id="repassword" name="repassword" placeholder= "Repita  el Password" required>
-				      <div class="alert alert-danger" id="alertrepassword" style="display:none;"> </div>
-				    </div>
-				</div>
-				<div class="form-group row">
-				    <label for="email" class="col-sm-3 col-form-label">Email :</label>
-				    <div class="col-sm-9">
-				      <input type="email" class="form-control" id="email" name="email" placeholder="Correo  Electrónico" required>
-				      <div class="alert alert-danger" id="alertemail" style="display:none;"> </div>
-				    </div>
-				</div>
-				<div class="form-group row">
-				    <label for="rol" class="col-sm-3 col-form-label">Rol :</label>
-				    <div class="col-sm-9">
-				    	<select class="form-control" name="rol">
-				    		<option value="normal">normal</option>
-				    		<option value="admin">admin</option>
-				    		<option value="root">root</option>
-				    	</select>
-				      
-				    </div>
-				</div>
-				<div class="form-group row">
-				    <label for="name" class="col-sm-3 col-form-label">Nombres :</label>
-				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
-				      <div class="alert alert-danger" id="alertname" style="display:none;"> </div>
-				    </div>
-				</div>
-				<div class="form-group row">
-				    <label for="surname" class="col-sm-3 col-form-label">Apellidos :</label>
-				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="surname" name="surname" placeholder="Apellidos" required>
-				      <div class="alert alert-danger" id="alertsurname" style="display:none;"> </div>
-				    </div>
-				</div>
-				<div class="form-group row">
-				    <label for="carrerae" class="col-sm-3 col-form-label">Carrera :</label>
-				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="carrerae" name="carrerae" placeholder="Carrera" required>
-				      <div class="alert alert-danger" id="alertcarrerae" style="display:none;"> </div>
-				    </div>
-				</div>
-				<div class="d-flex align-items-center ">
-					
-					<button type="submit" class="btn btn-primary mx-auto d-block">Registrar Nuevo</button>
-					<button type="button" class="btn btn-secondary mx-auto d-block" data-dismiss="modal">Cancelar</button>
-				</div>
-			 </form>
-	      
+
+
+	<form method="post" id="regAdminForm">
+		<div class="form-group row">
+			<label for="username" class="col-sm-3 col-form-label">Usuario :</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
+				<div class="alert alert-danger" id="alertusername" style="display:none;"> </div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="password" class="col-sm-3 col-form-label">Password :</label>
+			<div class="col-sm-9">
+				<input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+				<div class="alert alert-danger" id="alertpassword" style="display:none;"> </div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="repassword" class="col-sm-3 col-form-label">Re-Password :</label>
+			<div class="col-sm-9">
+				<input type="password" class="form-control" id="repassword" name="repassword" placeholder="Repita  el Password"
+				 required>
+				<div class="alert alert-danger" id="alertrepassword" style="display:none;"> </div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="email" class="col-sm-3 col-form-label">Email :</label>
+			<div class="col-sm-9">
+				<input type="email" class="form-control" id="email" name="email" placeholder="Correo  Electrónico" required>
+				<div class="alert alert-danger" id="alertemail" style="display:none;"> </div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="rol" class="col-sm-3 col-form-label">Rol :</label>
+			<div class="col-sm-9">
+				<select class="form-control" name="rol">
+					<option value="normal">normal</option>
+					<option value="admin">admin</option>
+					<option value="root">root</option>
+				</select>
+
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="name" class="col-sm-3 col-form-label">Nombres :</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
+				<div class="alert alert-danger" id="alertname" style="display:none;"> </div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="surname" class="col-sm-3 col-form-label">Apellidos :</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="surname" name="surname" placeholder="Apellidos" required>
+				<div class="alert alert-danger" id="alertsurname" style="display:none;"> </div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="carrerae" class="col-sm-3 col-form-label">Carrera :</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="carrerae" name="carrerae" placeholder="Carrera" required>
+				<div class="alert alert-danger" id="alertcarrerae" style="display:none;"> </div>
+			</div>
+		</div>
+		<div class="d-flex align-items-center ">
+
+			<button type="submit" class="btn btn-primary mx-auto d-block">Registrar Nuevo</button>
+			<button type="button" class="btn btn-secondary mx-auto d-block" data-dismiss="modal">Cancelar</button>
+		</div>
+	</form>
+
 </template>
 
 
 <template name="sitioslist">
 
 	<div class=" m-2 p-2 bg-secondary" style="box-shadow: .3rem .3rem .3rem  #343a40;">
-				
+
 		<div class=" d-flex justify-content-center ">
 			<h3 class="mx-auto  text-white " style="text-shadow: 0.2rem .2rem .2rem black">SITIOS WEB</h3>
-			
-			<div class="dropdown mr-2 float-right">
-			  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    {{estado}}
-			  </button>
-			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-			    <a class="dropdown-item listsitios" id="Activo"  href="">Activos</a>
-			    <a class="dropdown-item listsitios" id="Inactivo" href="">Inactivos</a>
-			    
-			  </div>
-			</div>
-		</div>
-		
-		
-	</div>
-		<div class="row mx-0 mt-2">
-			
-			{{#each listSitios}}
-				{{>sitio}}
-			{{else}}
-			<div class="col-12 mx-0 d-flex justify-content-center">
-				<div class="alert alert-warning " role="alert">
-				    <h5>NO TIENES SITIOS DISPONIBLES PARA ADMINISTRAR ...!</h5>
-				</div>
-			</div>
-			{{/each}}
-		</div>
-		<!-- Modal para Cambiar Administrador  -->
-	<div class="modal fade" id="changeadmin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Cambio de Administrador</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      
-	      <div class="modal-body">
-			<form method="post" id="changeadminform">
-				<div class="form-group row">
-				    <label for="sitiochange" class="col-sm-3 col-form-label">Carrera :</label>
-				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="sitiochange" name="sitiochange" placeholder="Usuario" required  readonly>
-				      <input type="hidden" name="idsitio" id="idsitio">
-				    </div>
-				</div>
-				<div class="form-group row">
-				    <label for="useradmin" class="col-sm-3 col-form-label">Admin :</label>
-				    <div class="col-sm-9">
 
-				    	<select class="form-control" id="useradmin" name="useradmin" required>
-				    		{{#each listUsers}}
-						      	{{>listusers}}
-						      	
-						    {{/each}}
-				    	</select>
-				    </div>
+			<div class="dropdown mr-2 float-right">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+				 aria-haspopup="true" aria-expanded="false">
+					{{estado}}
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item listsitios" id="Activo" href="">Activos</a>
+					<a class="dropdown-item listsitios" id="Inactivo" href="">Inactivos</a>
+
 				</div>
-				
-				<div class="form-group row">
-				    <label for="nameadmin" class="col-sm-3 col-form-label">Nombres :</label>
-				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="nameadmin" name="nameadmin" placeholder="Nombres" required readonly>
-				    </div>
+			</div>
+		</div>
+
+
+	</div>
+	<div class="row mx-0 mt-2 d-flex justify-content-center">
+
+		{{#each listSitios}}
+		{{>sitio}}
+		{{else}}
+		<div class="col-12 mx-0 d-flex justify-content-center">
+			<div class="alert alert-warning " role="alert">
+				<h5>NO TIENES SITIOS DISPONIBLES PARA ADMINISTRAR ...!</h5>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+	<!-- Modal para Cambiar Administrador  -->
+	<div class="modal fade" id="changeadmin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Cambio de Administrador</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-				<div class="form-group row">
-				    <label for="surnameadmin" class="col-sm-3 col-form-label">Apellidos :</label>
-				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="surnameadmin" name="surnameadmin" placeholder="Apellidos" required readonly>
-				    </div>
-				</div>
-				<!--<div class="form-group row">
+
+				<div class="modal-body">
+					<form method="post" id="changeadminform">
+						<div class="form-group row">
+							<label for="sitiochange" class="col-sm-3 col-form-label">Carrera :</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="sitiochange" name="sitiochange" placeholder="Usuario" required
+								 readonly>
+								<input type="hidden" name="idsitio" id="idsitio">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="useradmin" class="col-sm-3 col-form-label">Admin :</label>
+							<div class="col-sm-9">
+
+								<select class="form-control" id="useradmin" name="useradmin" required>
+									{{#each listUsers}}
+									{{>listusers}}
+
+									{{/each}}
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="nameadmin" class="col-sm-3 col-form-label">Nombres :</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="nameadmin" name="nameadmin" placeholder="Nombres" required readonly>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="surnameadmin" class="col-sm-3 col-form-label">Apellidos :</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="surnameadmin" name="surnameadmin" placeholder="Apellidos" required
+								 readonly>
+							</div>
+						</div>
+						<!--<div class="form-group row">
 				    <label for="admin" class="col-sm-3 col-form-label">Carrera :</label>
 				    <div class="col-sm-9">
 				      <input type="text" class="form-control" id="admin" name="admin" placeholder="Carrera" required>
 				    </div>
 				</div>-->
-				<div class="d-flex align-items-center ">
-					
-					<button type="submit" class="btn btn-primary mx-auto d-block">Guardar Cambios</button>
-					<button type="button" class="btn btn-secondary mx-auto d-block" data-dismiss="modal">Cancelar</button>
+						<div class="d-flex align-items-center ">
+
+							<button type="submit" class="btn btn-primary mx-auto d-block">Guardar Cambios</button>
+							<button type="button" class="btn btn-secondary mx-auto d-block" data-dismiss="modal">Cancelar</button>
+						</div>
+					</form>
 				</div>
-			 </form>
-	      </div>
-	      
-	     
-	    </div>
-	  </div>
+
+
+			</div>
+		</div>
 	</div>
 
 </template>
@@ -290,13 +296,13 @@
 <template name="sitio">
 	<div class="col col-md-4">
 		<div class="card" style="box-shadow: .3rem .3rem .3rem  silver;">
-			
+
 			<div class="card-block p-2 d-flex flex-column text-indigo">
-				
-				<div class="h5 align-self-center">Carrera : {{carrera}}</div> 
+
+				<div class="h5 align-self-center">Carrera : {{carrera}}</div>
 				{{#if isInRole "root"}}
-					<div class="m-1 pl-2 border border-primary  rounded d-flex justify-content-between align-items-center changeadmin" >
-					<div>Administrador : {{useradmin}} </div> 
+				<div class="m-1 pl-2 border border-primary  rounded d-flex justify-content-between align-items-center changeadmin">
+					<div>Administrador : {{useradmin}} </div>
 
 					<button class="btn btn-primary float-right ">
 						<i class="fa fa-exchange"></i>&nbsp;
@@ -304,37 +310,35 @@
 					</button>
 				</div>
 				{{/if}}
-				
-
-				<div class="p-2 m-1 border border-primary  rounded" >Dominio : {{titulo}}</div>
-				<div class="p-2 m-1 border border-primary  rounded" > Fecha creacion : {{fecha}}</div>
 
 
-				
+				<div class="p-2 m-1 border border-primary  rounded">Dominio : {{titulo}}</div>
+				<div class="p-2 m-1 border border-primary  rounded"> Fecha creacion : {{fecha}}</div>
+
+
+
 				<div class="d-flex p-2 align-items-center">
-				
-					
+
+
 					<a href="" class="btn btn-primary administrar mx-auto d-block">administrar</a>
-				{{#if Activo}}
+					{{#if Activo}}
 					<a href="" class="btn btn-success visitar mx-auto d-block">Visitar</a>
 					{{#if isInRole "root"}}
-						<a href="#" class="btn btn-danger darbaja mx-auto d-block">Dar baja</a>
+					<a href="#" class="btn btn-danger darbaja mx-auto d-block">Dar baja</a>
 					{{/if}}
-				{{else}}
+					{{else}}
 					{{#if isInRole "root"}}
-						<a href="#" class="btn btn-success daralta mx-auto d-block">Dar Alta</a>
+					<a href="#" class="btn btn-success daralta mx-auto d-block">Dar Alta</a>
 					{{/if}}
-				{{/if}}
+					{{/if}}
 				</div>
 
 			</div>
 		</div>
 	</div>
-	
+
 </template>
 
 <template name="listusers">
 	<option value="{{_id}}">{{username}}</option>
 </template>
-
-

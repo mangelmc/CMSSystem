@@ -1,12 +1,16 @@
-import { Template }    from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+import {
+  Template
+} from 'meteor/templating';
+import {
+  ReactiveVar
+} from 'meteor/reactive-var';
 
 idVideo = new ReactiveVar('none');
 Template.uploadFormVideos.onCreated(function () {
-  this.currentUpload = new ReactiveVar(false);
+
   idVideo.set('none');
 });
-Template.uploadFormVideos.onRendered(function(){
+Template.uploadFormVideos.onRendered(function () {
   /*this.autorun(function(){
     if (idImagen.get() == 'none') {
       $('#currentImage').slideUp('fast');
@@ -17,16 +21,11 @@ Template.uploadFormVideos.onRendered(function(){
   })*/
 })
 Template.uploadFormVideos.helpers({
-  currentUpload() {
-    return Template.instance().currentUpload.get();
-  },
-  listGaleria: function(){
-    return VIDEOS.collection.find({});
-  },
-  itemVideo: function(){
-    //console.log(IMAGES.findOne({_id:this._id}));
-    return VIDEOS.findOne({_id:this._id});
+
+  listGaleria: function () {
+    return VIDEOS.find({});
   }
+
 });
 
 Template.uploadFormVideos.events({
@@ -41,31 +40,31 @@ Template.uploadFormVideos.events({
     //console.log(video);
     var src = video.attr('src');
     var type = video.attr('type');
-      var html = '<div class="row"><div class="col-12 col-md-10 offset-md-1 col-lg-10 offset-lg-1 "><div class="embed-responsive embed-responsive-16by9 mx-auto px-sm-1 px-md-2 px-lg-3 p-3">' +
-        '<video class="embed-responsive-item" controls="auto" style="background-color: black;">' +
-          '<source src="'+src +'" type="'+ type +'" >'
-        '</video></div></div></div>';
-    
+    var html = '<div class="row"><div class="col-12 col-md-10 offset-md-1 col-lg-10 offset-lg-1 "><div class="embed-responsive embed-responsive-16by9 mx-auto px-sm-1 px-md-2 px-lg-3 p-3">' +
+      '<video class="embed-responsive-item" controls="auto" style="background-color: black;">' +
+      '<source src="' + src + '" type="' + type + '" >'
+    '</video></div></div></div>';
 
-      es.summernote('focus');
-      
-      //document.execCommand('insertHtml', null, html);
-      es.summernote('pasteHTML', html);
 
-      $('#descripcion').focus();
+    es.summernote('focus');
 
-      es.summernote('focus');
-    
-    $('.checkvideo i').each(function(index, el) {
-        if ($(this).hasClass('fa-check-circle-o')) {
-          //console.log('tiene');
-          $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
-          //$(this).parent().parent().removeClass().addClass('bg-secondary');
-        }
+    //document.execCommand('insertHtml', null, html);
+    es.summernote('pasteHTML', html);
+
+    $('#descripcion').focus();
+
+    es.summernote('focus');
+
+    $('.checkvideo i').each(function (index, el) {
+      if ($(this).hasClass('fa-check-circle-o')) {
+        //console.log('tiene');
+        $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
+        //$(this).parent().parent().removeClass().addClass('bg-secondary');
+      }
     });
-    $('#'+this._id+'vid i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
+    $('#' + this._id + 'vid i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
     //$('#'+this._id+'c i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
-    
+
     idVideo.set(this._id);
     $('#currentImage').slideDown();
     $('.galeria').slideUp('fast');
@@ -73,34 +72,81 @@ Template.uploadFormVideos.events({
 
   },
   'change #fileInput'(e, template) {
-    if (e.currentTarget.files && e.currentTarget.files[0]) {
-      // We upload only one file, in case
-      // multiple files were selected
-      const upload = VIDEOS.insert({
-        file: e.currentTarget.files[0],
-        meta : {
-          idSitio :FlowRouter.getParam("titulo"),
-        },
-        streams: 'dynamic',
-        chunkSize: 'dynamic'
-      }, false);
+    var file = $(e.currentTarget).get(0).files[0];
+    //console.log(file);
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
-
-      upload.on('end', function (error, fileObj) {
-        if (error) {
-          alert('error al subir el video: ' + error);
-        } else {
-          idVideo.set(fileObj._id);
-          //console.log(idVideo);
-          alert('El video "' + fileObj.name + '" Se ha subido correctamente');
-        }
-        template.currentUpload.set(false);
-      });
-
-      upload.start();
-    }
+    handleFileSelect(file);
+    return false;
   }
+
 });
+
+
+class FileUpload {
+  static get ChunkByteSize() {
+    return 45000
+  }
+}
+
+function handleFileSelect(files) {
+  //for (let i = 0, f; f = files[i]; i++) {
+  let f = files;
+  let reader = new FileReader();
+  reader.f = f;
+  reader.onload = function () {
+    let fileName = this.f.name;
+    let fileExtention = this.f.name;
+    let data = reader.result;
+    let array = new Int8Array(data);
+    let chunks = array.length / FileUpload.ChunkByteSize;
+    datos = {
+      chunks: chunks,
+      fileName: fileName
+    };
+    parameters = {
+      a: array,
+      d: datos
+    }
+    Meteor.call('uploadFile', parameters, function (error, result) {
+      console.log(error || result);
+      //recupera result.url
+
+      if (result) {
+        var carrera = FlowRouter.getParam('titulo');
+        let splited = files.name.split('.');
+        let ext = splited[splited.length - 1];
+        let splited1 = files.name.split('/');
+        let name = splited1[splited1.length - 1];
+        console.log(ext, name);
+
+        var obj = {
+          idSitio: carrera,
+          userId: Meteor.userId(),
+          originalName: name,
+          ext: ext,
+          url: result.url
+        };
+        console.log(obj);
+
+        Meteor.call('insVideo', obj, function (error, result) {
+          if (error) {
+            alert('hubo un error al intentar guardar en la base de datos');
+          }
+          if (result) {
+            alert('Se guardo en la base de datos  b');
+          }
+        });
+      }
+
+
+      //http://archivos.uatf.edu.bo/7f96d760-81ff-44f7-acb1-d86f38d54871.34338.svg
+      //http://archivos.uatf.edu.bo/images/Comunicado6-3.png
+      //http://www.uatf.edu.bo/archivos/2018/1ra.%20CONVOCATORIA%20AUXILIAR%20DE%20INVESTIGACI%C3%93N%202018.pdf
+    });
+
+
+    //console.log(parameters);
+  };
+  reader.readAsArrayBuffer(f);
+  //}
+}
