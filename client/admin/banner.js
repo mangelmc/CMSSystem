@@ -2,9 +2,9 @@ import './banner.html';
 import {
 	ReactiveVar
 } from 'meteor/reactive-var';
-/* import {
+import {
 	BANNER
-} from '../../collections/cmscollections'; */
+} from '../../collections/cmscollections';
 import validar from '../validations.js'
 
 var loadTipo = new ReactiveVar();

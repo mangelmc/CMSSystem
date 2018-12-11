@@ -19,7 +19,10 @@ Template.sidebaradmin.onCreated(function () {
 		if (SIDEBARMENU.findOne() != undefined) {
 			sidebar = SIDEBARMENU.findOne();
 			//console.log(contenido.tipo);
-			es.summernote('code', sidebar.html);
+			setTimeout(function () {
+				es.summernote('code', sidebar.html);
+			}, 500);
+
 
 			//control imagen
 			//if (contenido.tipo == 'Con imagen') {}

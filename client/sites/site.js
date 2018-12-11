@@ -1,9 +1,9 @@
 import {
 	Meteor
 } from "meteor/meteor";
-/* import {
+import {
 	BANNER
-} from '../../collections/cmscollections'; */
+} from '../../collections/cmscollections';
 
 import './site.html';
 import badWordsFilter from '../badWordFilter.js';
@@ -83,11 +83,11 @@ Template.site.helpers({
 		}
 	}
 });
-var searchText = new ReactiveVar("" /* new RegExp(">[^<]{0,}[^>]{0,}<", "i" ) */ );
+var searchText = new ReactiveVar("");
 
 var subs = new ReactiveVar();
 Template.header.onCreated(function () {
-	subs.set(Meteor.subscribe("getSearchContent", FlowRouter.getParam('titulo'), "" /*new RegExp(">[^<]{0,}[^>]{0,}<", "i")*/ ));
+	subs.set(Meteor.subscribe("getSearchContent", FlowRouter.getParam('titulo'), ""));
 });
 Template.header.helpers({
 	header: function () {
@@ -112,7 +112,7 @@ Template.header.events({
 		subs.get().stop();
 
 		subs.set(Meteor.subscribe("getSearchContent", FlowRouter.getParam('titulo'), searchText.get()));
-
+		e.target.search.value = "";
 		//console.log(searchText.get(), text);
 	}
 });
@@ -204,6 +204,9 @@ Template.navbar.helpers({
 			};
 		}
 
+	},
+	tituloSitio() {
+		return sitioClient.get().carrera;
 	}
 
 });
@@ -267,17 +270,15 @@ Template.menu.helpers({
 	},
 	enlace: function () {
 
-		if (this.link == "/") {
+		if (this.link == "inicio") {
 			return FlowRouter.getParam('titulo');
 		}
 		if (this.tipo == undefined) {
-
 			return {
 				t: FlowRouter.getParam('titulo'),
 				sub: this.link
 			};
 		}
-
 		return FlowRouter.getParam('titulo') + "/" + this.link;
 	}
 });
@@ -367,7 +368,10 @@ Template.contenthome.helpers({
 	}
 });
 Template.contenthome.events({
+	'click .todetails'() {
 
+		$(window).scrollTop($('#mainNav').offset().top);
+	}
 });
 
 Template.contentmenu.onRendered(function () {
@@ -388,7 +392,11 @@ Template.contentmenu.onRendered(function () {
 
 
 
-
+Template.contentmenu.events({
+	'click .todetails'() {
+		$(window).scrollTop($('#mainNav').offset().top);
+	}
+});
 
 Template.contentmenu.helpers({
 
@@ -397,9 +405,16 @@ Template.contentmenu.helpers({
 		return CONTENIDO.find();
 	},
 	menu() { //titulo menu
-		return MENU.findOne({
+		var menu = MENU.findOne({
 			link: FlowRouter.getParam('menu')
 		});
+		if (menu != undefined) {
+			return menu;
+		}
+		FlowRouter.go('/:titulo', {
+			titulo: FlowRouter.getParam('titulo')
+		})
+		return false;
 	},
 	allRuta: function () {
 		return '/' + FlowRouter.getParam('titulo') + '/' + this.ruta;
@@ -428,9 +443,16 @@ Template.contentsubmenu.helpers({
 	},
 	submenu() {
 		$.force_appear();
-		return SUBMENU.findOne({
+		var submenu = SUBMENU.findOne({
 			link: FlowRouter.getParam('submenu')
 		});
+		if (submenu != undefined) {
+			return submenu;
+		}
+		FlowRouter.go('/:titulo', {
+			titulo: FlowRouter.getParam('titulo')
+		});
+		return false;
 	},
 	allRuta: function () {
 		return '/' + FlowRouter.getParam('titulo') + '/' + this.ruta;
@@ -438,7 +460,9 @@ Template.contentsubmenu.helpers({
 
 });
 Template.contentsubmenu.events({
-
+	'click .todetails'() {
+		$(window).scrollTop($('#mainNav').offset().top);
+	}
 });
 Template.contentsearch.onRendered(function () {
 	$.force_appear();
@@ -452,10 +476,6 @@ Template.contentsearch.helpers({
 		return '/' + FlowRouter.getParam('titulo') + "/" + this.ruta;
 	},
 	texto() {
-		/* let reg = searchText.get();
-		let first = reg.toString().split("}")[1];
-		let sec = first.split('[')[0]; 
-		return sec*/
 		return searchText.get();
 	}
 
@@ -521,8 +541,6 @@ Template.contenido.events({
 			console.log(conf);
 			Meteor.logout();
 		}
-
-
 		var idCont = CONTENIDO.findOne()._id;
 
 		var obj = {

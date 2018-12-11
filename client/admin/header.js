@@ -1,22 +1,25 @@
-
 import './header.html';
-import { ReactiveVar } from 'meteor/reactive-var';
+import {
+	ReactiveVar
+} from 'meteor/reactive-var';
 import validar from '../validations.js'
 
 
 var tituloForm = new ReactiveVar(true);
 var stituloForm = new ReactiveVar(true);
 Template.headeradmin.helpers({
-	
-	
-	listHeader : function(){
+
+
+	listHeader: function () {
 		var id = FlowRouter.getParam('titulo');
-		
-		return	HEADER.find({idSitio:id});	
-					
+
+		return HEADER.find({
+			idSitio: id
+		});
+
 	},
-	arriba: function(){
-		
+	arriba: function () {
+
 		if (this.posicion == 'up') {
 			return true;
 		}
@@ -26,50 +29,55 @@ Template.headeradmin.helpers({
 
 
 Template.headeradmin.events({
-	
-     'input #titulositio': function (e) {
+
+	'input #titulositio': function (e) {
 		//console.log(e.target.value);	
-		var result = validar('carrera',e.target.value,'#alerttitulo');
+		var result = validar('carrera', e.target.value, '#alerttitulo');
 		if (result == false) {
 			tituloForm.set(false);
-		}
-		else{
+		} else {
 			tituloForm.set(true);
 		}
 	},
 	'input #subtitulositio': function (e) {
 		//console.log(e.target.value);	
-		var result = validar('carrera',e.target.value,'#alertsubtitulo');
+		var result = validar('carrera', e.target.value, '#alertsubtitulo');
 		if (result == false) {
 			stituloForm.set(false);
-		}
-		else{
+		} else {
 			stituloForm.set(true);
 		}
 	},
 
-  'submit #formheader': function (e) {
+	'submit #formheader': function (e) {
 		e.preventDefault();
-		if (tituloForm.get() == false||stituloForm.get() == false) {
+		if (tituloForm.get() == false || stituloForm.get() == false) {
 			alert('Debe arreglar lo errores del formulario');
 			return;
 		}
 
 		var idHeader = this._id;
 		var obj = {
-			titulo : e.target.titulo.value,
+			titulo: e.target.titulo.value,
 			subtitulo: e.target.subtitulo.value,
 			posicion: e.target.posicion.value,
 		}
-    	Meteor.call('editHeader', idHeader,obj, function (error, result) {
+		Meteor.call('editHeader', idHeader, obj, function (error, result) {
 			if (result) {
 				if (result == 1) {
-					sAlert.success('Se ha modificado ', {effect: 'slide',offset: '130',html:true});
-					FlowRouter.go('/admin/:titulo',{titulo:FlowRouter.getParam('titulo')});
+					sAlert.success('Se ha modificado ', {
+						effect: 'slide',
+						offset: '130',
+						html: true
+					});
+
 				}
 			}
 			if (error) {
-					sAlert.error(''+error, {effect: 'slide',offset: '130'});
+				sAlert.error('' + error, {
+					effect: 'slide',
+					offset: '130'
+				});
 			}
 		});
 	},

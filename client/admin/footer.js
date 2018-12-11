@@ -12,8 +12,10 @@ Template.footeradmin.onRendered(function () {
 		if (FOOTER.findOne() != undefined) {
 			var footer = FOOTER.findOne();
 			//console.log(contenido.tipo);
-			es.summernote('code', footer.html);
 
+			setTimeout(function () {
+				es.summernote('code', footer.html);
+			}, 500);
 			//control imagen
 			//if (contenido.tipo == 'Con imagen') {}
 			//idImagen.set(contenido.idImagen); podria servir para el preview de contenido

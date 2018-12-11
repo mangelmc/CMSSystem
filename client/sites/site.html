@@ -19,11 +19,10 @@
         {{> navbar}}
 
         {{else}}
+        {{> navbar}}
+        {{> header}}
 
-        <div class="d-flex flex-column">
-          <div class="order-2">{{> header}}</div>
-          <div class="order-1">{{> navbar}}</div>
-        </div>
+
 
         {{/if}}
 
@@ -111,15 +110,15 @@
 </template>
 <template name="navbar">
 
-  <div class="row mx-0 ">
-    <div class="col-md-1 d-md-block d-none" style="background-color: #2c4d71;"></div>
+  <div class="row mx-0 " style="background-color: #2c4d71;">
+    <div class="col-md-1 d-md-block d-none"></div>
     <div class="col-md-10 col-sm-12 px-0">
       {{#if navbar }}
       <!-- Navigation -->
       <nav class="navbar navbar-expand-md d-lg-block d-md-block {{navbarTheme.color}} py-0" id="mainNav">
         <div class="container-fluid ">
 
-          <div style="color:#2036cc;text-shadow: 2px 0px 10px silver ;align-self:center;" class="navbar-brand  text-center text-heading  text-shadow text-white d-lg-none d-md-none d-sm-block">{{tituloSitio}}</div>
+          <div style="color:#2036cc;text-shadow: 2px 0px 10px silver ;align-self:center;font-size: 1.5rem;" class="navbar-brand text-center text-shadow text-white d-lg-none d-md-none d-sm-block">{{tituloSitio}}</div>
 
           <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
             aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -144,9 +143,7 @@
       <p>Cargando.......</p>
       {{/if}}
     </div>
-
-
-    <div class="col-md-1 d-md-block d-none" style="background-color: #2c4d71;"></div>
+    <div class="col-md-1 d-md-block d-none"></div>
 
 
   </div>
@@ -307,7 +304,7 @@
 
       </div>
       <div class="col-12 d-flex justify-content-center">
-        <a class="btn btn-outline-info " id="goCont1" href="/{{sitio}}/{{ruta}}">VER MAS....</a>
+        <a class="btn btn-outline-info todetails" href="/{{sitio}}/{{ruta}}">VER MAS....</a>
       </div>
     </div>
     {{/if}}
@@ -336,7 +333,7 @@
 
             </div>
             <div>
-              <a href="/{{sitio}}/{{ruta}}" class="btn btn-primary mx-auto d-block">Ver mas ... </a>
+              <a href="/{{sitio}}/{{ruta}}" class="btn btn-primary mx-auto d-block todetails">Ver mas ... </a>
             </div>
           </div>
         </div>
@@ -477,7 +474,7 @@
               </div>
             </div>
             <div class="col-12 d-flex justify-content-end">
-              <a class="btn btn-primary todetails " href="{{allRuta}}">VER MAS ...</a>
+              <a class="btn btn-primary todetails" href="{{allRuta}}">VER MAS ...</a>
             </div>
 
 
@@ -562,11 +559,11 @@
     {{#if comentable content.comentarios}}
     <div class="box-s my-2 row mx-0 ">
 
-      <div class="col-6  bg-light ">
+      <div class="col-6  ">
         <h3 class="m-0">COMENTARIOS</h3>
       </div>
       <!-- <div class="col-2 btn-light btn">Ver mas</div> -->
-      <div class="col-6 bg-light">
+      <div class="col-6 ">
         <p class="text-center mb-0 h4">{{contComents}}</p>
       </div>
       <!-- <div class="col-2 btn-light btn"><i class="fa fa-thumbs-o-up"></i> : 15</div>

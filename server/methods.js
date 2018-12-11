@@ -1,10 +1,10 @@
 import {
   Meteor
 } from 'meteor/meteor';
-/* import {
+import {
   BANNER
 } from '../collections/cmscollections';
- */
+
 Meteor.startup(() => {
   // code to run on server at startup
   reCAPTCHA.config({
@@ -16,12 +16,12 @@ Meteor.startup(() => {
     // Handle Files Methods Begin
     uploadFile: function (parameters) {
       //console.log('ok method');
-      return {
+      /* return {
         url: 'http://archivos.uatf.edu.bo/images/Comunicado6-3.png'
-        //
+        // 
         //
         //http://archivos.uatf.edu.bo/images/Comunicado6-3.png
-      };
+    };*/
       try {
 
         let client = HTTP.call(

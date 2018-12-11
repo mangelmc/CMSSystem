@@ -36,7 +36,7 @@ var sitioSchema = new SimpleSchema({
 SITIO.attachSchema(sitioSchema);
 
 
-BANNER = new Mongo.Collection('banner')
+const BANNER = new Mongo.Collection('banner')
 
 var bannerSchema = new SimpleSchema({
     idSitio: {
@@ -522,6 +522,6 @@ var archivosSchema = new SimpleSchema({
 ARCHIVOS.attachSchema(archivosSchema);
 
 
-/*export {
+export {
     BANNER
-};*/
+};

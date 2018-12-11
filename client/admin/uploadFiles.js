@@ -42,7 +42,17 @@ Template.uploadFormFiles.events({
   'change #fileInput'(e, template) {
     var file = $(e.currentTarget).get(0).files[0];
     //console.log(file);
-
+    if (file == undefined) {
+      alert('!Oops hubo un problema vuelve a intentarlo');
+      return;
+    }
+    /*let split = file.name.split(".");
+    let regexp = new RegExp("js", "i");
+    let res = regexp.test(split[split.length - 1]);*/
+    if (file.size > 1024 * 1024 * 45) {
+      alert('Puedes subir archivos con un peso no mayor a 45 MBs');
+      return;
+    }
     handleFileSelect(file); //reemplazar por esto en produccion
     return false;
   }

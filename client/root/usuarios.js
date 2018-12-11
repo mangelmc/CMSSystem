@@ -45,8 +45,15 @@ Template.usuarios.helpers({
 		return i;
 	},
 	options() {
-		if (this.roles[0]) {
-
+		let root = '<option value="root">ROOT</option>';
+		let admin = '<option value="admin">ADMIN</option>';
+		let norm = '<option value="normal">NORMAL</option>';
+		if (this.roles[0] == 'root') {
+			return root + admin + norm;
+		} else if (this.roles[0] == 'admin') {
+			return admin + root + norm;
+		} else {
+			return norm + admin + root;
 		}
 	},
 	isRoot: function () {

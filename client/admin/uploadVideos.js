@@ -74,6 +74,19 @@ Template.uploadFormVideos.events({
   'change #fileInput'(e, template) {
     var file = $(e.currentTarget).get(0).files[0];
     //console.log(file);
+    if (file == undefined) {
+      alert('!Oops hubo un problema vuelve a intentarlo');
+      return;
+    }
+
+    let split = file.name.split(".");
+    let regexp = new RegExp("avi|mpg|mpeg|flv|mp4|wmv|webm", "i");
+    let res = regexp.test(split[split.length - 1]);
+    if (file.size > 1024 * 1024 * 45 || !res) {
+      alert('Puedes subir videos con un peso no mayor a 45 MBs \n Y con extensiones avi, mpg, mpeg, flv, mp4, wmv o webm');
+      return;
+    }
+
 
     handleFileSelect(file);
     return false;

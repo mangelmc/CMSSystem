@@ -64,14 +64,18 @@ Template.uploadFormImages.events({
   'change #fileInput'(e, template) {
     var file = $(e.currentTarget).get(0).files[0];
     //console.log(file);
-
+    if (file == undefined) {
+      alert('!Oops hubo un problema vuelve a intentarlo');
+      return;
+    }
+    if (file.size > 1024 * 1024 * 5 || (file.type != "image/png" && file.type != "image/jpeg")) {
+      alert('puedes subir solo imagenes validas y con un peso no mayor a 45 MBs');
+      return;
+    }
     handleFileSelect(file); //reemplazar por esto en produccion
 
   }
 });
-
-
-
 
 idImagenDesc = new ReactiveVar('none');
 
@@ -126,11 +130,27 @@ Template.uploadFormImagesDesc.events({
 
     var file = $(e.currentTarget).get(0).files[0];
     //console.log(file);
+    if (file == undefined) {
+      alert('!Oops hubo un problema vuelve a intentarlo');
+      return;
+    }
+    if (file.size > 1024 * 1024 * 5 || (file.type != "image/png" && file.type != "image/jpeg")) {
+      alert('puedes subir solo imagenes validas y con un peso no mayor a 45 MBs');
+      return;
+    }
 
-    handleFileSelect(file); //reemplazar por esto en produccion
+    handleFileSelect(file);
     return false;
   }
 });
+
+/*
+lastModified: 1528820173343
+lastModifiedDate: Tue Jun 12 2018 12:16:13 GMT-0400 (hora de Bolivia) {}
+name: "flag-blue-icon.png"
+size: 15295
+type: "image/png"
+webkitRelativePath: ""*/
 
 
 class FileUpload {

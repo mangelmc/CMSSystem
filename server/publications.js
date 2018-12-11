@@ -4,9 +4,9 @@ import {
 import {
   publishComposite
 } from 'meteor/reywood:publish-composite';
-/* import {
+import {
   BANNER
-} from '../collections/cmscollections'; */
+} from '../collections/cmscollections';
 
 Meteor.startup(() => {
   // code to run on server at startup
@@ -514,41 +514,42 @@ Meteor.startup(() => {
     }
 
   });
-  /*Meteor.publish("getSearchContent", (titulo, searchText) => {
-    console.log(titulo);
-    console.log(searchText);
+  Meteor.publish("getSearchContent", (titulo, searchText) => {
+
+    // console.log(searchText);
     var idSitio = SITIO.findOne({
       titulo: titulo
     });
-    //console.log(idSitio);
-    if (idSitio != undefined && searchText != "/>[^<]{0,}[^>]{0,}</i") {
-      var sitiosSearch = CONTENIDO.find({
+    ////console.log(idSitio);
+    if (idSitio != undefined && searchText != "") {
+      let cont = new RegExp(">[^<]{0,}" + searchText + "[^>]{0,}<", "i");
+      let other = new RegExp("[^<]{0,}" + searchText + "[^>]{0,}", "i");
+
+      return sitiosSearch = CONTENIDO.find({
         $or: [{
             contenidoHtml: {
-              $regex: searchText
+              $regex: cont
             }
           },
           {
             descripcion: {
-              $regex: searchText
+              $regex: other
             }
           },
           {
             titulo: {
-              $regex: searchText
+              $regex: other
             }
           }
         ],
         idSitio: idSitio._id
-
       });
-      //console.log(sitiosSearch.fetch());
-      return sitiosSearch;
+
     }
-    console.log('nothing');
+
     return false;
-  });*/
-  Meteor.publish("getSearchContent", (titulo, searchText) => {
+  });
+  /*Meteor.publish("getSearchContent", (titulo, searchText) => {
     //console.log(titulo);
     //console.log(searchText);
     var idSitio = SITIO.findOne({
@@ -569,6 +570,6 @@ Meteor.startup(() => {
     }
     //console.log('nothing');
     return false;
-  });
+  });*/
 
 });

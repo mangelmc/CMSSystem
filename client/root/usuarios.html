@@ -46,10 +46,8 @@
 						{{else}}
 						{{#each i in roles }}
 						<td>
-							<select class="form-control changerol" id="{{_id}}">
-								<option value="root">ROOT</option>
-								<option value="admin">ADMIN</option>
-								<option value="normal">NORMAL</option>
+							<select class="form-control changerol">
+								{{{options}}}
 							</select>
 						</td>
 						{{else}}
@@ -130,7 +128,7 @@
 						<div class="form-group row">
 							<label for="email" class="col-sm-3 col-form-label">Email :</label>
 							<div class="col-sm-9">
-								<input type="email" class="form-control" id="emailedit" name="email" placeholder="Correo  Electrónico" required>
+								<input type="email" class="form-control" id="emailedit" name="email" readonly>
 								<div class="alert alert-danger" id="alertemailedit" style="display:none;"> </div>
 							</div>
 						</div>
