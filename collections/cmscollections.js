@@ -405,17 +405,11 @@ var footerlinksSchema = new SimpleSchema({
 });
 FOOTERLINKS.attachSchema(footerlinksSchema);
 
-
-
-
-
 //console.log(defaultSchema);
 
 AVATARS = new Mongo.Collection('avatars')
 
 var avatarsSchema = new SimpleSchema({
-
-
     originalName: {
         type: String,
     },

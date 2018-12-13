@@ -33,7 +33,7 @@ Meteor.startup(() => {
               movil: false
             }
           });
-        console.log(client);
+        //console.log(client);
 
         try {
 
@@ -51,7 +51,7 @@ Meteor.startup(() => {
                 'Accept': 'application/json',
               }
             });
-          console.log(request);
+          //console.log(request);
           return request;
         } catch (e) {
           console.log(e);
@@ -295,8 +295,8 @@ Meteor.startup(() => {
               idSitio: result,
               tipo: 'texto e imagen',
               texto: obj.carrera,
+              textoShow: "Si",
               imagen: '/students.jpg',
-              textShow: 'Si',
               textoPersonalizado: '<div class="bg-primary p-5 m-5" style="height:25vw"><span class="text-white">Texto Personalizado </span></div>'
             });
             response = "Se creó el Sitio Web";
@@ -484,7 +484,7 @@ Meteor.startup(() => {
         }
         if (r) {
           response = r;
-          console.log(r);
+          //console.log(r);
         }
         return response;
       });

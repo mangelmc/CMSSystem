@@ -139,7 +139,7 @@ Template.sitios.events({
 			formSitio.titulo.set(true);
 		}
 		$('#titulo').val(e.target.value.toLowerCase());
-		$('#link').val('htttp://uatf.edu.bo/' + e.target.value.toLowerCase());
+		$('#link').val('htttp://cms.uatf.edu.bo/' + e.target.value.toLowerCase());
 	},
 	//Crear sitio form
 	'submit #formsitio': function (e) {
@@ -165,13 +165,13 @@ Template.sitios.events({
 		}
 		Meteor.call('insertSitio', obj, function (error, result) {
 			if (result) {
-				sAlert.success(result, {
+				sAlert.success("Se creó un nuevo Sitio", {
 					effect: 'slide',
 					offset: '130'
 				});
 			}
 			if (error) {
-				sAlert.error(error, {
+				sAlert.error("Hubo un error al crear el Sitio", {
 					effect: 'slide',
 					offset: '130'
 				});

@@ -1,5 +1,7 @@
 import './navbar.html';
-import { ReactiveVar } from 'meteor/reactive-var';
+import {
+	ReactiveVar
+} from 'meteor/reactive-var';
 import validar from '../validations.js'
 
 var nombreMenuForm = new ReactiveVar(false);
@@ -11,81 +13,95 @@ var submenuForm = new ReactiveVar(false);
 var submenuEditForm = new ReactiveVar(true);
 
 Template.navbaradmin.events({
-	
+
 });
 
-	
+
 var estadoMenu = new ReactiveVar('activo');
-Template.navbaradmin.onRendered(function() {
-});
+Template.navbaradmin.onRendered(function () {});
 Template.navbaradmin.helpers({
-	color : function(){
+	color: function () {
 
 	},
-	listMenu : function(){
-		return MENU.find({estado:estadoMenu.get()});
+	listMenu: function () {
+		return MENU.find({
+			estado: estadoMenu.get()
+		});
 	},
-	listMenuEdit : function(){
-		return MENU.find({tipo : 'con submenu'});
+	listMenuEdit: function () {
+		return MENU.find({
+			tipo: 'con submenu'
+		});
 	},
-	
-	estiloNavbar : function(){
+
+	estiloNavbar: function () {
 		var id = FlowRouter.getParam('titulo');
-		if (NAVBAR.findOne({idSitio:id})!=undefined) {
-			var estilo = NAVBAR.findOne({idSitio:id});
+		if (NAVBAR.findOne({
+				idSitio: id
+			}) != undefined) {
+			var estilo = NAVBAR.findOne({
+				idSitio: id
+			});
 			$('#bannerestilo').removeClass();
 			$('#bannerestilo').css({
 				'font-family': estilo.fuente
 			});
 			$('#bannerestilo').addClass(estilo.color + ' m-2');
 
-			$('#color option[value="'+estilo.color+'"]').prop('selected', true);
-			$('#fuente option[value="'+estilo.fuente+'"]').prop('selected', true);
+			$('#color option[value="' + estilo.color + '"]').prop('selected', true);
+			$('#fuente option[value="' + estilo.fuente + '"]').prop('selected', true);
 		}
-		return true;			
-		
+		return true;
+
 	},
-	noInicio : function(){
-		if (this.nombre == "INICIO" || this.nombre == "BOLETINES" ||this.nombre == "EVENTOS") {
+	noInicio: function () {
+		if (this.nombre == "INICIO" || this.nombre == "BOLETINES" || this.nombre == "EVENTOS") {
 			//console.log(this.nombre);
 			return false;
 		}
 		return true;
 	},
-	activo : function(){
+	activo: function () {
 		//console.log();
-		if (this.estado=='activo') {
-			return	true;
+		if (this.estado == 'activo') {
+			return true;
 		}
 		return false;
 	},
-	estado : function(){
-		if (estadoMenu.get()=='activo') {
-			return {texto:'ACTIVOS'};
+	estado: function () {
+		if (estadoMenu.get() == 'activo') {
+			return {
+				texto: 'ACTIVOS'
+			};
 		}
-		return {texto:'INACTIVOS'};
+		return {
+			texto: 'INACTIVOS'
+		};
 	},
-	submenu : function(){
-		if (this.tipo=='con submenu') {
-			return	true;
+	submenu: function () {
+		if (this.tipo == 'con submenu') {
+			return true;
 		}
 		return false;
 	},
-	listSubmenu : function(){
-		return SUBMENU.find({idMenu : this._id});
+	listSubmenu: function () {
+		return SUBMENU.find({
+			idMenu: this._id
+		});
 	},
-	subActivo : function(){
+	subActivo: function () {
 		//console.log();
-		if (this.estado=='Activo') {
-			return	true;
+		if (this.estado == 'Activo') {
+			return true;
 		}
 		return false;
 	},
 
 });
-function link(string,iddestino){
+
+function link(string, iddestino) {
 	var link = string.trim().split(" ").join("-");
-		$(''+iddestino).val(link.toLowerCase());
+	$('' + iddestino).val(link.toLowerCase());
 };
 Template.navbaradmin.events({
 	'click .listmenu': function (e) {
@@ -94,90 +110,100 @@ Template.navbaradmin.events({
 	},
 	'click .editarmenu': function () {
 
-		
+
 		var carrera = FlowRouter.getParam('titulo');
-		
-		FlowRouter.go('/admin/:titulo/navbar/editarmenu',{titulo:carrera},{idMenu:this._id});
-		
+
+		FlowRouter.go('/admin/:titulo/navbar/editarmenu', {
+			titulo: carrera
+		}, {
+			idMenu: this._id
+		});
+
 	},
 	'click #btnnuevomenu': function () {
 		var idSitio = FlowRouter.getParam('titulo');
-		
-		FlowRouter.go('/admin/:titulo/navbar/nuevo',{titulo:idSitio},1); 
-		
+
+		FlowRouter.go('/admin/:titulo/navbar/nuevo', {
+			titulo: idSitio
+		}, 1);
+
 	},
 	'click .elimenu': function () {
 		var eliminar = confirm('esta seguro de inactivar el menu...?');
 		if (eliminar) {
-			Meteor.call('darEstadoMenu', this._id,'inactivo', function (error, result) {});
+			Meteor.call('darEstadoMenu', this._id, 'inactivo', function (error, result) {});
 			estadoMenu.set('inactivo');
 		}
-		
+
 	},
 	'click .restmenu': function () {
 		var restaurar = confirm('esta seguro de Reactivar el menu...?');
 		if (restaurar) {
-			Meteor.call('darEstadoMenu', this._id,'activo', function (error, result) {});
+			Meteor.call('darEstadoMenu', this._id, 'activo', function (error, result) {});
 			estadoMenu.set('activo');
 		}
-		
+
 	},
 
-	'input #nombre': function (e) {		
-		link(e.target.value,'#link');
-		var result = validar('carrera',e.target.value,'#alertnombre');
+	'input #nombre': function (e) {
+		link(e.target.value, '#link');
+		var result = validar('carrera', e.target.value, '#alertnombre');
 		if (result == false) {
 			submenuForm.set(false);
 			return;
-		}
-		else{
+		} else {
 			submenuForm.set(true);
 		}
-			
+
 	},
 	'input #nombreedit': function (e) {
-		var result = validar('carrera',e.target.value,'#alertnombreedit');
+		var result = validar('carrera', e.target.value, '#alertnombreedit');
 		if (result == false) {
 			submenuEditForm.set(false);
 			return;
-		}
-		else{
+		} else {
 			submenuEditForm.set(true);
 		}
-		
-		link(e.target.value,'#linkedit');		
+
+		link(e.target.value, '#linkedit');
 	},
 
 	///eventos para el submenu
 	'click .versubmenu': function () {
 		//console.log(this);
-		$('#'+this._id).slideToggle('slow');
+		$('#' + this._id).slideToggle('slow');
 	},
 	'submit #addsubmenu': function (e) {
 		e.preventDefault();
-		if (submenuForm.get() == false ) {
+		if (submenuForm.get() == false) {
 			alert('Debe solucionar los errores del formulario');
 			return;
 		}
 		var idMenu = e.target.idmenu.value;
 		var link = e.target.link.value;
 		var idSitio = FlowRouter.getParam("titulo");
-		var submenu = SUBMENU.findOne({link : link,idMenu : idMenu});
+		var submenu = SUBMENU.findOne({
+			link: link,
+			idMenu: idMenu
+		});
 		//verificar para varios sitios but segun la publicaion solo hay uno :(
 		if (submenu != undefined) {
 			alert('El link ' + link + ' Ya existe ingrese otro nombre');
 			return;
 		}
 		var obj = {
-			idSitio : idSitio,
-			idMenu : idMenu,
-			nombre : e.target.nombre.value,
-			link : link,
-			estado : 'Activo'
+			idSitio: idSitio,
+			idMenu: idMenu,
+			nombre: e.target.nombre.value,
+			link: link,
+			estado: 'Activo'
 		}
 		Meteor.call('insSubmenu', obj, function (error, result) {
 			if (result != 'error') {
-				sAlert.info("Submenu Agregado", {effect: 'slide',offset: '130'});
+				sAlert.info("Submenu Agregado", {
+					effect: 'slide',
+					offset: '130'
+				});
 			}
 		});
 		$('#addsubmenu')[0].reset();
@@ -189,105 +215,118 @@ Template.navbaradmin.events({
 		$('#subconte div div input#linkedit').val(this.link);
 		$('#subconte div div input#idsubmenu').val(this._id);
 
-		$('#subconte div div select option[value="'+this.idMenu+'"]').prop('selected', true);
+		$('#subconte div div select option[value="' + this.idMenu + '"]').prop('selected', true);
 		//console.log(MENU.find().fetch());
 
 		$('#submenuModalEdit').modal('show');
-	
+
 
 	},
 	'submit #editsubmenu': function (e) {
 		e.preventDefault();
-		if (submenuEditForm.get() == false ) {
+		if (submenuEditForm.get() == false) {
 			alert('Debe solucionar los errores del formulario');
 			return;
 		}
 		var idSub = e.target.idsubmenu.value;
 		var link = e.target.link.value;
 		var idMenu = e.target.menu.value;
-		var submenu = SUBMENU.findOne({_id : {$ne : idSub},link : link,idMenu : idMenu });
+		var submenu = SUBMENU.findOne({
+			_id: {
+				$ne: idSub
+			},
+			link: link,
+			idMenu: idMenu
+		});
 		if (submenu != undefined) {
-			alert('El link " ' + link +' " ya existe elija otro nombre');
+			alert('El link " ' + link + ' " ya existe elija otro nombre');
 			return;
 		}
 		//console.log(submenu);return;
 
 		var obj = {
-			idMenu : idMenu,
-			nombre : e.target.nombre.value,
-			link : link,
+			idMenu: idMenu,
+			nombre: e.target.nombre.value,
+			link: link,
 		};
 		//console.log(obj);
-		Meteor.call('editSubmenu', idSub,obj, function (error, result) {
+		Meteor.call('editSubmenu', idSub, obj, function (error, result) {
 			if (result) {
-				sAlert.info('Se guardaron los cambios', {effect: 'slide',offset: '130'});
+				sAlert.info('Se guardaron los cambios', {
+					effect: 'slide',
+					offset: '130'
+				});
 			}
 		});
-		$('#editsubmenu')[0].reset();		
+		$('#editsubmenu')[0].reset();
 		$('#submenuModalEdit').modal('hide');
 	},
 	'click .elisubmenu': function () {
 		var idSub = this._id;
 		estado = 'Inactivo';
-		Meteor.call('darEstadoSubmenu', idSub,estado, function (error, result) {});
+		Meteor.call('darEstadoSubmenu', idSub, estado, function (error, result) {});
 	},
 	'click .restsubmenu': function () {
 		var idSub = this._id;
 		estado = 'Activo';
-		Meteor.call('darEstadoSubmenu', idSub,estado, function (error, result) {});	
+		Meteor.call('darEstadoSubmenu', idSub, estado, function (error, result) {});
 	},
 	'click .newsubmenu': function () {
 		$('#subcont input#idmenu').val(this._id);
 		$('#subcont input#menu').val(this.nombre);
 
 		//console.log($('#subcont input#idmenu').val());
-		
+
 		$('#submenuModal').modal('show');
-		
+
 	},
 	///fin events submenu
 	'change #color': function () {
 		var id = FlowRouter.getParam("titulo");
 		var obj = {
-			color : $('#color').val()
+			color: $('#color').val()
 		}
-		Meteor.call('navbarChange', id,obj, function (error, result) {
-			sAlert.info(result, {effect: 'slide',offset: '130'});
+		Meteor.call('navbarChange', id, obj, function (error, result) {
+			sAlert.info("Se cambio ", {
+				effect: 'slide',
+				offset: '130'
+			});
 		});
 	},
 	'change #fuente': function () {
 		var id = FlowRouter.getParam("titulo");
 		var obj = {
-			fuente : $('#fuente').val()
+			fuente: $('#fuente').val()
 		}
-		Meteor.call('navbarChange', id,obj, function (error, result) {
-			sAlert.info(result, {effect: 'slide',offset: '130'});
+		Meteor.call('navbarChange', id, obj, function (error, result) {
+			sAlert.info("Se cambio la fuente", {
+				effect: 'slide',
+				offset: '130'
+			});
 		});
 	}
 });
 Template.nuevomenu.events({
 	'input #nombre': function (e) {
 		//console.log(e.target.value);
-		var nombre = e.target.value.toUpperCase();	
-		var result = validar('carrera',nombre,'#alertnombre');
+		var nombre = e.target.value.toUpperCase();
+		var result = validar('carrera', nombre, '#alertnombre');
 		if (result == false) {
 			nombreMenuForm.set(false);
 			return;
-		}
-		else{
+		} else {
 			nombreMenuForm.set(true);
 		}
-		link(e.target.value,'#link');
+		link(e.target.value, '#link');
 		e.target.value = nombre;
-		
+
 	},
 	'input #link': function (e) {
 		//console.log(e.target.value);	
-		var result = validar('link',e.target.value,'#alertlink');
+		var result = validar('link', e.target.value, '#alertlink');
 		if (result == false) {
 			linkMenuForm.set(false);
-		}
-		else{
+		} else {
 			linkMenuForm.set(true);
 		}
 	},
@@ -298,31 +337,42 @@ Template.nuevomenu.events({
 			return;
 		}
 		var link = e.target.link.value;
-		var menu = MENU.findOne({link : link});		
+		var menu = MENU.findOne({
+			link: link
+		});
 		if (menu != undefined || link == 'inicio') {
-			alert('el link " ' + link +' " ; Ya existe cambie el nombre de menu');
+			alert('el link " ' + link + ' " ; Ya existe cambie el nombre de menu');
 			return;
 		}
 		var obj = {
-			nombre : e.target.nombre.value,
-			link : link,
-			tipo : e.target.tipo.value,
-			idSitio : FlowRouter.getParam("titulo"),
-			estado : 'activo',
-			contenido : 'No'
+			nombre: e.target.nombre.value,
+			link: link,
+			tipo: e.target.tipo.value,
+			idSitio: FlowRouter.getParam("titulo"),
+			estado: 'activo',
+			contenido: 'No'
 		}
 		Meteor.call('insertMenu', obj, function (error, result) {
 			if (result) {
-				sAlert.info(result, {effect: 'slide',offset: '130'});
+				sAlert.info("Se agregó nuevo menu", {
+					effect: 'slide',
+					offset: '130'
+				});
 			}
-		});		
+		});
 		var idSitio = FlowRouter.getParam("titulo");
-		FlowRouter.go('/admin/:titulo/navbar',{titulo:idSitio},{id:idSitio});
+		FlowRouter.go('/admin/:titulo/navbar', {
+			titulo: idSitio
+		}, {
+			id: idSitio
+		});
 	},
-	
+
 });
-Template.editarmenu.onRendered(function(){
-	var menu = MENU.findOne({_id : FlowRouter.getQueryParam('idMenu')});
+Template.editarmenu.onRendered(function () {
+	var menu = MENU.findOne({
+		_id: FlowRouter.getQueryParam('idMenu')
+	});
 	if (menu == undefined) {
 		alert('Error');
 		FlowRouter.go('/admin');
@@ -330,50 +380,54 @@ Template.editarmenu.onRendered(function(){
 })
 Template.editarmenu.helpers({
 	menu: function () {
-		
-		return MENU.findOne({_id:FlowRouter.getQueryParam('idMenu')});
+
+		return MENU.findOne({
+			_id: FlowRouter.getQueryParam('idMenu')
+		});
 	},
-	menuNormal : function (){
-		var menu = MENU.findOne({_id : FlowRouter.getQueryParam('idMenu')});
-		if (menu != undefined && menu.tipo=='normal') {
-			return	true;
+	menuNormal: function () {
+		var menu = MENU.findOne({
+			_id: FlowRouter.getQueryParam('idMenu')
+		});
+		if (menu != undefined && menu.tipo == 'normal') {
+			return true;
 		}
 		return false;
 		///arreglar con jquery metdo facil;
 	},
-	hasContenido : function(){
-		var menu = MENU.findOne({_id:FlowRouter.getQueryParam('idMenu')});
+	hasContenido: function () {
+		var menu = MENU.findOne({
+			_id: FlowRouter.getQueryParam('idMenu')
+		});
 		if (menu != undefined && menu.contenido == 'Si') {
 			return true;
 		}
 		return false
-	} 
+	}
 });
 
 Template.editarmenu.events({
-	
+
 	'input #nombre': function (e) {
 		//console.log(e.target.value);
 		var nombre = e.target.value.toUpperCase();
-		var result = validar('carrera',nombre,'#alertnombre');
+		var result = validar('carrera', nombre, '#alertnombre');
 		e.target.value = nombre;
 		if (result == false) {
 			nombreEMenuForm.set(false);
 			return;
-		}
-		else{
+		} else {
 			nombreEMenuForm.set(true);
 		}
-		
-		link(e.target.value,'#link');
+
+		link(e.target.value, '#link');
 	},
 	'input #link': function (e) {
 		//console.log(e.target.value);	
-		var result = validar('link',e.target.value,'#alertlink');
+		var result = validar('link', e.target.value, '#alertlink');
 		if (result == false) {
 			linkEMenuForm.set(false);
-		}
-		else{
+		} else {
 			linkEMenuForm.set(true);
 		}
 	},
@@ -381,25 +435,32 @@ Template.editarmenu.events({
 		e.preventDefault();
 		var id = FlowRouter.getQueryParam('idMenu');
 		var link = e.target.link.value;
-		var menu = MENU.findOne({_id : {$ne : id},link : link});
-		if (menu != undefined || link =='inicio') {
+		var menu = MENU.findOne({
+			_id: {
+				$ne: id
+			},
+			link: link
+		});
+		if (menu != undefined || link == 'inicio') {
 			alert('el link ' + link + ' , Ya existe pruebe otro nombre');
 			return;
 		}
 		var obj = {
-			nombre : e.target.nombre.value,
-			link : link,
-			tipo : e.target.tipo.value,			
+			nombre: e.target.nombre.value,
+			link: link,
+			tipo: e.target.tipo.value,
 		}
-		Meteor.call('editMenu', id,obj, function (error, result) {
-			sAlert.info(result, {effect: 'slide',offset: '130'});
+		Meteor.call('editMenu', id, obj, function (error, result) {
+			sAlert.info("Se guradaron los cambios", {
+				effect: 'slide',
+				offset: '130'
+			});
 		});
-		var idSitio = FlowRouter.getParam('titulo');		
-		FlowRouter.go('/admin/:titulo/navbar',{titulo:idSitio});		
+		var idSitio = FlowRouter.getParam('titulo');
+		FlowRouter.go('/admin/:titulo/navbar', {
+			titulo: idSitio
+		});
 	},
-	
- 
- });
 
 
-
+});
