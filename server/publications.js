@@ -163,6 +163,13 @@ Meteor.startup(() => {
       });
     }
   });
+  Meteor.publish("getAvatars", function (idSitio) {
+    if (this.userId != undefined) {
+      return AVATARS.find({
+        userId: this.userId
+      });
+    }
+  });
   Meteor.publish("getVideos", function (idSitio) {
     if (Roles.userIsInRole(this.userId, ['root', 'admin'])) {
       return VIDEOS.find({

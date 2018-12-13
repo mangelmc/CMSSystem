@@ -25,12 +25,29 @@
 				<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>
 			</div>
 		</div>
-		<div class="form-group row ">
+		<div class="form-group row">
+			<label for="titulo" class="col-2 offset-2 col-form-label">Imagen</label>
+			<div class="col-3 ">
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc">Seleccionar imagen</button>
 
-			<label for="link" class="col-2 offset-2 col-form-label">Link Imagen</label>
-			<div class="col-6 ">
-				<input type="text" name="link" value="{{banner.imagen}}" class="form-control" id="link" placeholder="link" required>
-				<div class="alert alert-danger" id="alertlink" style="display: none;"> </div>
+
+			</div>
+			<div class="col-3 ">
+				<img id="imgdesc" alt="Imagen descriptiva" class="img-fluid" src="{{banner.imagen}}">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-3 offset-1 col-form-label" for="">Texto Visible ?</label>
+			<div class="col-7 radio">
+				<label>
+					<input type="radio" name="show" id="show1" value="Si" checked>
+					SI
+				</label>
+				<label>
+					<input type="radio" name="show" id="show2" value="No">
+					NO
+				</label>
 			</div>
 		</div>
 		<div class="d-flex justify-content-center">
@@ -38,6 +55,29 @@
 		</div>
 	</form>
 
+	<!-- Modal para Imagen desc-->
+	<div class="modal fade" id="imagendesc" tabindex="-1" role="dialog" aria-labelledby="imagendescLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body ">
+					{{>uploadFormImagesDesc}}
+
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
 	{{else}}
 
 	{{#if tipoBanner.personal }}
@@ -65,29 +105,29 @@
 			<div class="form-group row mt-2">
 				<label class="col-2 offset-2 col-form-label"> Titulo</label>
 				<div class="col-6">
-					<input type="text" name="titulo" id="titulo" class="form-control" placeholder="Titulo" required>
+					<input type="text" name="titulo" id="titulo" class="form-control" placeholder="Titulo">
 					<div class="alert alert-danger" id="alerttitulo" style="display: none;"> </div>
 				</div>
 			</div>
 			<div class="form-group row mt-2">
 				<label class="col-2 offset-2 col-form-label"> Texto</label>
 				<div class="col-6">
-					<input type="text" name="texto" id="texto" class="form-control" placeholder="texto" required>
+					<input type="text" name="texto" id="texto" class="form-control" placeholder="texto">
 					<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>
 				</div>
 			</div>
-			<div class="form-group row">
 
-				<label class="col-2 offset-2 col-form-label"> Url Imagen</label>
-				<div class="col-6">
-					<input type="text" name="imagen" id="imagen" class="form-control" placeholder="Url de imagen" required>
-					<div class="alert alert-danger" id="alertimagen" style="display: none;"> </div>
+			<div class="form-group row ">
+
+				<label for="titulo" class="col-2 offset-2 col-form-label">Imagen</label>
+				<div class="col-3 ">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc">Seleccionar imagen</button>
+
+
 				</div>
-
-				<!--boton pegar
-						<div class="col-1">
-							<button type="button" class="btn btn-secondary pegar" title="pegar"><i class="fa fa-paste"></i></button>
-						</div>-->
+				<div class="col-3 ">
+					<img src="/graduacion.jpg" id="imgdesc" alt="Imagen descriptiva" class="img-fluid">
+				</div>
 			</div>
 			<div class="form-group row mt-2">
 				<label class="col-2 offset-2 col-form-label">Link</label>
@@ -100,6 +140,29 @@
 			<div class="d-flex justify-content-center mb-2">
 				<button class="btn btn-primary btn-sm" type="submit">GUARDAR</button>
 			</div>
+			<!-- Modal para Imagen desc-->
+			<div class="modal fade" id="imagendesc" tabindex="-1" role="dialog" aria-labelledby="imagendescLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+
+						<div class="modal-body ">
+							{{>uploadFormImagesDesc}}
+
+						</div>
+						<div class="modal-footer">
+
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
 		</form>
 	</div>
 	<div style="background-color: #464892e0;border-radius: .5rem;color:white" class="d-flex justify-content-between  p-1 ">
@@ -111,7 +174,7 @@
 			<tr>
 				<th>TITULO</th>
 				<th>TEXTO</th>
-				<th>IMAGEN</th>
+
 				<th>LINK</th>
 				<th>ACCIONES</th>
 			</tr>
@@ -121,7 +184,7 @@
 			<tr>
 				<td>{{titulo}}</td>
 				<td>{{texto}}</td>
-				<td>{{imagen}}</td>
+
 				<td>{{link}}</td>
 
 				<td><button class="btn btn btn-outline-dark btn-sm editcarrusel"><i class="fa fa-edit"></i></button> <button class="btn btn btn-outline-danger btn-sm elicarrusel"><i
@@ -160,30 +223,32 @@
 		<div class="form-group row mt-2">
 			<label class="col-2 offset-2 col-form-label"> Titulo</label>
 			<div class="col-6">
-				<input type="text" name="titulo" id="titulo" value="{{carrusel.titulo}}" class="form-control" placeholder="Titulo"
-				 required>
-				<div class="alert alert-danger" id="alerttitulo" style="display: none;"> </div>
+				<input type="text" name="titulo" id="titulo" value="{{carrusel.titulo}}" class="form-control" placeholder="Titulo">
+
 			</div>
 		</div>
 		<div class="form-group row mt-2">
 			<label class="col-2 offset-2 col-form-label"> Texto</label>
 			<div class="col-6">
-				<input type="text" name="texto" id="texto" value="{{carrusel.texto}}" class="form-control" placeholder="texto"
-				 required>
-				<div class="alert alert-danger" id="alerttexto" style="display: none;"> </div>
+				<input type="text" name="texto" id="texto" value="{{carrusel.texto}}" class="form-control" placeholder="texto">
+
 			</div>
 		</div>
-		<div class="form-group row">
 
-			<label class="col-2 offset-2 col-form-label"> Url Imagen</label>
-			<div class="col-6">
-				<input type="text" name="imagen" id="imagen" value="{{carrusel.imagen}}" class="form-control" placeholder="url de imagen"
-				 required>
-				<div class="alert alert-danger" id="alertimagen" style="display: none;"> </div>
+		<div class="form-group row ">
+
+			<label for="titulo" class="col-2 offset-2 col-form-label">Imagen</label>
+			<div class="col-3 ">
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc">Seleccionar imagen</button>
+
+
 			</div>
-
-
+			<div class="col-3 ">
+				<img src="{{carrusel.imagen}}" id="imgdesc" alt="Imagen descriptiva" class="img-fluid">
+			</div>
 		</div>
+
+
 		<div class="form-group row mt-2">
 			<label class="col-2 offset-2 col-form-label">Link(opcional)</label>
 			<div class="col-6">
@@ -196,6 +261,30 @@
 			<button class="btn btn-primary " type="submit">GUARDAR</button>
 			<button class="btn btn-danger " id="cancelaredit" type="submit">CANCELAR</button>
 
+		</div>
+
+		<!-- Modal para Imagen desc-->
+		<div class="modal fade" id="imagendesc" tabindex="-1" role="dialog" aria-labelledby="imagendescLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="modal-body ">
+						{{>uploadFormImagesDesc}}
+
+					</div>
+					<div class="modal-footer">
+
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					</div>
+
+				</div>
+			</div>
 		</div>
 	</form>
 </template>

@@ -149,7 +149,27 @@ Template.banner.helpers({
 		$(window).scrollTop($(window).scrollTop() + 1);
 		//return false;
 	},
-	listCarrusel: function () {
+	textShow() {
+		let banner = BANNER.findOne({});
+		if (banner != undefined && banner.textoShow == "Si") {
+			return true;
+		}
+		return false;
+	},
+	zero(index) {
+		if (index == 0) {
+			return true;
+		}
+		return false;
+	},
+	hasUrl() {
+		//console.log(this.link);
+		if (this.link != undefined && this.link != "") {
+			return true;
+		}
+		return false;
+	},
+	listCarrusel() {
 		return CARROUSEL.find();
 	}
 });

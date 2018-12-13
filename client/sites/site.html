@@ -187,14 +187,13 @@
   <div class="animatedParent">
     <div id="myCarousel" class="animated  growIn slow carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
-
-        <li data-target="#myCarousel" data-slide-to="0"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
+        {{#each listCarrusel}}
+        <li data-target="#myCarousel" data-slide-to="{{@index}}"></li>
+        {{/each}}
 
       </ol>
       <div class="carousel-inner " style="max-height: 45vw !important;">
-        <div class="carousel-item active " style="max-height: 27vw;background-color: #5e5e5f;">
+        <!-- <div class="carousel-item active " style="max-height: 27vw;background-color: #5e5e5f;">
           <img class="img-fluid  mx-auto d-block" src="/graduacion.jpg" alt="First slide">
           <div class="container">
             <div class="carousel-caption text-left" style="text-shadow:.2rem .2rem .9rem blue; ">
@@ -207,35 +206,25 @@
 
             </div>
           </div>
-        </div>
-        <div class="carousel-item" style="max-height: 27vw;background-color: #5e5e5f;">
-          <img class="img-fluid  mx-auto d-block" src="/students.jpg" alt="Second slide">
+        </div> -->
+        {{#each listCarrusel}}
+        <div class="carousel-item {{#if zero @index}} active {{/if}}" style="max-height: 27vw;background-color: #5e5e5f;">
+          <img class="img-fluid  mx-auto d-block" src="{{imagen}}" alt="Second slide">
           <div class="container">
-            <div class="carousel-caption text-center" style="text-shadow:.2rem .2rem .9rem blue; ">
-              <h1 style="font-size: 4.5vw !important;">Algun Ejemplo de Titulo.</h1>
+            <div class="carousel-caption text-center" style="text-shadow:.2rem .2rem .9rem rgb(16, 16, 17); ">
+              <h1 style="font-size: 4.5vw !important;">{{titulo}}</h1>
 
               <div class="d-none d-md-block " style="font-size: 1.6vw !important;">
-                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at
-                  eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                <p><a class="btn btn-primary" href="#" role="button">Mas...</a></p>
+                <p>{{texto}}</p>
+                {{#if hasUrl}}
+                <p><a class="btn btn-primary" href="{{link}}" role="button">Mas...</a></p>
+                {{/if}}
               </div>
             </div>
           </div>
         </div>
-        <div class="carousel-item" style="max-height: 27vw;background-color: #5e5e5f;">
-          <img class="img-fluid third-slide mx-auto d-block" src="/nature.jpg" alt="Third slide">
-          <div class="container">
-            <div class="carousel-caption text-right" style="text-shadow:.2rem .2rem .9rem blue; ">
-              <h1 style="font-size: 4.5vw !important;">Ejemplo de Galeria.</h1>
-              <div class="d-none d-md-block " style="font-size: 1.6vw !important;">
+        {{/each}}
 
-                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at
-                  eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                <p><a class="btn  btn-primary" href="#" role="button">Ver Galeria</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -251,8 +240,9 @@
   {{#if tipoDefault.texto}}
   <div class="animatedParent">
     <div style="background: url('{{banner.imagen}}');background-size: cover; min-height: 28vw;max-height: 33vw;" class="animated growIn slow d-flex justify-content-center align-items-start d-block">
+      {{#if textShow}}
       <h1 class="text-white text-uppercase" style="text-shadow: 0.2rem .3rem .5rem black">{{banner.texto}}</h1>
-
+      {{/if}}
     </div>
   </div>
   {{else}}
@@ -575,7 +565,7 @@
     {{#each listComents}}
     <div class=" my-2 row mx-0">
       <div class="col-2 ">
-        <img src="/user.png" class="img-fluid" style="max-height: 75px;border-radius: 50%;">
+        <img src="{{user.profile.img}}" class="img-fluid" style="max-height: 75px;border-radius: 50%;">
       </div>
       <div class="col-8 text-justify">
         <p class="text">{{user.profile.name}} : {{fecha}}</p>

@@ -144,6 +144,76 @@ Template.uploadFormImagesDesc.events({
   }
 });
 
+idImagenAvatar = new ReactiveVar('none');
+
+Template.uploadFormImagesAvatar.onCreated(function () {
+
+  idImagenAvatar.set('none');
+});
+Template.uploadFormImagesAvatar.onRendered(function () {
+  this.autorun(function () {
+    if (idImagenAvatar.get() != 'none') {
+
+      //$('#'+idImagenAvatar.get()+'desc').click();
+      //console.log($('#'+idImagenAvatar.get()+'desc'));
+      var img = $('#' + idImagenAvatar.get() + 'desc').children('img').attr('src');
+      //console.log(img);
+      if (img == undefined) {
+        //alert("error");
+        return;
+      }
+      $('#imgdesc').attr('src', img);
+
+      $('.checkdesc i').each(function (index, el) {
+        if ($(this).hasClass('fa-check-circle-o')) {
+          //console.log('tiene');
+          $(this).removeClass('fa-check-circle-o').addClass('fa-circle-o');
+          $(this).parent().parent().removeClass().addClass('bg-secondary');
+        }
+      });
+      $('#' + idImagenAvatar.get() + 'desc i').removeClass('fa-circle-o').addClass('fa-check-circle-o');
+      $('#' + idImagenAvatar.get() + 'desc i').parent().parent().removeClass('bg-secondary').addClass('bg-primary');
+      $('#currentImage').slideDown();
+    }
+
+  });
+
+})
+Template.uploadFormImagesAvatar.helpers({
+
+  listGaleria: function () {
+    return AVATARS.find({});
+  }
+});
+
+Template.uploadFormImagesAvatar.events({
+
+  'click .checkdesc': function (e) {
+    idImagenAvatar.set(this._id);
+    $('#imagendesc').modal('hide');
+  },
+
+  'change #fileInput'(e, template) {
+    let count = AVATARS.find({}).count();
+    if (count > 5) {
+      alert('No puedes tener mas de 5 avatares');
+      return;
+    }
+    var file = $(e.currentTarget).get(0).files[0];
+    //console.log(file);
+    if (file == undefined) {
+      alert('!Oops hubo un problema vuelve a intentarlo');
+      return;
+    }
+    if (file.size > 1024 * 1024 * 5 || (file.type != "image/png" && file.type != "image/jpeg")) {
+      alert('puedes subir solo imagenes validas y con un peso no mayor a 5 MBs');
+      return;
+    }
+
+    handleFileSelectAvatar(file);
+    return false;
+  }
+});
 /*
 lastModified: 1528820173343
 lastModifiedDate: Tue Jun 12 2018 12:16:13 GMT-0400 (hora de Bolivia) {}
@@ -179,23 +249,32 @@ function handleFileSelect(files) {
       d: datos
     }
     Meteor.call('uploadFile', parameters, function (error, result) {
-      console.log(error || result);
+      //console.log(error || result);
       //recupera result.url
-
+      if (error) {
+        alert("Houston....! No recibimos el enlace .\n Vuelva a intentarlo mas tarde");
+        return;
+      }
       if (result) {
         var carrera = FlowRouter.getParam('titulo');
         let splited = files.name.split('.');
         let ext = splited[splited.length - 1];
         let splited1 = files.name.split('/');
         let name = splited1[splited1.length - 1];
-        console.log(ext, name);
+        //console.log(ext, name);
+        let host = "http://archivos.uatf.edu.bo/";
+        let url = host + result.data.data.namefile;
 
+        if (result.data.data.namefile == undefined) {
+          alert("Houston....! tenemos problemas al subir el archivo.\n Vuelva a intentarlo mas tarde");
+          return;
+        }
         var obj = {
           idSitio: carrera,
           userId: Meteor.userId(),
           originalName: name,
           ext: ext,
-          url: result.url
+          url: url
         };
         console.log(obj);
 
@@ -217,6 +296,71 @@ function handleFileSelect(files) {
 
 
     //console.log(parameters);
+  };
+  reader.readAsArrayBuffer(f);
+  //}
+}
+
+function handleFileSelectAvatar(files) {
+  //for (let i = 0, f; f = files[i]; i++) {
+  let f = files;
+  let reader = new FileReader();
+  reader.f = f;
+  reader.onload = function () {
+    let fileName = this.f.name;
+    let fileExtention = this.f.name;
+    let data = reader.result;
+    let array = new Int8Array(data);
+    let chunks = array.length / FileUpload.ChunkByteSize;
+    datos = {
+      chunks: chunks,
+      fileName: fileName
+    };
+    parameters = {
+      a: array,
+      d: datos
+    }
+    Meteor.call('uploadFile', parameters, function (error, result) {
+      //console.log(error || result);
+      //recupera result.url
+      if (error) {
+        alert("Houston....! No recibimos el enlace .\n Vuelva a intentarlo mas tarde");
+        return;
+      }
+      if (result) {
+        var carrera = FlowRouter.getParam('titulo');
+        let splited = files.name.split('.');
+        let ext = splited[splited.length - 1];
+        let splited1 = files.name.split('/');
+        let name = splited1[splited1.length - 1];
+        console.log(ext, name);
+        let host = "http://archivos.uatf.edu.bo/";
+        let url = host + result.data.data.namefile;
+
+        if (result.data.data.namefile == undefined) {
+          alert("Houston....! tenemos problemas al subir la imagen.\n Vuelva a intentarlo mas tarde");
+          return;
+        }
+        var obj = {
+
+          userId: Meteor.userId(),
+          originalName: name,
+          ext: ext,
+          url: url
+        };
+        //console.log(obj);
+
+        Meteor.call('insAvatar', obj, function (error, result) {
+          if (error) {
+            alert('hubo un error al intentar guardar en la base de datos');
+          }
+          if (result) {
+            alert('Se guardo en la base de datos ');
+          }
+        });
+      }
+    });
+
   };
   reader.readAsArrayBuffer(f);
   //}

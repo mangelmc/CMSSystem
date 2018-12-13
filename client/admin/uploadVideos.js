@@ -121,23 +121,33 @@ function handleFileSelect(files) {
       d: datos
     }
     Meteor.call('uploadFile', parameters, function (error, result) {
-      console.log(error || result);
+      //console.log(error || result);
       //recupera result.url
-
+      if (error) {
+        alert("Houston....! tenemos problemas al subir el archivo.\n Vuelva a intentarlo mas tarde");
+        return;
+      }
       if (result) {
         var carrera = FlowRouter.getParam('titulo');
         let splited = files.name.split('.');
         let ext = splited[splited.length - 1];
         let splited1 = files.name.split('/');
         let name = splited1[splited1.length - 1];
-        console.log(ext, name);
 
+        //console.log(ext, name);
+        let host = "http://archivos.uatf.edu.bo/";
+        let url = host + result.data.data.namefile;
+
+        if (result.data.data.namefile == undefined) {
+          alert("Houston....! tenemos problemas al subir el archivo.\n Vuelva a intentarlo mas tarde");
+          return;
+        }
         var obj = {
           idSitio: carrera,
           userId: Meteor.userId(),
           originalName: name,
           ext: ext,
-          url: result.url
+          url: url
         };
         console.log(obj);
 

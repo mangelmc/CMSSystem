@@ -10,7 +10,7 @@
 			</div>
 			<div class="col-12 col-md-10 offset-md-1 d-flex justify-content-center ">
 				<div class="card-imgs my-2">
-					<img src="/logou.png" class="img-fluid " style="max-height: 30vw;">
+					<img src="{{currentUser.profile.img}}" class="img-fluid " style="max-height: 30vw;">
 				</div>
 			</div>
 			<div class="col-12 col-md-10 offset-md-2  ">
@@ -49,6 +49,8 @@
 						<div class="col-7">
 							<h4>: {{currentUser.profile.carrera}}</h4>
 						</div>
+
+
 					</div>
 				</div>
 			</div>
@@ -106,6 +108,16 @@
 								<div class="alert alert-danger" id="alertcarrera" style="display: none;"> </div>
 							</div>
 						</div>
+						<div class="form-group row ">
+
+							<label for="imagen" class="col-sm-3 offset-2 ">Imagen</label>
+							<div class="col-4 ">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagendesc">Seleccionar imagen</button>
+							</div>
+							<div class="col-5 ">
+								<img src="{{currentUser.profile.img}}" id="imgdesc" alt="Avatar" class="img-fluid">
+							</div>
+						</div>
 
 						<div class="d-flex align-items-center">
 
@@ -113,6 +125,29 @@
 
 						</div>
 					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- Modal para Imagen desc-->
+	<div class="modal fade" id="imagendesc" tabindex="-1" role="dialog" aria-labelledby="imagendescLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="imagendescLabel">Seleccionar imagen</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body ">
+					{{>uploadFormImagesDesc}}
+
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
 				</div>
 
 			</div>

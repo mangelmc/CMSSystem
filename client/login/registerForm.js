@@ -140,7 +140,7 @@ Template.registerForm.events({
 				"carrera": e.target.carrera.value,
 				"online": true,
 				"bloqueado": false,
-				"img": 'none'
+				"img": '/user.png'
 			}
 		};
 		if (user.password != e.target.repassword.value) {

@@ -48,6 +48,9 @@ var bannerSchema = new SimpleSchema({
     texto: {
         type: String, //titulo o lorem ipsum
     },
+    textoShow: {
+        type: String, //si se vera el texto o no
+    },
     imagen: {
         type: String, //link de una imagen por defecto
     },
@@ -67,10 +70,12 @@ var carrouselSchema = new SimpleSchema({
         type: String,
     },
     titulo: {
-        type: String, //DEFAULT TEXTO E IMAGEN
+        type: String,
+        optional: true //DEFAULT TEXTO E IMAGEN
     },
     texto: {
-        type: String, //
+        type: String,
+        optional: true //
     },
     imagen: {
         type: String, //link de una imagen por defecto
@@ -410,9 +415,7 @@ AVATARS = new Mongo.Collection('avatars')
 
 var avatarsSchema = new SimpleSchema({
 
-    idSitio: {
-        type: String,
-    },
+
     originalName: {
         type: String,
     },

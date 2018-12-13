@@ -14,13 +14,13 @@ Template.banneradmin.onRendered(function () {
 		if (BANNER.findOne() != undefined) {
 			var banner = BANNER.findOne();
 			//console.log(banner.textoPersonalizado);
+
 			setTimeout(function () {
-				es.summernote('code', banner.textoPersonalizado);
+				$('input[value="' + banner.textoShow + '"]').prop('checked', true);
+				if (banner.tipo == 'personalizado') {
+					es.summernote('code', banner.textoPersonalizado);
+				}
 			}, 500);
-
-
-
-
 		}
 
 	});
@@ -40,10 +40,16 @@ Template.banneradmin.events({
 	},
 	'submit #formeditbanner'(e) {
 		e.preventDefault();
+
+		if ($('#imgdesc').attr('src') == undefined) {
+			alert('Debe seleccionar una imagen descriptiva');
+			return;
+		}
 		idBanner = BANNER.findOne({})._id;
 		obj = {
 			texto: e.target.texto.value,
-			imagen: e.target.link.value
+			imagen: $('#imgdesc').attr('src'),
+			textoShow: e.target.show.value,
 		}
 		Meteor.call('editBanner', idBanner, obj, function (error, result) {
 			sAlert.info('Se modificó', {
@@ -75,25 +81,56 @@ Template.banneradmin.events({
 	},
 	'submit #formcarrusel'(e) {
 		e.preventDefault();
+		if ($('#imgdesc').attr('src') == undefined) {
+			alert('Debe seleccionar una imagen descriptiva');
+			return;
+		}
 		var obj = {
 			idSitio: FlowRouter.getParam('titulo'),
 			titulo: e.target.titulo.value,
 			texto: e.target.texto.value,
-			imagen: e.target.imagen.value,
+			imagen: $('#imgdesc').attr('src'),
 			link: e.target.link.value,
 		}
 		Meteor.call('insertCarrusel', obj, function (error, result) {
-			sAlert.success(result, {
-				effect: 'slide',
-				offset: '130'
-			});
+			if (result) {
+				sAlert.success("Se agregó un nuevo item carrousel", {
+					effect: 'slide',
+					offset: '130'
+				});
+			}
 		});
+		$('.cerrarcont').click();
+		$('#formcarrusel')[0].reset();
+
 	},
 	'click .editcarrusel'() {
 		FlowRouter.go('/admin/:titulo/banner/editcarrusel/:id', {
 			titulo: FlowRouter.getParam('titulo'),
 			id: this._id
 		})
+	},
+	'click .elicarrusel'() {
+		let count = CARROUSEL.find().count();
+		if (count < 3) {
+			alert("Ya no se pueden borrar mas items \n Minimo 2....!");
+			return;
+		}
+
+		let res = confirm("esta seguro de borrar el item .?");
+		if (res) {
+			Meteor.call('eliCarrusel', this._id, function (error, result) {
+				if (result) {
+					sAlert.success("Se elimino el carrousel", {
+						effect: 'slide',
+						offset: '130'
+					});
+				}
+			});
+		}
+
+
+
 	}
 });
 Template.banneradmin.helpers({
@@ -153,12 +190,17 @@ Template.editcarrusel.events({
 	},
 	'submit #formeditcarrusel'(e) {
 		e.preventDefault();
+		if ($('#imgdesc').attr('src') == undefined) {
+			alert('Debe seleccionar una imagen descriptiva');
+			return;
+		}
+
 		var idSitio = FlowRouter.getParam('titulo');
 		var id = FlowRouter.getParam('id');
 		var obj = {
 			titulo: e.target.titulo.value,
 			texto: e.target.texto.value,
-			imagen: e.target.imagen.value,
+			imagen: $('#imgdesc').attr('src'),
 			link: e.target.link.value,
 		}
 		Meteor.call('editCarrusel', id, obj, function (error, result) {

@@ -113,3 +113,56 @@
 
 	</div>
 </template>
+
+<template name="uploadFormImagesAvatar">
+	<div class="row">
+		<style type="text/css">
+			.btn-file {
+				position: relative;
+				overflow: hidden;
+			}
+
+			.btn-file input[type=file] {
+				position: absolute;
+				top: 0;
+				right: 0;
+				min-width: 100%;
+				min-height: 100%;
+				font-size: 100px;
+				text-align: right;
+				filter: alpha(opacity=0);
+				opacity: 0;
+				outline: none;
+				background: white;
+				cursor: inherit;
+				display: block;
+			}
+		</style>
+
+		<div class="col-4  offset-2">
+			<label class="btn btn-primary btn-file">
+				Subir Imagen <input type="file" id="fileInput">
+			</label>
+		</div>
+
+	</div>
+	<div class="row text-white galeriadesc ">
+		{{#each listGaleria}}
+		<div class="col-12  col-sm-6 col-md-4 col-lg-3" style="padding:1%">
+			<center>
+				<div style="display: block;box-shadow:.2rem .2rem .2rem .2rem silver;" class="bg-secondary">
+					<a href="" class="checkdesc" id="{{_id}}desc"><img src="{{url}}" class="img-fluid " style="max-height: 100px;">
+						<i class="fa fa-circle-o fa-2x text-white"></i></a>
+				</div>
+			</center>
+		</div>
+		{{else}}
+		<div class="col-12  col-sm-4 col-md-6 col-lg-l3" style="padding:1%">
+			<div class="alert alert-warning" role="alert">
+				No tienes imagenes subidas... :(
+			</div>
+		</div>
+		{{/each}}
+
+	</div>
+</template>

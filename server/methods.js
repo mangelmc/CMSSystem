@@ -55,12 +55,12 @@ Meteor.startup(() => {
           return request;
         } catch (e) {
           console.log(e);
-          throw new Meteor.Error(401, e.response.data.message);
+          throw new Meteor.Error(401, e.response.data.message || "Error al subir el archivo");
         }
 
       } catch (e) {
         console.log(e);
-        throw new Meteor.Error(401, e.response.data.message);
+        throw new Meteor.Error(401, e.response.data.message || "Error when try sign in to server");
       }
     },
     /*uploadFiles: function (parameters, client) {
@@ -91,6 +91,22 @@ Meteor.startup(() => {
       if (Roles.userIsInRole(this.userId, ['admin', 'root'])) {
         var response = 'error';
         return IMAGES.insert(obj, function (e, r) {
+          if (e) {
+            response = e;
+            console.log(e);
+          }
+          if (r) {
+            response = r;
+            //console.log(r);
+          }
+          return response;
+        });
+      }
+    },
+    insAvatar(obj) {
+      if (this.userId != undefined) {
+        var response = 'error';
+        return AVATARS.insert(obj, function (e, r) {
           if (e) {
             response = e;
             console.log(e);
@@ -280,6 +296,7 @@ Meteor.startup(() => {
               tipo: 'texto e imagen',
               texto: obj.carrera,
               imagen: '/students.jpg',
+              textShow: 'Si',
               textoPersonalizado: '<div class="bg-primary p-5 m-5" style="height:25vw"><span class="text-white">Texto Personalizado </span></div>'
             });
             response = "Se creó el Sitio Web";
@@ -478,6 +495,13 @@ Meteor.startup(() => {
       }, {
         $set: obj
       });
+    },
+    eliCarrusel: function (idCarrusel) {
+      if (Roles.userIsInRole(this.userId, ['admin', 'root'])) {
+        return CARROUSEL.remove({
+          _id: idCarrusel
+        });
+      }
     },
     editBannerHtml: function (id, html) {
       return BANNER.update({
